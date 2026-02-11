@@ -37,7 +37,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
             </div>
 
             {/* Main Banner Container */}
-            <div className="max-w-7xl mx-auto relative px-4 md:px-0">
+            <div className="max-w-[1500px] mx-auto relative px-4 md:px-0">
                 <div className="flex flex-col md:flex-row bg-[#f1f1f1] rounded-tl-[60px] md:rounded-tl-[100px] rounded-br-[60px] md:rounded-br-[100px] rounded-tr-[20px] rounded-bl-[20px] overflow-hidden shadow-xl min-h-[500px] md:min-h-[600px]">
 
                     {/* Left Side: Family & Trust */}

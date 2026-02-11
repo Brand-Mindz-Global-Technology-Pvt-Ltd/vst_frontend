@@ -23,27 +23,27 @@ const ContactTeam: React.FC = () => {
     };
 
     return (
-        <section className="w-full bg-[#EFEFEF] py-16 md:py-12 font-outfit">
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <section className="w-full bg-[#EFEFEF] py-4 md:py-6 font-outfit">
+            <div className="max-w-[1500px] mx-auto px-6 md:px-12">
 
                 {/* Header */}
-                <div className="flex items-center justify-center gap-3 mb-16">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-dark tracking-tight">
+                <div className="flex items-center justify-center gap-3 mb-8">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark tracking-tight font-normal">
                         Contact
                     </h2>
-                    <div className="bg-[#007ebb] px-8 py-2 rounded-lg">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight">
+                    <div className="bg-[#007ebb] px-4 py-2 rounded-tr-[15px] rounded-br-[15px] rounded-tl-[10px]">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-white tracking-tight font-normal">
                             Our Team
                         </h2>
                     </div>
                 </div>
 
                 {/* Main White Container */}
-                <div className="bg-white rounded-[40px] shadow-xl overflow-hidden p-6 md:p-12">
+                <div className="bg-white rounded-[15px] shadow-xl overflow-hidden p-6 md:p-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
                         {/* Left Side - Image with Info Cards */}
-                        <div className="relative min-h-[500px] lg:min-h-[650px] rounded-[30px] overflow-hidden shadow-xl">
+                        <div className="relative min-h-[400px] lg:min-h-[550px] rounded-[10px] overflow-hidden shadow-xl flex flex-col justify-between p-6 lg:block lg:p-0">
                             {/* Background Image */}
                             <img
                                 src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2074&auto=format&fit=crop"
@@ -55,8 +55,8 @@ const ContactTeam: React.FC = () => {
                             <div className="absolute inset-0 bg-black/60"></div>
 
                             {/* Contact Information - Top Left */}
-                            <div className="absolute top-6 left-6 md:top-8 md:left-8 z-10">
-                                <div className="p-6 shadow-2xl max-w-[280px]">
+                            <div className="relative w-full lg:w-auto lg:absolute lg:top-8 lg:left-8 z-10">
+                                <div className="p-6 shadow-2xl w-full lg:max-w-[280px]">
                                     <h3 className="text-xl md:text-2xl font-serif text-white mb-4 pb-3 border-b border-gray-200">
                                         Contact Information
                                     </h3>
@@ -99,8 +99,8 @@ const ContactTeam: React.FC = () => {
                             </div>
 
                             {/* Business Hours - Bottom Right */}
-                            <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-10">
-                                <div className="shadow-2xl max-w-[280px]">
+                            <div className="relative w-full lg:w-auto mt-6 lg:mt-0 lg:absolute lg:bottom-8 lg:right-8 z-10">
+                                <div className="p-6 shadow-2xl w-full lg:max-w-[280px]">
                                     <h3 className="text-xl md:text-2xl font-serif text-white border-b border-gray-200 mb-4">
                                         Business Hours
                                     </h3>
@@ -127,14 +127,14 @@ const ContactTeam: React.FC = () => {
                         </div>
 
                         {/* Right Side - Contact Form with Left & Bottom Shadow */}
-                        <div className="bg-white rounded-[30px] shadow-[-16px_16px_40px_rgba(0,0,0,0.15)] p-8 md:p-10 lg:p-12 flex flex-col justify-center">
+                        <div className="bg-white rounded-[15px] shadow-[-10px_10px_20px_rgba(0,0,0,0.40)] p-8 md:p-10 lg:p-12 flex flex-col justify-center">
                             <div className="max-w-[500px] mx-auto w-full">
 
                                 {/* Form Header */}
-                                <h3 className="text-3xl md:text-4xl font-serif text-dark mb-3">
+                                <h3 className="text-3xl md:text-4xl font-serif text-center text-dark mb-3">
                                     Contact us
                                 </h3>
-                                <p className="text-gray-500 mb-8">
+                                <p className="text-gray-500 mb-8 font-medium text-center">
                                     Our friendly team would love to hear from you
                                 </p>
 

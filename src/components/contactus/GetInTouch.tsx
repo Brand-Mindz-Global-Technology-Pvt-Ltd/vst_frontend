@@ -22,28 +22,24 @@ const GetInTouch: React.FC = () => {
     };
 
     return (
-        <section className="w-full bg-[#EFEFEF] py-20 font-outfit overflow-hidden">
+        <section className="w-full bg-white py-20 font-outfit overflow-hidden">
             <div className="max-w-[1500px] mx-auto px-6 md:px-12">
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
                     {/* Left Column - Image (60% width) */}
-                    <div className="w-full lg:w-[60%] relative">
-                        <div className="relative rounded-[40px] md:rounded-[50px] overflow-hidden shadow-2xl shadow-blue-900/10 group">
+                    <div className="w-full lg:w-[65%] relative">
+                        <div className="relative rounded-[20px] md:rounded-[30px] overflow-hidden shadow-2xl shadow-blue-900/10 group">
                             <img
                                 src={data.image}
                                 alt="Team"
-                                className="w-full h-full object-cover aspect-16/10 md:aspect-video lg:aspect-16/10 transition-transform duration-1000 group-hover:scale-105"
-                            />
+                                className="w-full h-full object-cover aspect-16/10 md:aspect-video lg:aspect-16/10 transition-transform duration-1000 group-hover:scale-105" />
 
                             {/* Bottom Right Social Cutout */}
                             <div className="absolute bottom-0 right-0 z-20">
-                                <div className="bg-[#EFEFEF] pt-6 pl-8 pb-3 pr-3 rounded-tl-[50px] relative">
-                                    {/* Precision Anti-Radiuses (Scoops) */}
-                                    <div className="absolute -left-[30px] bottom-0 w-[30px] h-[30px] bg-transparent shadow-[-15px_15px_0_15px_#EFEFEF]"></div>
-                                    <div className="absolute right-0 -top-[30px] w-[30px] h-[30px] bg-transparent shadow-[15px_-15px_0_15px_#EFEFEF]"></div>
+                                <div className="bg-white pt-6 pl-5 pb-2 pr-4 rounded-tl-[50px] relative">
 
                                     {/* Social Box */}
-                                    <div className="bg-black py-4 px-8 rounded-full flex items-center gap-8 shadow-xl">
+                                    <div className="bg-black py-4 px-8 rounded-[25px] flex items-center gap-8 shadow-xl">
                                         {data.socials.map((link, index) => (
                                             <a
                                                 key={index}
@@ -53,7 +49,12 @@ const GetInTouch: React.FC = () => {
                                                 className="text-white hover:text-[#007ebb] transition-colors transform hover:scale-110"
                                                 aria-label={link.label}
                                             >
-                                                {link.icon}
+                                                <span className="block w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7">
+                                                    {/* Clone icon with responsive sizes */}
+                                                    {React.cloneElement(link.icon, {
+                                                        className: `${link.icon.props.className || ''} w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8`
+                                                    })}
+                                                </span>
                                             </a>
                                         ))}
                                     </div>
@@ -63,27 +64,26 @@ const GetInTouch: React.FC = () => {
                     </div>
 
                     {/* Right Column - Content (40% width) */}
-                    <div className="w-full lg:w-[40%] flex flex-col gap-6">
+                    <div className="w-full lg:w-[35%] flex flex-col gap-6">
                         <div className="space-y-0">
-                            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif tracking-tight leading-tight">
+                            <h2 className="text-4xl md:text-5xl lg:text-5xl font-imperator tracking-tight leading-tight">
                                 <span className="text-black">Get </span>
-                                <span className="text-[#007ebb]">in -</span>
+                                <span className="text-[#0077B6]">in -</span>
                             </h2>
-                            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif tracking-tight leading-tight">
-                                <span className="text-[#007ebb]">Touch </span>
+                            <h2 className="text-4xl md:text-5xl lg:text-5xl font-imperator tracking-tight leading-tight">
+                                <span className="text-[#0077B6]">Touch </span>
                                 <span className="text-black">with us</span>
                             </h2>
                         </div>
 
-                        <p className="text-black text-lg leading-relaxed font-medium opacity-80 max-w-[500px]">
+                        <p className="text-black text-base sm:text-lg md:text-xl leading-relaxed font-josefin font-medium opacity-80 max-w-full md:max-w-[600px] text-justify">
                             {data.description}
                         </p>
 
                         <button
                             onClick={handleCall}
-                            className="w-fit bg-[#007ebb] text-white px-10 py-4 rounded-[10px] font-bold text-lg hover:bg-[#006699] transition-all shadow-lg shadow-blue-500/20 active:scale-95 transform"
-                        >
-                            Call us
+                            className="w-fit bg-[#0077B6] text-white px-8 py-2 rounded-[10px] font-josefin font-medium text-base sm:text-lg md:text-xl hover:bg-[#006699] transition-all active:scale-95 transform">
+                            <span className="whitespace-nowrap">Call us</span>
                         </button>
                     </div>
 

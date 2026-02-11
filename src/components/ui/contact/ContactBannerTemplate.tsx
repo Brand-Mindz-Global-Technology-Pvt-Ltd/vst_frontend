@@ -7,6 +7,7 @@ interface ContactBannerTemplateProps {
     logoText1?: string;
     logoText2?: string;
     phoneRedirection?: string;
+    logoIcon?: string;
     avatars?: string[];
 }
 
@@ -16,27 +17,26 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
     logoText1 = "Pure Water",
     logoText2 = "Pure Life",
     phoneRedirection = "tel:+919843232131",
+    logoIcon = "/assets/home/water-droplet.webp",
     avatars = []
 }) => {
     return (
-        <section className="w-full bg-[#EFEFEF] pt-8 pb-20 md:pb-24 lg:pb-28 font-outfit">
-            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-12">
+        <section className="w-full bg-[#EFEFEF] pt-8 pb-12 md:pb-12 lg:pb-16 font-outfit">
+            <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-12">
 
                 {/* 1. Header Logo / Slogan Section */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-8 md:mb-10">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-imperator text-dark tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-imperator font-medium text-dark tracking-tight">
                         {logoText1}
                     </h2>
 
                     {/* Water Drop Icon */}
-                    <div className="relative w-10 h-14 sm:w-12 sm:h-16 md:w-16 md:h-20 flex items-center justify-center">
-                        <svg viewBox="0 0 24 24" className="w-full h-full fill-[#3a8ef6]" preserveAspectRatio="xMidYMid meet">
-                            <path d="M12 2.5C12 2.5 6 9 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9 12 2.5 12 2.5Z" />
-                        </svg>
+                    <div className="relative w-20 h-20 sm:w-20 sm:h-20 md:w-20 md:h-20 flex items-center justify-center">
+                        <img src={logoIcon} alt="Water Drop" className="w-[120px] h-[120px] object-contain" />
                     </div>
 
                     <div className="bg-[#007ebb] px-4 sm:px-6 py-1.5 sm:py-2 rounded-[5px]">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-imperator text-white tracking-tight leading-none">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-imperator font-medium text-white tracking-tight leading-none">
                             {logoText2}
                         </h2>
                     </div>
@@ -50,7 +50,8 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                         className="relative w-full h-[280px] sm:h-[350px] md:h-[450px] lg:h-[550px] shadow-2xl shadow-blue-900/10 group"
                         style={{
                             borderRadius: '40px',
-                            overflow: 'hidden',}}>
+                            overflow: 'hidden',
+                        }}>
 
                         {/* Banner Image */}
                         <img
@@ -60,7 +61,7 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                         />
 
                         {/* Dark Overlay for Text Legibility */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-tr from-black/60 via-black/20 to-transparent" />
 
                         {/* Top-Left Avatar Cutout */}
                         <div className="absolute top-0 left-0 z-20">
@@ -94,17 +95,12 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                                 </a>
                             </div>
                         </div>
-                    </div>
-
-                    {/* 3. "Contact Us" title — positioned at the bottom edge, half in / half out */}
-                    <div className="absolute bottom-0 left-4 sm:left-6 md:left-12 translate-y-1/2 pointer-events-none z-30">
-                        <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[130px] xl:text-[150px] font-imperator text-white/90 tracking-tight leading-none select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
-                            style={{
-                                WebkitTextStroke: '1px rgba(255,255,255,0.3)',
-                            }}
-                        >
-                            {title}
-                        </h1>
+                        {/* 3. "Contact Us" title — positioned at the bottom edge, half in / half out */}
+                        <div className="absolute bottom-10 left-4 sm:left-6 md:left-32 translate-y-1/2 pointer-events-none z-30">
+                            <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[130px] xl:text-[150px] font-imperator text-white/50 tracking-tight leading-none select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                                {title}
+                            </h1>
+                        </div>
                     </div>
                 </div>
             </div>

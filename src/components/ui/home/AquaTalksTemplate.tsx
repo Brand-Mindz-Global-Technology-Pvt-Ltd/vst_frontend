@@ -20,8 +20,8 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-16 px-4">
-                    <div className="flex items-center gap-2">
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-dark tracking-tight flex items-center gap-3">
+                    <div className="flex items-center gap-2 justify-center w-full">
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif text-dark tracking-tight flex items-center gap-3 text-center">
                             Aqua
                             <span className="bg-[#007ebb] text-white px-5 py-1 rounded-[10px] transform -rotate-1">
                                 Talks

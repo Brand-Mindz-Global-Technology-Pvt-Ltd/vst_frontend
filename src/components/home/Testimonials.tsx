@@ -196,7 +196,7 @@ const Testimonials: React.FC = () => {
 
     return (
         <section className="w-full bg-white py-16 md:py-24 px-0 font-outfit overflow-hidden">
-            <div className="max-w-[1600px] mx-auto">
+            <div className="max-w-full mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8">
                     <div className="bg-[#007ebb] px-8 md:px-12 py-3 md:py-4 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg">

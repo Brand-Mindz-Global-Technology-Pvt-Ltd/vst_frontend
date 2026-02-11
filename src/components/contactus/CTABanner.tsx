@@ -8,7 +8,7 @@ const CTABanner: React.FC = () => {
         title: "Ready to Experience Pure Water?",
         subtitle: "Get your water purifier installed today and enjoy safe, clean water for your family.",
         buttonText: "Call us now",
-        icon: <Phone size={32} className="text-white" />
+        icon: <img src="./assets/home/water-droplet.webp" alt="Water Drop" className="w-20 h-20 object-contain" />
     };
 
     const handleButtonClick = () => {
@@ -21,6 +21,7 @@ const CTABanner: React.FC = () => {
             subtitle={ctaData.subtitle}
             buttonText={ctaData.buttonText}
             icon={ctaData.icon}
+            backgroundImage="/assets/cta/cta-banner.webp"
             onButtonClick={handleButtonClick}
             className="bg-[#EFEFEF]"
         />

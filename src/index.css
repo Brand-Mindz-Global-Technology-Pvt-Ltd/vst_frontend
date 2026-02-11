@@ -3,10 +3,12 @@
 @theme {
   --font-outfit: "Outfit", sans-serif;
   --font-imperator: "Imperator", serif;
+  --font-josefin: "Josefin Sans", sans-serif;
   --color-dark: #1a1a1a;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/imperator');
 
 @layer base {
