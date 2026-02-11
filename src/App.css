@@ -1,0 +1,6 @@
+/* Clear boilerplate that interferes with full-width header */
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

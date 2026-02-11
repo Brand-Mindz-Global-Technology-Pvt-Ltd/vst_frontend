@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-outfit: "Outfit", sans-serif;
+  --font-imperator: "Imperator", serif;
+  --color-dark: #1a1a1a;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/imperator');
+
+@layer base {
+  :root {
+    font-family: var(--font-outfit);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    @apply bg-white text-dark;
+  }
+}
