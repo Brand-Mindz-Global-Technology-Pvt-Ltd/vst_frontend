@@ -1,21 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-outfit: "Outfit", sans-serif;
   --font-imperator: "Imperator", serif;
   --font-josefin: "Josefin Sans", sans-serif;
+  --font-jost: "Jost", sans-serif;
   --color-dark: #1a1a1a;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.cdnfonts.com/css/imperator');
+/* Local Fonts */
+@font-face {
+  font-family: 'Imperator';
+  src: url('/assets/fonts/imperator/Imperator.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Imperator';
+  src: url('/assets/fonts/imperator/Imperator_Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/josefin-sans/JosefinSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/josefin-sans/JosefinSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/josefin-sans/JosefinSans-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
 
 @layer base {
   :root {
-    font-family: var(--font-outfit);
+    font-family: var(--font-josefin);
     line-height: 1.5;
     font-weight: 400;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-imperator;
   }
 
   body {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Star, Play, Quote } from 'lucide-react';
 
 interface TestimonialData {
@@ -105,16 +105,14 @@ const Testimonials: React.FC = () => {
         return (
             <div
                 onClick={() => !isActive && handleIndexChange(testimonialsData.findIndex(t => t.id === data.id))}
-                className={`transition-all duration-1000 ease-in-out cursor-pointer h-full relative
+                className={`transition-all duration-1000 ease-in-out cursor-pointer h-full relative shrink-0
                     ${isActive
-                        ? 'w-full max-w-6xl z-20 scale-100 opacity-100'
-                        : 'w-full max-w-5xl z-10 scale-90 opacity-20 hidden lg:block'
+                        ? 'w-full max-w-3xl z-20 scale-100 opacity-100'
+                        : 'w-full max-w-3xl z-10 scale-90 opacity-20 hidden lg:block'
                     }
-                    ${position === 'prev' ? 'lg:-translate-x-[30%]' : ''}
-                    ${position === 'next' ? 'lg:translate-x-[30%]' : ''}
-                `}
-            >
-                <div className="bg-white rounded-[30px] md:rounded-[40px] shadow-2xl overflow-hidden grid grid-cols-12 min-h-[350px] md:min-h-[480px] border border-gray-100">
+                    ${position === 'prev' ? 'lg:-translate-x-[25%]' : ''}
+                    ${position === 'next' ? 'lg:translate-x-[25%]' : ''}`}>
+                <div className="bg-white rounded-[15px] md:rounded-[15px] shadow-2xl overflow-hidden grid grid-cols-12 min-h-[350px] md:min-h-[480px] border border-gray-100">
                     {/* Left: Video Component (Wider column per user request) */}
                     <div className="col-span-12 md:col-span-5 relative group bg-black overflow-hidden h-full">
                         {isPlaying === data.id && isActive ? (
@@ -195,7 +193,7 @@ const Testimonials: React.FC = () => {
     };
 
     return (
-        <section className="w-full bg-white py-16 md:py-24 px-0 font-outfit overflow-hidden">
+        <section className="w-full bg-white py-12 md:py-12 mt-12 px-0 font-outfit overflow-hidden">
             <div className="max-w-full mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8">

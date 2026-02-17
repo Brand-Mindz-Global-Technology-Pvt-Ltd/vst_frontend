@@ -19,18 +19,20 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     onOrderClick = () => console.log("Order Now clicked"),
 }) => {
     return (
-        <section className="w-full bg-[#EFEFEF] py-8 md:py-12 px-4 md:px-8 font-outfit">
+        <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit">
             {/* Heading Layer */}
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
-                <h2 className="text-4xl md:text-7xl font-serif tracking-tight text-dark">
+                <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-dark">
                     {titleStart}
                 </h2>
                 <div className="relative">
-                    <Droplets className="w-8 h-8 md:w-16 md:h-16 text-[#00a8e8] fill-[#00a8e8]" />
+                    <img
+                        src={('./assets/home/water-droplet.webp')}
+                        alt="Water Droplet" className="w-8 h-8 md:w-16 md:h-16" />
                     <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
                 </div>
-                <div className="bg-[#0066b2] px-6 md:px-12 py-1 md:py-2 rounded-tl-[20px] md:rounded-tl-[40px] rounded-bl-[20px] md:rounded-bl-[40px]">
-                    <h2 className="text-4xl md:text-7xl font-serif italic tracking-tight text-white leading-tight">
+                <div className="bg-[#0066b2] px-6 md:px-8 py-1 md:py-1 rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px] flex items-center justify-center">
+                    <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-white leading-tight text-center">
                         {titleEnd}
                     </h2>
                 </div>
@@ -42,11 +44,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                     {/* Left Side: Family & Trust */}
                     <div className="w-full md:w-[65%] relative overflow-hidden">
-                        <img
-                            src={familyImage}
-                            alt="Happy Family"
-                            className="absolute inset-0 w-full h-full object-cover"
-                        />
+                        <img src={familyImage} alt="Happy Family" className="absolute inset-0 w-full h-full object-cover" />
 
                         {/* Trust Badge - Top Left Floating */}
                         <div className="absolute top-4 left-4 md:top-8 md:left-8 bg-black/10 backdrop-blur-md rounded-full p-1 md:p-1.5 flex items-center gap-2 md:gap-3 border border-white/20 shadow-lg">

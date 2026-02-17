@@ -1,33 +1,29 @@
 import React from 'react';
 import CTABannerTemplate from '../ui/home/CTABannerTemplate';
+import { Phone } from 'lucide-react';
 
 const CTABanner: React.FC = () => {
-    const handleRequestQuote = () => {
-        console.log("Request Quote Clicked");
-        // Add navigation or modal logic here
+    // Editable CTA data
+    const ctaData = {
+        title: "Don’t worry if you’re unsure, we’ll help you choose right!",
+        subtitle: "Contact us for the best recommendation",
+        buttonText: "Request a Quote",
+        icon: <img src="./assets/home/water-droplet.webp" alt="Water Drop" className="w-20 h-20 object-contain" />
     };
 
-    const WaterDropIcon = (
-        <div className="relative w-12 h-16 flex items-center justify-center">
-            {/* Simple Water Drop Design */}
-            <div className="w-10 h-10 bg-blue-400 rounded-full relative">
-                <div className="absolute top-[-15px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-20 border-l-transparent border-b-30 border-b-blue-400 border-r-20 border-r-transparent"></div>
-                {/* Shine/Reflection */}
-                <div className="absolute top-2 left-2 w-2 h-4 bg-white/40 rounded-full rotate-[-20deg]"></div>
-            </div>
-            {/* Image alternative if preferred: 
-            <img src="https://cdn-icons-png.flaticon.com/512/3105/3105807.png" className="w-full h-full object-contain" alt="Water Drop" /> 
-            */}
-        </div>
-    );
+    const handleButtonClick = () => {
+        window.location.href = "tel:+919843232131";
+    };
 
     return (
         <CTABannerTemplate
-            title="Don't worry if you're unsure, we'll help you choose right!"
-            subtitle="Contact us for the best recommendation"
-            buttonText="Request a Quote"
-            onButtonClick={handleRequestQuote}
-            icon={WaterDropIcon}
+            title={ctaData.title}
+            subtitle={ctaData.subtitle}
+            buttonText={ctaData.buttonText}
+            icon={ctaData.icon}
+            backgroundImage="/assets/cta/cta-banner.webp"
+            onButtonClick={handleButtonClick}
+            className="bg-[#EFEFEF]"
         />
     );
 };

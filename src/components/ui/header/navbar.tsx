@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
+import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,11 +10,10 @@ const Navbar: React.FC = () => {
         { name: 'Commercials', href: '#' },
         { name: 'Industry', href: '#' },
         { name: 'Services', href: '#' },
-        { name: 'Contact Us', href: '/contact' },
     ];
 
     return (
-        <header className="w-full font-outfit">
+        <header className="w-full font-josefin">
             {/* Announcement Bar */}
             <div className="bg-dark text-white py-3 px-4 flex items-center justify-center gap-4 text-[13px] md:text-sm tracking-wide">
                 <Megaphone size={16} className="shrink-0" />
@@ -24,14 +23,14 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Main Navbar */}
-            <nav className="bg-[#EFEFEF] backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <nav className="bg-[#EFEFEF] backdrop-blur-md sticky top-0 z-50">
+                <div className="max-w-[1500px] mx-auto px-4 md:px-8">
                     <div className="flex items-center justify-between h-20 md:h-24">
                         {/* Logo */}
                         <div className="shrink-0 flex items-center">
                             <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full border border-gray-100 overflow-hidden bg-white shadow-sm">
                                 <img
-                                    src="https://via.placeholder.com/150?text=VST"
+                                    src="./assets/home/VST-logo.png"
                                     alt="VST Logo"
                                     className="w-10 h-10 md:w-12 md:h-12 object-contain"
                                 />
@@ -45,9 +44,9 @@ const Navbar: React.FC = () => {
                                     <a
                                         key={link.name}
                                         href={link.href}
-                                        className={`relative text-[15px] font-medium transition-colors duration-200 ${link.active
-                                            ? 'text-black'
-                                            : 'text-gray-600 hover:text-black'
+                                        className={`relative text-[15px] transition-colors duration-200 ${link.active
+                                            ? 'text-black font-semibold'
+                                            : 'text-black font-medium'
                                             }`}
                                     >
                                         {link.name}
@@ -61,9 +60,7 @@ const Navbar: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex items-center gap-4 md:gap-6">
-                            <button className="text-gray-700 hover:text-black transition-colors" aria-label="Search">
-                                <Search size={22} strokeWidth={1.5} />
-                            </button>
+
                             <button className="text-gray-700 hover:text-black transition-colors" aria-label="Wishlist">
                                 <Heart size={22} strokeWidth={1.5} />
                             </button>
@@ -95,9 +92,9 @@ const Navbar: React.FC = () => {
                                 <a
                                     key={link.name}
                                     href={link.href}
-                                    className={`block px-3 py-4 text-base font-medium border-b border-gray-50 last:border-0 ${link.active
-                                        ? 'text-black'
-                                        : 'text-gray-600 hover:text-black hover:bg-gray-50'
+                                    className={`block px-3 py-4 text-base border-b border-gray-50 last:border-0 ${link.active
+                                        ? 'text-black font-semibold'
+                                        : 'text-gray-600 hover:text-black hover:bg-gray-50 font-medium'
                                         }`}
                                     onClick={() => setIsMenuOpen(false)}
                                 >

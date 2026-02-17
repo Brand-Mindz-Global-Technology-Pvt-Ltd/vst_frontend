@@ -30,7 +30,7 @@ const CTABannerTemplate: React.FC<CTABannerTemplateProps> = ({
                             <img
                                 src={backgroundImage}
                                 alt="Background"
-                                className="w-full h-full object-contain"/>
+                                className="w-full h-full object-cover"/>
                         </div>
                         <div className="absolute inset-0 z-0"></div>
                     </>
@@ -46,7 +46,7 @@ const CTABannerTemplate: React.FC<CTABannerTemplateProps> = ({
                     )}
 
                     {/* Title */}
-                    <h2 className="text-3xl md:text-5xl font-imperator text-white tracking-wide leading-tight mb-4 max-w-5xl">
+                    <h2 className="text-3xl md:text-4xl font-imperator text-white tracking-wide leading-tight mb-4 max-w-5xl">
                         {title}
                     </h2>
 
@@ -58,8 +58,7 @@ const CTABannerTemplate: React.FC<CTABannerTemplateProps> = ({
                     {/* CTA Button */}
                     <button
                         onClick={onButtonClick}
-                        className="bg-white text-dark px-10 py-4 rounded-full font-josefin font-bold shadow-xl hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 active:scale-95 text-lg"
-                    >
+                        className="bg-white text-dark px-10 py-4 rounded-full font-josefin font-bold shadow-xl hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 active:scale-95 text-lg">
                         {buttonText}
                     </button>
                 </div>

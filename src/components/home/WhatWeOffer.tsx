@@ -19,6 +19,22 @@ const WhatWeOffer: React.FC = () => {
             image: "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2070&auto=format&fit=crop",
             icon: <Wrench size={28} className="md:w-8 md:h-8" />,
             ctaText: "Enquiry Now"
+        },
+        {
+            id: 3,
+            title: "Maintenance",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet.",
+            image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop",
+            icon: <Settings size={28} className="md:w-8 md:h-8" />,
+            ctaText: "Enquiry Now"
+        },
+        {
+            id: 4,
+            title: "Consultation",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet.",
+            image: "https://images.unsplash.com/photo-1454165205732-d01140e59b73?q=80&w=2070&auto=format&fit=crop",
+            icon: <Wrench size={28} className="md:w-8 md:h-8" />,
+            ctaText: "Enquiry Now"
         }
     ];
 
