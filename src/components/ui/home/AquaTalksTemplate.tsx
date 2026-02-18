@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export interface BlogData {
     id: number | string;
@@ -15,6 +16,12 @@ interface AquaTalksTemplateProps {
 }
 
 const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
+    const navigate = useNavigate();
+
+    const handleCardClick = (id: number | string) => {
+        navigate(`/blog/${id}`);
+    };
+
     return (
         <section className="w-full bg-[#f4faff] py-8 md:py-8 px-4 md:px-8 mt-8 mb-12 font-outfit overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
@@ -23,13 +30,13 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                     <div className="flex items-center gap-2">
                         <h2 className="text-3xl md:text-5xl lg:text-5xl font-imperator text-dark tracking-tight flex items-center gap-3">
                             Aqua
-                            <span className="bg-[#007ebb] text-white px-4 py-1.5 rounded-[8px] flex items-center justify-center leading-none">
+                            <span className="bg-[#007ebb] text-white px-4 pt-4 py-1.5 rounded-tl-[15px] rounded-bl-[15px] flex items-center justify-center leading-none">
                                 Talks
                             </span>
                         </h2>
                     </div>
 
-                    <button className="md:absolute md:right-4 bg-[#007ebb] text-white px-8 py-2.5 rounded-full font-bold hover:bg-[#006699] transition-all flex items-center justify-center shadow-lg shadow-blue-900/10 text-sm mt-4 md:mt-0">
+                    <button className="md:absolute md:right-4 bg-[#007ebb] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-[#006699] transition-all flex items-center justify-center text-lg mt-4 md:mt-0">
                         See More
                     </button>
                 </div>
@@ -39,7 +46,8 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                     {blogs.map((blog) => (
                         <div
                             key={blog.id}
-                            className="min-w-[300px] md:min-w-[340px] lg:min-w-[360px] bg-white rounded-[25px] p-4 shadow-xl shadow-blue-900/5 group hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 snap-center cursor-pointer"
+                            onClick={() => handleCardClick(blog.id)}
+                            className="min-w-[300px] md:min-w-[340px] lg:min-w-[360px] bg-white rounded-[25px] shadow-xl shadow-blue-900/5 group hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 snap-center cursor-pointer"
                         >
                             {/* Image Section with Scooped Cutout */}
                             <div className="relative h-[250px] md:h-[300px] rounded-[20px] overflow-hidden mb-6">
@@ -67,14 +75,14 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                             {/* Content Section */}
                             <div className="px-2 pb-4">
                                 <div className="mb-4">
-                                    <h3 className="text-xl font-bold text-dark leading-snug group-hover:text-[#007ebb] transition-colors inline font-josefin">
+                                    <h3 className="text-xl font-semibold text-dark leading-snug group-hover:text-[#007ebb] transition-colors inline font-josefin">
                                         {blog.title}{' '}
                                     </h3>
                                     <span className="inline-flex gap-2 align-middle ml-1">
                                         {blog.tags.map((tag, i) => (
                                             <span
                                                 key={i}
-                                                className={`px-3 py-1 rounded-[6px] text-[11px] whitespace-nowrap font-bold uppercase tracking-tight
+                                                className={`px-2 pt-1.5 py-1 rounded-[6px] text-[11px] whitespace-nowrap font-bold uppercase tracking-tight
                                                     ${i === 0 ? 'bg-[#00abff] text-white' : 'bg-black text-white'}`}
                                             >
                                                 {tag}
@@ -83,7 +91,7 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                                     </span>
                                 </div>
 
-                                <p className="text-gray-500 text-[14px] leading-relaxed line-clamp-3 font-jost">
+                                <p className="text-black text-[15px] leading-relaxed line-clamp-3 font-jost">
                                     {blog.description}
                                 </p>
                             </div>

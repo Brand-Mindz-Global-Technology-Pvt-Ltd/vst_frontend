@@ -4,12 +4,10 @@ import MissionVision from '../../components/about/MissionVision';
 import MeetFounder from '../../components/about/MeetFounder';
 import ClientExperiences from '../../components/about/ClientExperiences';
 import Footer from '../../components/ui/footer/Footer';
-import Navbar from '../../components/ui/header/navbar';
 
 const About: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col font-outfit">
-            <Navbar />
             <main className="grow">
                 <AboutHero />
                 <AboutStory />

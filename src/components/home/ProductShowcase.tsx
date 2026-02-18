@@ -150,7 +150,7 @@ const ProductShowcase: React.FC = () => {
                                         setActiveTab(cat.id);
                                         setCurrentIndex(0);
                                     }}
-                                    className={`px-4 md:px-10 py-2 md:py-4 rounded-full text-sm md:text-xl font-bold transition-all duration-300 ${activeTab === cat.id
+                                    className={`px-4 md:px-10 py-2 md:py-4 rounded-full text-sm md:text-xl font-semibold transition-all duration-300 ${activeTab === cat.id
                                         ? 'bg-[#3d3d3d] text-white shadow-xl'
                                         : 'bg-white text-dark hover:text-dark'
                                         }`}>
@@ -160,7 +160,7 @@ const ProductShowcase: React.FC = () => {
                         </div>
 
                         <div className="md:absolute md:right-[-60px] lg:right-[-100px]">
-                            <button className="bg-[#007ebb] text-white px-8 py-3 rounded-full font-semibold hover:bg-dark transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base">
+                            <button className="bg-[#007ebb] text-white px-6 py-2 rounded-full font-semibold hover:bg-dark transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base">
                                 See More
                             </button>
                         </div>
@@ -171,34 +171,48 @@ const ProductShowcase: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                     {/* Left Column: Featured Banner */}
                     <div className="lg:col-span-4 w-full px-4 md:px-0">
-                        <div className={`relative w-full aspect-4/5 bg-[#C8E1EC] rounded-[30px] md:rounded-[40px] overflow-hidden p-6 md:p-8 group bg-linear-to-t from-[#C8E1EC] to-[#C8E1EC] transition-all duration-500 shadow-2xl ${isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
-                            <div className="text-center mb-0 relative z-20">
-                                <h3 className="text-2xl md:text-4xl font-imperator text-[#007ebb]/10 relative z-30 uppercase">
+                        <div className={`relative w-full h-[550px] md:h-[560px] rounded-[15px] md:rounded-[15px] overflow-hidden group transition-all duration-500 ${isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+                            {/* Background Layer with Gradient - Full opacity at top, fades to 20% at bottom */}
+                            <div className="absolute inset-0 z-0 bg-[#C8E1EC]"></div>
+
+                            {/* Product Name - Top Center */}
+                            <div className="absolute top-6 md:top-8 left-0 right-0 text-center z-20">
+                                <h3 className="text-2xl md:text-4xl font-imperator text-[#007ebb]/10 uppercase px-6">
                                     {featuredProduct.name}
                                 </h3>
                             </div>
 
-                            <div className="relative h-[65%] md:h-[70%] flex items-center justify-center mt-4">
-                                <img
-                                    src="/assets/home/podium.jpg"
-                                    alt="podium"
-                                    className="absolute bottom-[-50px] md:bottom-[-75px] w-[110%] md:w-[120%] max-w-none object-contain select-none pointer-events-none opacity-80" />
-
-                                <img
-                                    src={featuredProduct.image}
-                                    alt={featuredProduct.name}
-                                    className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-all duration-700 ease-out p-4 mt-[-20px] md:mt-[-40px]" />
-                            </div>
-
-                            <div className="absolute top-8 md:top-10 left-0 z-30">
+                            {/* Discount Badge - Top Left */}
+                            <div className="absolute top-8 md:top-18 left-0 z-40">
                                 <div className="bg-[#00cc00] text-white text-[10px] md:text-xs font-bold px-3 md:px-4 py-1.5 rounded-r-full shadow-lg uppercase">
                                     {featuredProduct.discount || "40% OFF"}
                                 </div>
                             </div>
 
-                            <div className="absolute bottom-6 left-0 right-0 flex justify-center z-30 px-6">
+                            {/* Product Image Container - Center */}
+                            <div className="absolute inset-0 flex items-center justify-center pt-16 pb-8 px-6 md:px-8 z-10">
+                                <div className="relative w-full h-full flex items-center justify-center">
+                                    {/* Podium Layer - Behind Product */}
+                                    <img
+                                        src="/assets/home/podium.webp"
+                                        alt="podium"
+                                        className="absolute bottom-[-30px] md:bottom-[-40px] w-[120%] md:w-[120%] max-w-none object-contain select-none pointer-events-none opacity-75 z-0" />
+
+                                    {/* Product Image - With Enhanced Shadow */}
+                                    <img
+                                        src={featuredProduct.image}
+                                        alt={featuredProduct.name}
+                                        className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-all duration-700 ease-out"
+                                        style={{
+                                            filter: 'drop-shadow(0 25px 35px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15))'
+                                        }} />
+                                </div>
+                            </div>
+
+                            {/* See Details Button - Bottom Center */}
+                            <div className="absolute bottom-6 md:bottom-4 left-0 right-0 flex justify-center z-40 px-6">
                                 <button className="w-full max-w-[160px] md:max-w-[180px] bg-[#007ebb] text-white py-2 md:py-2.5 rounded-full font-bold shadow-xl hover:bg-dark transition-all transform hover:scale-105 active:scale-95 text-sm md:text-base flex items-center justify-center gap-2">
-                                    See Details <ArrowUpRight size={18} strokeWidth={3} />
+                                    See Details
                                 </button>
                             </div>
                         </div>
@@ -210,7 +224,7 @@ const ProductShowcase: React.FC = () => {
                             <h3 className="text-4xl md:text-4xl font-imperator text-dark leading-tight lowercase first-letter:uppercase">
                                 {featuredProduct.type || 'VV'}
                             </h3>
-                            <p className="text-base md:text-lg text-dark/70 leading-relaxed max-w-4xl font-normal text-justify">
+                            <p className="text-base md:text-lg text-[#282828] leading-relaxed max-w-4xl font-normal text-justify">
                                 {featuredProduct.description}
                             </p>
 
@@ -219,12 +233,12 @@ const ProductShowcase: React.FC = () => {
                                 <button
                                     onClick={prevProduct}
                                     className="bg-white text-dark w-12 h-12 rounded-full shadow-md hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-110 active:scale-90 border border-gray-100 flex items-center justify-center group">
-                                    <ChevronFirst size={24} strokeWidth={3} className="group-hover:-translate-x-0.5 transition-transform" />
+                                    <ChevronFirst size={24} strokeWidth={2} className="group-hover:-translate-x-0.5 transition-transform" />
                                 </button>
                                 <button
                                     onClick={nextProduct}
                                     className="bg-white text-dark w-12 h-12 rounded-full shadow-md hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-110 active:scale-90 flex items-center justify-center group">
-                                    <ChevronLast size={24} strokeWidth={3} className="group-hover:translate-x-0.5 transition-transform" />
+                                    <ChevronLast size={24} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />
                                 </button>
                             </div>
                         </div>
