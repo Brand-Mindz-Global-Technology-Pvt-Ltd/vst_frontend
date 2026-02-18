@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { useHighlight } from '../../../context/HighlightContext'; 
+import FloatingHighlight from '../framer/FloatingHighlight'; 
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+    
+    // Use the global highlight state
+    const { activeId } = useHighlight();
 
     const navLinks = [
         { name: 'Home', href: '/' },
@@ -69,7 +74,6 @@ const Navbar: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex items-center gap-4 md:gap-6">
-
                             <button className="text-gray-700 hover:text-black transition-colors" aria-label="Wishlist">
                                 <Heart size={22} strokeWidth={1.5} />
                             </button>
@@ -77,8 +81,14 @@ const Navbar: React.FC = () => {
                                 <ShoppingCart size={22} strokeWidth={1.5} />
                                 <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
                             </button>
-                            <button className="text-gray-700 hover:text-black transition-colors" aria-label="User Profile">
-                                <User size={22} strokeWidth={1.5} />
+                            
+                            {/* --- THE HIGHLIGHTED USER PROFILE --- */}
+                            <button className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
+                                <FloatingHighlight id="header-icon" boxClassName="rounded-full">
+                                    <div className="p-2">
+                                        <User size={22} strokeWidth={1.5} />
+                                    </div>
+                                </FloatingHighlight>
                             </button>
 
                             {/* Mobile menu button */}

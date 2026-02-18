@@ -1,5 +1,8 @@
 import React from 'react';
-import { ArrowRight, Droplets } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useHighlight } from '../../../context/HighlightContext';
+import FloatingHighlight from '../framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface HeroProps {
     titleStart?: string;
@@ -18,25 +21,42 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     trustCount = "15K",
     onOrderClick = () => console.log("Order Now clicked"),
 }) => {
+
+    // 1. Get the control function from our global context
+    const { setActiveId } = useHighlight();
+
+    // 2. Trigger the "Flight" from Navbar to Hero
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setActiveId('hero-heading');
+        }, 600); // Animation starts 600ms after page load
+        return () => clearTimeout(timer);
+    }, [setActiveId]);
+
     return (
         <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit">
+
             {/* Heading Layer */}
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+            <motion.div   onViewportEnter={() => setActiveId('hero-heading')} className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
                 <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-dark">
                     {titleStart}
                 </h2>
+
                 <div className="relative">
                     <img
                         src={('./assets/home/water-droplet.webp')}
                         alt="Water Droplet" className="w-8 h-8 md:w-16 md:h-16" />
                     <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
                 </div>
-                <div className="bg-[#0066b2] px-6 md:px-8 py-1 md:py-1 rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px] flex items-center justify-center">
-                    <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-white leading-tight text-center">
-                        {titleEnd}
-                    </h2>
-                </div>
-            </div>
+
+                {/* Using the Reusable Component */}
+                <FloatingHighlight
+                    id="hero-heading"
+                    className="text-3xl md:text-6xl text-white font-imperator tracking-tight px-6 md:px-8 py-1 md:py-2 "
+                >
+                    {titleEnd}
+                </FloatingHighlight>
+            </motion.div>
 
             {/* Main Banner Container */}
             {/* Main Banner Container */}
@@ -44,7 +64,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                 <div className="flex flex-col md:flex-row bg-[#f1f1f1] h-[500px] sm:h-[600px] md:h-[650px] rounded-br-[60px] md:rounded-br-[15px] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] relative overflow-hidden">
 
                     {/* 1. Full Banner Image (Background) */}
-            <div className=""></div>        <div className="absolute inset-0 z-0">
+                    <div className=""></div>        <div className="absolute inset-0 z-0">
                         <img src={familyImage} alt="Happy Family" className="w-full h-full object-cover" />
                         {/* Right-to-Left Blue Overlay (#00A7FF) */}
                         <div className="absolute inset-0 bg-gradient-to-l from-[#00A7FF] via-[#00A7FF]/15 to-transparent opacity-90"></div>
