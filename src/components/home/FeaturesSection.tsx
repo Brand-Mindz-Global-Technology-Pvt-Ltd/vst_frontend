@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Droplets, Users, MapPin, Clock, ChevronFirst, ChevronLast, ArrowUpRight } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const stats = [
     {
@@ -68,6 +71,8 @@ const imageSets = [
 const FeaturesSection: React.FC = () => {
     const [currentSet, setCurrentSet] = useState(0);
 
+    const { setActiveId } = useHighlight();
+
     const nextSet = () => {
         setCurrentSet((prev) => (prev + 1) % imageSets.length);
     };
@@ -80,16 +85,26 @@ const FeaturesSection: React.FC = () => {
         <section className="w-full bg-white py-10 px-4 md:px-8 font-josefin mt-10 mb-16">
             <div className="max-w-[1400px] mx-auto">
                 {/* Heading Layer */}
-                <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
-                    <div className="bg-[#007ebb] px-8 md:px-4 py-3 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg">
-                        <h2 className="text-2xl md:text-4xl font-imperator text-white tracking-tight leading-tight">
-                            Trusted Purification
-                        </h2>
-                    </div>
+                {/* NEW UPDATED HEADING LAYER */}
+                <motion.div
+                    // This tells the blue box: "I am visible now, fly to me!"
+                    onViewportEnter={() => setActiveId('features-heading')}
+                    viewport={{ amount: 0.5 }} // Triggers when half the heading is visible
+                    className="flex flex-wrap items-center justify-center gap-6 mb-12"
+                >
+                    {/* Use our reusable component here */}
+                    <FloatingHighlight
+                        id="features-heading"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]  shadow-lg"
+                        className="text-2xl md:text-4xl font-imperator tracking-tight leading-tight px-8 md:px-4 py-3"
+                    >
+                        Trusted Purification
+                    </FloatingHighlight>
+
                     <h2 className="text-2xl md:text-4xl font-imperator text-dark tracking-tight leading-tight">
                         Smart Technology
                     </h2>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                     {/* Left Column: Stats Grid */}

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Star, Play, Quote } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface TestimonialData {
     id: number | string;
@@ -74,6 +77,7 @@ const testimonialsData: TestimonialData[] = [
 const Testimonials: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState(2);
     const [isPlaying, setIsPlaying] = useState<number | string | null>(null);
+    const { setActiveId } = useHighlight();
 
     const handleIndexChange = (index: number) => {
         setActiveIndex(index);
@@ -196,16 +200,22 @@ const Testimonials: React.FC = () => {
         <section className="w-full bg-white py-12 md:py-12 mt-12 px-0 font-outfit overflow-hidden">
             <div className="max-w-full mx-auto">
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8">
-                    <div className="bg-[#007ebb] px-8 md:px-8 py-3 md:py-4 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg">
-                        <h2 className="text-3xl md:text-5xl font-imperator text-white tracking-tight leading-none">
-                            Testimonial
-                        </h2>
-                    </div>
+                <motion.div
+                    onViewportEnter={() => setActiveId('testimonials-heading')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8"
+                >
+                    <FloatingHighlight
+                        id="testimonials-heading"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg"
+                        className="text-3xl md:text-5xl font-imperator tracking-tight leading-none px-8 md:px-8 py-3 md:py-4"
+                    >
+                        Testimonial
+                    </FloatingHighlight>
                     <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
                         Our Success Stories
                     </h2>
-                </div>
+                </motion.div>
 
                 {/* Avatar Row */}
                 <div className="flex justify-center items-center gap-4 md:gap-14 mb-20 relative px-8">

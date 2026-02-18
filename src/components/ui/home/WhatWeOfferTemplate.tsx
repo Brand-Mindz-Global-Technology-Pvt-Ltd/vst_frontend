@@ -1,5 +1,8 @@
 import React, { useRef, type ReactNode } from 'react';
 import { ArrowRight, ChevronFirst, ChevronLast } from 'lucide-react';
+import { useHighlight } from '../../../context/HighlightContext';
+import FloatingHighlight from '../framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface ServiceData {
     id: number | string;
@@ -85,6 +88,7 @@ const WhatWeOfferTemplate: React.FC<WhatWeOfferTemplateProps> = ({
     className = "",
 }) => {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const { setActiveId } = useHighlight();
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollRef.current) {
@@ -102,17 +106,23 @@ const WhatWeOfferTemplate: React.FC<WhatWeOfferTemplateProps> = ({
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-center items-center mb-12 md:mb-16 relative">
-                    <div className="flex items-center gap-2">
+                    <motion.div
+                        onViewportEnter={() => setActiveId('what-we-offer-heading')}
+                        viewport={{ amount: 0.5 }}
+                        className="flex items-center gap-2"
+                    >
                         <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
                             {titlePrefix}
                         </h2>
                         {/* Perfected Header Box */}
-                        <div className="bg-[#007ebb] px-6 md:px-8 py-2 md:py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg flex items-center justify-center">
-                            <h2 className="pt-2 text-2xl md:text-4xl font-imperator  text-white tracking-tight leading-none text-center">
-                                {highlightedTitle}
-                            </h2>
-                        </div>
-                    </div>
+                        <FloatingHighlight
+                            id="what-we-offer-heading"
+                            boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg"
+                            className="text-2xl md:text-4xl font-imperator tracking-tight leading-none text-center px-6 md:px-8 pt-2 pb-2"
+                        >
+                            {highlightedTitle}
+                        </FloatingHighlight>
+                    </motion.div>
 
                     {/* Navigation Arrows - Absolute on Desktop */}
                     <div className="flex gap-4 mt-6 md:mt-0 md:absolute md:right-0">

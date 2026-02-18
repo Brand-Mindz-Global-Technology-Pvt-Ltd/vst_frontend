@@ -1,6 +1,9 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useHighlight } from '../../../context/HighlightContext';
+import FloatingHighlight from '../framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 export interface BlogData {
     id: number | string;
@@ -17,6 +20,7 @@ interface AquaTalksTemplateProps {
 
 const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
     const navigate = useNavigate();
+    const { setActiveId } = useHighlight();
 
     const handleCardClick = (id: number | string) => {
         navigate(`/blog/${id}`);
@@ -27,14 +31,22 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex items-center justify-center mb-8 px-4 relative">
-                    <div className="flex items-center gap-2">
+                    <motion.div
+                        onViewportEnter={() => setActiveId('aqua-talks-heading')}
+                        viewport={{ amount: 0.5 }}
+                        className="flex items-center gap-2"
+                    >
                         <h2 className="text-3xl md:text-5xl lg:text-5xl font-imperator text-dark tracking-tight flex items-center gap-3">
                             Aqua
-                            <span className="bg-[#007ebb] text-white px-4 pt-4 py-1.5 rounded-tl-[15px] rounded-bl-[15px] flex items-center justify-center leading-none">
+                            <FloatingHighlight
+                                id="aqua-talks-heading"
+                                boxClassName="rounded-tl-[15px] rounded-bl-[15px]"
+                                className="px-4 pt-4 pb-1.5 flex items-center justify-center leading-none"
+                            >
                                 Talks
-                            </span>
+                            </FloatingHighlight>
                         </h2>
-                    </div>
+                    </motion.div>
 
                     <button className="md:absolute md:right-4 bg-[#007ebb] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-[#006699] transition-all flex items-center justify-center text-lg mt-4 md:mt-0">
                         See More

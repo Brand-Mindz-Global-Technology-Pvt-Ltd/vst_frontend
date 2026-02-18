@@ -1,5 +1,8 @@
+import { ChevronFirst, ChevronLast, Heart } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronFirst, ChevronLast, Heart, ArrowUpRight } from 'lucide-react';
 
 interface Product {
     id: number;
@@ -99,6 +102,7 @@ const ProductShowcase: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const sliderRef = useRef<HTMLDivElement>(null);
+    const { setActiveId } = useHighlight();
 
     const activeCategory = categories.find((cat) => cat.id === activeTab) || categories[0];
     const featuredProduct = activeCategory.products[currentIndex];
@@ -130,16 +134,22 @@ const ProductShowcase: React.FC = () => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col items-center mb-16 px-4">
-                    <div className="flex flex-wrap items-center justify-center gap-6 mb-10">
+                    <motion.div
+                        onViewportEnter={() => setActiveId('product-showcase-heading')}
+                        viewport={{ amount: 0.5 }}
+                        className="flex flex-wrap items-center justify-center gap-6 mb-10"
+                    >
                         <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
                             Choose
                         </h2>
-                        <div className="bg-[#007ebb] px-6 md:px-6 py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg">
-                            <h2 className="text-2xl md:text-4xl font-imperator pt-2 text-white tracking-tight">
-                                Your Pure Solution
-                            </h2>
-                        </div>
-                    </div>
+                        <FloatingHighlight
+                            id="product-showcase-heading"
+                            boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg"
+                            className="text-2xl md:text-4xl font-imperator tracking-tight px-6 md:px-6 pt-2 pb-2"
+                        >
+                            Your Pure Solution
+                        </FloatingHighlight>
+                    </motion.div>
 
                     <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 relative max-w-5xl mx-auto">
                         <div className="flex flex-wrap items-center justify-center bg-white rounded-3xl md:rounded-full border border-black/5">
