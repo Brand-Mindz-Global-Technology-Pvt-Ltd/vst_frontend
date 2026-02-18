@@ -51,7 +51,7 @@ const ServiceCard: React.FC<ServiceData> = ({
             {/* Glassmorphism Title Overlay */}
             <div className="absolute bottom-20 md:bottom-28 left-0 right-0 px-4 md:px-0 z-10">
                 <div className="bg-white/10 backdrop-blur-xs py-4 md:py-6 px-6 md:px-10 flex flex-col gap-1">
-                    <h3 className="text-3xl md:text-5xl font-serif text-white tracking-tight">
+                    <h3 className="text-3xl md:text-5xl font-josefin text-white tracking-tight">
                         {title}
                     </h3>
                 </div>
@@ -67,7 +67,7 @@ const ServiceCard: React.FC<ServiceData> = ({
                 {/* Enquiry Button */}
                 <button
                     onClick={onCtaClick}
-                    className="bg-black text-white px-6 md:px-8 py-2.5 md:py-3.5 rounded-full font-bold flex items-center gap-2 group/btn hover:bg-[#007ebb] transition-all transform hover:scale-105 active:scale-95 shadow-xl order-1 md:order-2 self-end">
+                    className="bg-black text-white px-6 md:px-8 py-2.5 md:py-3.5 rounded-full font-medium flex items-center gap-2 group/btn hover:bg-[#007ebb] transition-all transform hover:scale-105 active:scale-95 shadow-xl order-1 md:order-2 self-end">
                     <span className="text-sm md:text-base ">{ctaText}</span>
                     <div className="bg-white text-black rounded-full p-1 md:p-1.5 transition-transform group-hover/btn:-rotate-45">
                         <ArrowRight size={14} className="md:w-4 md:h-4" />
@@ -98,12 +98,12 @@ const WhatWeOfferTemplate: React.FC<WhatWeOfferTemplateProps> = ({
     };
 
     return (
-        <section className={`w-full bg-[#f1f8ff] py-16 md:py-24 px-4 md:px-8 overflow-hidden ${className}`}>
+        <section className={`w-full bg-[#f1f8ff] py-16 md:py-12 px-4 md:px-8 overflow-hidden ${className}`}>
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-center items-center mb-12 md:mb-16 relative">
                     <div className="flex items-center gap-2">
-                        <h2 className="text-3xl md:text-5xl font-imperator  text-dark tracking-tight">
+                        <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
                             {titlePrefix}
                         </h2>
                         {/* Perfected Header Box */}
@@ -124,7 +124,7 @@ const WhatWeOfferTemplate: React.FC<WhatWeOfferTemplateProps> = ({
                         </button>
                         <button
                             onClick={() => scroll('right')}
-                            className="bg-[#007ebb] text-white p-3 md:p-4 rounded-full shadow-xl shadow-[#007ebb]/20 hover:bg-dark transition-all transform hover:scale-110 active:scale-90 flex items-center justify-center group"
+                            className="bg-white text-dark p-3 md:p-4 rounded-full shadow-md hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-110 active:scale-90 flex items-center justify-center group"
                         >
                             <ChevronLast size={24} strokeWidth={3} />
                         </button>

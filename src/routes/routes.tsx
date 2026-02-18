@@ -1,18 +1,19 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import Home from '../pages/home';
-import Navbar from '../components/ui/header/navbar';
-import ContactPage from '../pages/contact/ContactPage';
 import About from '../pages/about';
 import Shop from '../pages/shop/shop';
+import BlogPage from '../pages/blog';
+import BlogDetail from '../pages/blog/BlogDetail';
+import Navbar from '../components/ui/header/navbar';
+import ContactPage from '../pages/contact/ContactPage';
 
-// Layout component to include Navbar on all pages
-const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const MainLayout: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
             <main className="grow">
-                {children}
+                <Outlet />
             </main>
         </div>
     );
@@ -21,10 +22,14 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const AppRoutes: React.FC = () => {
     return (
         <Routes>
-            <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/blog/:id" element={<BlogDetail />} />
+            </Route>
         </Routes>
     );
 };

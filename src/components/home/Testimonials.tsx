@@ -197,12 +197,12 @@ const Testimonials: React.FC = () => {
             <div className="max-w-full mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8">
-                    <div className="bg-[#007ebb] px-8 md:px-12 py-3 md:py-4 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg">
-                        <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tight leading-none">
+                    <div className="bg-[#007ebb] px-8 md:px-8 py-3 md:py-4 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg">
+                        <h2 className="text-3xl md:text-5xl font-imperator text-white tracking-tight leading-none">
                             Testimonial
                         </h2>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-serif text-dark tracking-tight">
+                    <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
                         Our Success Stories
                     </h2>
                 </div>

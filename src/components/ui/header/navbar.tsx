@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
 
     const navLinks = [
-        { name: 'Home', href: '/', active: true },
+        { name: 'Home', href: '/' },
         { name: 'Shop', href: '/shop' },
+        { name: 'Blog', href: '/blog' },
         { name: 'Commercials', href: '#' },
         { name: 'Industry', href: '#' },
         { name: 'Services', href: '#' },
@@ -40,21 +43,27 @@ const Navbar: React.FC = () => {
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center justify-center flex-1">
                             <div className="flex items-baseline space-x-8 lg:space-x-12">
-                                {navLinks.map((link) => (
-                                    <a
-                                        key={link.name}
-                                        href={link.href}
-                                        className={`relative text-[15px] transition-colors duration-200 ${link.active
-                                            ? 'text-black font-semibold'
-                                            : 'text-black font-medium'
-                                            }`}
-                                    >
-                                        {link.name}
-                                        {link.active && (
-                                            <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-black rounded-full" />
-                                        )}
-                                    </a>
-                                ))}
+                                {navLinks.map((link) => {
+                                    const isActive = link.href === '/'
+                                        ? location.pathname === '/'
+                                        : location.pathname.startsWith(link.href) && link.href !== '#';
+
+                                    return (
+                                        <a
+                                            key={link.name}
+                                            href={link.href}
+                                            className={`relative text-[15px] transition-colors duration-200 ${isActive
+                                                ? 'text-black font-semibold'
+                                                : 'text-black font-medium'
+                                                }`}
+                                        >
+                                            {link.name}
+                                            {isActive && (
+                                                <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-black rounded-full" />
+                                            )}
+                                        </a>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -88,19 +97,25 @@ const Navbar: React.FC = () => {
                 {isMenuOpen && (
                     <div className="md:hidden bg-white border-t border-gray-100 animate-in slide-in-from-top duration-300">
                         <div className="px-4 pt-2 pb-6 space-y-1">
-                            {navLinks.map((link) => (
-                                <a
-                                    key={link.name}
-                                    href={link.href}
-                                    className={`block px-3 py-4 text-base border-b border-gray-50 last:border-0 ${link.active
-                                        ? 'text-black font-semibold'
-                                        : 'text-gray-600 hover:text-black hover:bg-gray-50 font-medium'
-                                        }`}
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    {link.name}
-                                </a>
-                            ))}
+                            {navLinks.map((link) => {
+                                const isActive = link.href === '/'
+                                    ? location.pathname === '/'
+                                    : location.pathname.startsWith(link.href) && link.href !== '#';
+
+                                return (
+                                    <a
+                                        key={link.name}
+                                        href={link.href}
+                                        className={`block px-3 py-4 text-base border-b border-gray-50 last:border-0 ${isActive
+                                            ? 'text-black font-semibold'
+                                            : 'text-gray-600 hover:text-black hover:bg-gray-50 font-medium'
+                                            }`}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {link.name}
+                                    </a>
+                                );
+                            })}
                         </div>
                     </div>
                 )}
