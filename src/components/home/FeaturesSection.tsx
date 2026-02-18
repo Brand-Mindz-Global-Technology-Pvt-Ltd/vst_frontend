@@ -80,13 +80,13 @@ const FeaturesSection: React.FC = () => {
         <section className="w-full bg-white py-10 px-4 md:px-8 font-josefin mt-10 mb-16">
             <div className="max-w-[1400px] mx-auto">
                 {/* Heading Layer */}
-                <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
-                    <div className="bg-[#007ebb] px-8 md:px-4 py-3 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg">
-                        <h2 className="text-2xl md:text-4xl font-imperator text-white tracking-tight leading-tight">
+                <div className="flex flex-nowrap items-center justify-center gap-2 md:gap-6 mb-12 overflow-x-hidden">
+                    <div className="bg-[#007ebb] pt-2 pb-1 px-3 sm:px-4 md:pt-4 md:pb-1 md:px-8 rounded-tl-[10px] sm:rounded-tl-[15px] rounded-bl-[10px] sm:rounded-bl-[15px] rounded-tr-[8px] sm:rounded-tr-[10px] shadow-lg whitespace-nowrap shrink-0">
+                        <h2 className="text-2xl sm:text-2xl md:text-4xl lg:text-5xl font-imperator text-white tracking-tight leading-tight">
                             Trusted Purification
                         </h2>
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-imperator text-dark tracking-tight leading-tight">
+                    <h2 className="text-2xl sm:text-2xl md:text-4xl lg:text-5xl font-imperator text-dark tracking-tight leading-tight pt-2 md:pt-4 whitespace-nowrap shrink-0">
                         Smart Technology
                     </h2>
                 </div>
@@ -117,7 +117,7 @@ const FeaturesSection: React.FC = () => {
                     </div>
 
                     {/* Right Column: Complex Multi-Image Carousel */}
-                    <div className="flex flex-col overflow-hidden relative group">
+                    <div className="flex flex-col overflow-hidden relative group rounded-2xl">
                         <div
                             className="flex transition-transform duration-700 ease-in-out"
                             style={{ transform: `translateX(-${currentSet * 100}%)` }}>
@@ -186,17 +186,17 @@ const FeaturesSection: React.FC = () => {
                             ))}
                         </div>
 
-                        {/* Static Navigation Buttons - Positioned consistently */}
-                        <div className="absolute bottom-4 left-6 z-30 flex gap-3 opacity-100 transition-opacity duration-300">
+                        {/* Navigation Buttons - Responsive Positioning */}
+                        <div className="relative mt-6 pb-8 flex justify-center gap-3 md:absolute md:bottom-4 md:left-6 md:mt-0 md:pb-0 md:justify-start z-30">
                             <button
                                 onClick={prevSet}
-                                className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5">
-                                <ChevronFirst size={20} strokeWidth={3} />
+                                className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5 shadow-md">
+                                <ChevronFirst size={24} strokeWidth={2.5} />
                             </button>
                             <button
                                 onClick={nextSet}
-                                className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5">
-                                <ChevronLast size={20} strokeWidth={3} />
+                                className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5 shadow-md">
+                                <ChevronLast size={24} strokeWidth={2.5} />
                             </button>
                         </div>
 

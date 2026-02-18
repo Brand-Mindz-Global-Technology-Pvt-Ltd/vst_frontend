@@ -27,7 +27,7 @@ const categories: Category[] = [
                 name: 'Fiji Aqua Pro',
                 type: 'VV',
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-                image: 'https://images.unsplash.com/photo-1585707348160-24bc0281b37e?q=80&w=2000&auto=format&fit=crop',
+                image: '/assets/home/aqu-banner.png',
                 discount: '40% OFF',
             },
             {
@@ -35,7 +35,7 @@ const categories: Category[] = [
                 name: 'Aqua Guard X',
                 type: 'AG',
                 description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=2074&auto=format&fit=crop',
+                image: '/assets/home/aqu-banner.png',
                 discount: '30% OFF',
             },
             {
@@ -130,12 +130,12 @@ const ProductShowcase: React.FC = () => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
                 <div className="flex flex-col items-center mb-16 px-4">
-                    <div className="flex flex-wrap items-center justify-center gap-6 mb-10">
-                        <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
+                    <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 mb-10 w-full">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator text-dark tracking-tight leading-tight pt-3 md:pt-4 whitespace-nowrap">
                             Choose
                         </h2>
-                        <div className="bg-[#007ebb] px-6 md:px-6 py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg">
-                            <h2 className="text-2xl md:text-4xl font-imperator pt-2 text-white tracking-tight">
+                        <div className="bg-[#007ebb] pt-3 pb-2 px-6 md:pt-4 md:pb-1 md:px-8 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg whitespace-nowrap">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator text-white tracking-tight leading-tight">
                                 Your Pure Solution
                             </h2>
                         </div>
@@ -150,7 +150,7 @@ const ProductShowcase: React.FC = () => {
                                         setActiveTab(cat.id);
                                         setCurrentIndex(0);
                                     }}
-                                    className={`px-4 md:px-10 py-2 md:py-4 rounded-full text-sm md:text-xl font-semibold transition-all duration-300 ${activeTab === cat.id
+                                    className={`px-4 md:px-10 py-2 md:py-4 rounded-full text-md md:text-2xl font-semibold transition-all duration-300 ${activeTab === cat.id
                                         ? 'bg-[#3d3d3d] text-white shadow-xl'
                                         : 'bg-white text-dark hover:text-dark'
                                         }`}>
@@ -171,47 +171,50 @@ const ProductShowcase: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                     {/* Left Column: Featured Banner */}
                     <div className="lg:col-span-4 w-full px-4 md:px-0">
-                        <div className={`relative w-full h-[550px] md:h-[560px] rounded-[15px] md:rounded-[15px] overflow-hidden group transition-all duration-500 ${isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+                        <div className={`relative w-full h-[480px] sm:h-[520px] md:h-[560px] rounded-[15px] md:rounded-[15px] overflow-hidden group transition-all duration-500 ${isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
                             {/* Background Layer with Gradient - Full opacity at top, fades to 20% at bottom */}
                             <div className="absolute inset-0 z-0 bg-[#C8E1EC]"></div>
 
                             {/* Product Name - Top Center */}
                             <div className="absolute top-6 md:top-8 left-0 right-0 text-center z-20">
-                                <h3 className="text-2xl md:text-4xl font-imperator text-[#007ebb]/10 uppercase px-6">
+                                <h3 className="text-2xl sm:text-3xl md:text-4xl font-imperator text-[#ffffff]/80 uppercase px-6">
                                     {featuredProduct.name}
                                 </h3>
                             </div>
 
                             {/* Discount Badge - Top Left */}
-                            <div className="absolute top-8 md:top-18 left-0 z-40">
-                                <div className="bg-[#00cc00] text-white text-[10px] md:text-xs font-bold px-3 md:px-4 py-1.5 rounded-r-full shadow-lg uppercase">
+                            <div className="absolute top-16 md:top-18 left-0 z-40">
+                                <div className="bg-[#00cc00] text-white text-[12px] sm:text-[14px] md:text-sm font-semibold px-3 md:px-3 py-1 rounded-r-[5px] shadow-lg uppercase">
                                     {featuredProduct.discount || "40% OFF"}
                                 </div>
                             </div>
 
                             {/* Product Image Container - Center */}
-                            <div className="absolute inset-0 flex items-center justify-center pt-16 pb-8 px-6 md:px-8 z-10">
+                            <div className="absolute inset-0 flex items-center justify-center pt-12 sm:pt-16 pb-8 px-4 sm:px-6 md:px-8 z-10 w-full h-full">
                                 <div className="relative w-full h-full flex items-center justify-center">
                                     {/* Podium Layer - Behind Product */}
                                     <img
                                         src="/assets/home/podium.webp"
                                         alt="podium"
-                                        className="absolute bottom-[-30px] md:bottom-[-40px] w-[120%] md:w-[120%] max-w-none object-contain select-none pointer-events-none opacity-75 z-0" />
+                                        className="absolute bottom-[-30px] md:bottom-[-120px] lg:bottom-[-40px] w-[110%] md:w-[110%] lg:w-[120%] max-w-none object-contain select-none pointer-events-none opacity-75 z-0" />
 
                                     {/* Product Image - With Enhanced Shadow */}
                                     <img
                                         src={featuredProduct.image}
                                         alt={featuredProduct.name}
-                                        className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-all duration-700 ease-out"
+                                        className="relative bottom-0 sm:bottom-0 md:bottom-8 lg:bottom-4 z-10 w-[280px] h-[280px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[350px] object-contain group-hover:scale-105 transition-all duration-700 ease-out"
                                         style={{
                                             filter: 'drop-shadow(0 25px 35px rgba(0, 0, 0, 0.25)) drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15))'
                                         }} />
                                 </div>
                             </div>
 
+                            {/* White Gradient Overlay - From Bottom to Top */}
+                            <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-linear-to-t from-[#EAF8FF] via-[#EAF8FF]/80 to-transparent z-30 pointer-events-none rounded-b-[15px]"></div>
+
                             {/* See Details Button - Bottom Center */}
                             <div className="absolute bottom-6 md:bottom-4 left-0 right-0 flex justify-center z-40 px-6">
-                                <button className="w-full max-w-[160px] md:max-w-[180px] bg-[#007ebb] text-white py-2 md:py-2.5 rounded-full font-bold shadow-xl hover:bg-dark transition-all transform hover:scale-105 active:scale-95 text-sm md:text-base flex items-center justify-center gap-2">
+                                <button className="w-full max-w-[140px] sm:max-w-[160px] md:max-w-[180px] bg-[#007ebb] text-white py-2 md:py-2.5 rounded-full font-bold shadow-xl hover:bg-dark transition-all transform hover:scale-105 active:scale-95 text-xs sm:text-sm md:text-base flex items-center justify-center gap-2">
                                     See Details
                                 </button>
                             </div>
@@ -256,9 +259,9 @@ const ProductShowcase: React.FC = () => {
                                         <div
                                             key={product.id}
                                             onClick={() => handleProductChange(originalIndex)}
-                                            className="min-w-[190px] md:min-w-[220px] bg-white rounded-[24px] p-5 shadow-sm border border-transparent hover:border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col items-center snap-start relative group/card">
+                                            className="min-w-[190px] md:min-w-[220px] bg-white rounded-[24px] p-5 border border-transparent hover:border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col items-center snap-start relative group/card">
                                             <div className="w-full relative flex justify-center items-center mb-3 px-2">
-                                                <span className="text-sm font-bold text-dark/90 font-imperator truncate max-w-[150px] text-center">
+                                                <span className="text-sm font-bold text-dark font-imperator truncate max-w-[150px] text-center">
                                                     {product.name}
                                                 </span>
                                                 <button
@@ -268,7 +271,7 @@ const ProductShowcase: React.FC = () => {
                                                 </button>
                                             </div>
 
-                                            <div className="aspect-square w-full mb-4 overflow-hidden rounded-2xl bg-[#f8fbff] flex items-center justify-center p-4 relative">
+                                            <div className="aspect-square w-full mb-4 overflow-hidden rounded-2xl flex items-center justify-center p-4 relative">
                                                 <img
                                                     src={product.image}
                                                     className="w-full h-full object-contain transition-transform duration-500 group-hover/card:scale-110"
@@ -276,10 +279,10 @@ const ProductShowcase: React.FC = () => {
                                             </div>
 
                                             <div className="flex w-full gap-2 mt-auto">
-                                                <button className="flex-1 py-2 px-1 pb-1.5 bg-transparent border border-gray-200 rounded-lg text-[11px] font-semibold text-dark hover:bg-gray-200 transition-colors">
+                                                <button className="flex-1 py-1 px-1 pb-1 bg-transparent border border-[#515151] rounded-lg text-[11px] font-semibold text-[#515151] hover:bg-gray-200 transition-colors">
                                                     Add to Cart
                                                 </button>
-                                                <button className="flex-1 py-2 px-1 pb-1.5 bg-[#00cc00] rounded-lg text-[11px] font-semibold text-white hover:bg-green-600 transition-colors">
+                                                <button className="flex-1 py-1 px-1 pb-1 bg-[#00cc00] rounded-lg text-[11px] font-semibold text-white hover:bg-[#1DAC00] transition-colors">
                                                     Buy Now
                                                 </button>
                                             </div>

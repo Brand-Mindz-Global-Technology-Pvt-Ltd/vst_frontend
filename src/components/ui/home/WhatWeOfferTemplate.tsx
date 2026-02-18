@@ -103,12 +103,12 @@ const WhatWeOfferTemplate: React.FC<WhatWeOfferTemplateProps> = ({
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-center items-center mb-12 md:mb-16 relative">
                     <div className="flex items-center gap-2">
-                        <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
+                        <h2 className="text-2xl sm:text-2xl md:text-4xl lg:text-5xl font-imperator text-dark tracking-tight">
                             {titlePrefix}
                         </h2>
                         {/* Perfected Header Box */}
-                        <div className="bg-[#007ebb] px-6 md:px-8 py-2 md:py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg flex items-center justify-center">
-                            <h2 className="pt-2 text-2xl md:text-4xl font-imperator  text-white tracking-tight leading-none text-center">
+                        <div className="bg-[#007ebb] px-4 md:px-4 py-2 md:py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg flex items-center justify-center">
+                            <h2 className="pt-2 text-2xl sm:text-2xl md:text-4xl lg:text-5xl font-imperator  text-white tracking-tight leading-none text-center">
                                 {highlightedTitle}
                             </h2>
                         </div>
