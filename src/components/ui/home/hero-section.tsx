@@ -13,7 +13,7 @@ interface HeroProps {
 const HeroSectionTemplate: React.FC<HeroProps> = ({
     titleStart = "Pure Water",
     titleEnd = "Pure Life",
-    familyImage = "https://images.unsplash.com/photo-1556911220-e150213ff16a?q=80&w=2070&auto=format&fit=crop",
+    familyImage = "/home/hero.webp",
     productImage = "https://images.unsplash.com/photo-1517646281694-3e93d81ca73c?q=80&w=2070&auto=format&fit=crop",
     trustCount = "15K",
     onOrderClick = () => console.log("Order Now clicked"),
@@ -39,59 +39,100 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
             </div>
 
             {/* Main Banner Container */}
+            {/* Main Banner Container */}
             <div className="max-w-[1500px] mx-auto relative px-4 md:px-0">
-                <div className="flex flex-col md:flex-row bg-[#f1f1f1] rounded-tl-[60px] md:rounded-tl-[100px] rounded-br-[60px] md:rounded-br-[100px] rounded-tr-[20px] rounded-bl-[20px] overflow-hidden shadow-xl min-h-[500px] md:min-h-[600px]">
+                <div className="flex flex-col md:flex-row bg-[#f1f1f1] h-[500px] sm:h-[600px] md:h-[650px] rounded-br-[60px] md:rounded-br-[15px] rounded-tl-[50px] rounded-tr-[50px] rounded-bl-[50px] relative overflow-hidden">
 
-                    {/* Left Side: Family & Trust */}
-                    <div className="w-full md:w-[65%] relative overflow-hidden">
-                        <img src={familyImage} alt="Happy Family" className="absolute inset-0 w-full h-full object-cover" />
+                    {/* 1. Full Banner Image (Background) */}
+            <div className=""></div>        <div className="absolute inset-0 z-0">
+                        <img src={familyImage} alt="Happy Family" className="w-full h-full object-cover" />
+                        {/* Right-to-Left Blue Overlay (#00A7FF) */}
+                        <div className="absolute inset-0 bg-gradient-to-l from-[#00A7FF] via-[#00A7FF]/15 to-transparent opacity-90"></div>
+                        {/* Subtle dark overlay for contrast */}
+                        <div className="absolute inset-0 bg-black/5"></div>
+                    </div>
 
-                        {/* Trust Badge - Top Left Floating */}
-                        <div className="absolute top-4 left-4 md:top-8 md:left-8 bg-black/10 backdrop-blur-md rounded-full p-1 md:p-1.5 flex items-center gap-2 md:gap-3 border border-white/20 shadow-lg">
-                            <div className="flex -space-x-2">
-                                {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white/80 overflow-hidden bg-gray-200">
-                                        <img src={`https://i.pravatar.cc/100?img=${i + 15}`} alt="user" className="w-full h-full object-cover" />
+                    {/* 2. Left Side: Content Wrapper (Contains the User's Manual Tab) */}
+                    <div className="w-full md:w-[65%] relative z-10 h-full">
+                        {/* --- RESPONSIVE TOP-LEFT TAB --- */}
+                        <div className="absolute top-0 left-0 z-30">
+                            <div className="relative bg-[#EFEFEF] pt-2 pb-2 md:pt-4 md:pb-4 pl-4 md:pl-6 pr-6 md:pr-10 rounded-br-[30px] md:rounded-br-[50px] rounded-tl-[50px] md:rounded-tl-[10px] flex items-center shadow-sm">
+                                <div className="flex items-center -space-x-2 md:-space-x-4">
+                                    <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full border-[1.5px] md:border-[2px] border-[#222] overflow-hidden z-[1]">
+                                        <img src="https://i.pravatar.cc/100?img=11" alt="U1" className="w-full h-full object-cover" />
                                     </div>
-                                ))}
-                                <div className="w-7 h-7 md:w-10 md:h-10 rounded-full border-2 border-white/80 bg-[#0066b2] flex items-center justify-center text-white text-[9px] md:text-xs font-bold shadow-inner">
-                                    {trustCount}
+                                    <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full border-[1.5px] md:border-[2px] border-[#222] overflow-hidden z-[2]">
+                                        <img src="https://i.pravatar.cc/100?img=12" alt="U2" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full border-[1.5px] md:border-[2px] border-[#222] overflow-hidden z-[3]">
+                                        <img src="https://i.pravatar.cc/100?img=13" alt="U3" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full border-[1.5px] md:border-[2px] border-[#222] overflow-hidden z-[4]">
+                                        <img src="https://i.pravatar.cc/100?img=50" alt="U4" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="w-8 h-8 md:w-10 md:h-10 lg:w-14 lg:h-14 rounded-full border-[1.5px] md:border-[2px] border-[#222] bg-[#0066b2] flex items-center justify-center text-white text-[10px] md:text-xs lg:text-sm font-bold z-[5]">
+                                        {trustCount}
+                                    </div>
+                                </div>
+
+                                {/* Responsive Inverted Curves (Scoops) */}
+                                <div className="absolute top-0 left-full w-6 h-6 md:w-8 md:w-10 h-6 md:h-8 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-tl-[20px] md:rounded-tl-[30px] shadow-[-10px_-10px_0_0_#EFEFEF]"></div>
+                                </div>
+
+                                <div className="absolute top-full left-0 w-6 h-6 md:w-8 md:w-10 h-6 md:h-8 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-tl-[20px] md:rounded-tl-[30px] shadow-[-10px_-10px_0_0_#EFEFEF]"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Right Side: Product & Order */}
-                    <div className="w-full md:w-[35%] relative bg-linear-to-br from-[#00d2ff] to-[#0066b2] flex flex-col items-center justify-center py-16 px-8">
-                        {/* Pedestal Shadow/Effect */}
-                        <div className="absolute bottom-12 md:bottom-20 w-[80%] h-32 bg-white/20 backdrop-blur-3xl rounded-[50%] blur-3xl transform -rotate-6 scale-125"></div>
+                    {/* 3. Right Side: Product Showcase & New Bottom-Right Tab */}
+                    <div className="w-full md:w-[35%] relative z-20 flex flex-col items-center justify-center py-12 md:py-20 px-6 md:px-8 mt-auto md:mt-0">
 
-                        {/* Product Image */}
-                        <div className="relative z-10 w-full flex justify-center">
+                        {/* Responsive Product & Pedestal */}
+                        <div className="relative mb-12 sm:mb-20 md:mb-32 flex flex-col items-center w-full group">
                             <img
                                 src={productImage}
                                 alt="Water Purifier"
-                                className="w-full max-w-[260px] md:max-w-[300px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)]"
+                                className="w-[140px] sm:w-[180px] md:w-[220px] z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.03]"
                             />
+                            <div className="relative -mt-8 sm:-mt-10 md:-mt-22 w-fit">
+                                <div className="w-[140px] sm:w-[180px] md:w-[340px] h-[35px] sm:h-[50px] md:h-[100px] bg-white rounded-[100%] border-b-4 sm:border-b-8 border-gray-300 shadow-2xl z-10 relative"></div>
+                                <div className="w-[140px] sm:w-[180px] md:w-[340px] h-[45px] sm:h-[65px] md:h-[110px] bg-gradient-to-b from-white via-gray-100 to-gray-400 -mt-[20px] sm:-mt-[25px] md:-mt-[50px] rounded-b-[40px] sm:rounded-b-[50px] md:rounded-b-[80px] shadow-inner border-x border-gray-100"></div>
+                            </div>
                         </div>
 
-                        {/* Order Now Button - Floating Bottom Right */}
-                        <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 z-20">
-                            <button
-                                onClick={onOrderClick}
-                                className="bg-black text-white px-8 md:px-12 py-4 md:py-6 rounded-full flex items-center gap-6 text-lg md:text-2xl font-bold transition-transform hover:scale-105 active:scale-95 shadow-2xl group"
-                            >
-                                Order Now
-                                <div className="bg-white text-black rounded-full p-2 group-hover:translate-x-1 transition-transform shadow-inner">
-                                    <ArrowRight size={24} strokeWidth={3} />
+                        {/* --- RESPONSIVE BOTTOM-RIGHT CONCAVE TAB --- */}
+                        <div className="absolute bottom-0 right-0 z-30">
+                            <div className="relative bg-[#EFEFEF] pt-2 pb-1 sm:pt-4 sm:pb-1.5 pl-4 sm:pl-6 md:pl-5 pr-3 sm:pr-4 md:pr-4 rounded-tl-[25px] sm:rounded-tl-[35px] md:rounded-tl-[45px] flex items-center shadow-md">
+
+                                {/* Responsive Mirror Scoops */}
+                                <div className="absolute bottom-0 right-full w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
-                            </button>
+
+                                <div className="absolute right-0 bottom-full w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
+                                </div>
+
+                                {/* Scalable Order Now Button */}
+                                <button
+                                    onClick={onOrderClick}
+                                    className="bg-black text-white py-1 sm:py-1.5 md:py-3 pl-4 sm:pl-6 md:pl-8 pr-1 sm:pr-1.5 md:pr-2 rounded-full flex items-center gap-2 sm:gap-3 md:gap-5 text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight transition-all hover:bg-neutral-800 shadow-sm active:scale-95 group"
+                                >
+                                    Order Now
+                                    <div className="bg-white text-black rounded-full p-1 sm:p-1.5 md:p-4 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
+                                        <ArrowRight size={12} className="sm:w-3 sm:h-3 md:w-5 md:h-5 -rotate-45" strokeWidth={3} />
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Bottom Center Indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-40 md:w-60 h-2 bg-white/30 rounded-full overflow-hidden backdrop-blur-sm shadow-inner border border-white/10">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-40 md:w-60 h-2 bg-white/30 rounded-full overflow-hidden backdrop-blur-sm shadow-inner border border-white/10 z-30">
                     <div className="w-1/2 h-full bg-[#00d2ff] rounded-full"></div>
                 </div>
             </div>

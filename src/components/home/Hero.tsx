@@ -15,8 +15,8 @@ const Hero: React.FC = () => {
         <HeroSectionTemplate
             titleStart="Pure Water"
             titleEnd="Pure Life"
-            familyImage="https://images.unsplash.com/photo-1556911220-e150213ff16a?q=80&w=2070&auto=format&fit=crop"
-            productImage="https://images.unsplash.com/photo-1517646281694-3e93d81ca73c?q=80&w=2070&auto=format&fit=crop"
+            familyImage="/assets/home/hero.webp"
+            productImage="/assets/home/aqu-banner.png"
             trustCount="15K"
             onOrderClick={handleOrderNow}
         />
