@@ -11,17 +11,15 @@ const HighlightContext = createContext<HighlightContextType | undefined>(undefin
 // 2. The Provider
 export const HighlightProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // Initial state is 'header-icon' (The Profile Icon)
-    const [activeId, setActiveId] = useState('header-icon'); 
+    const [activeId, setActiveId] = useState('header-icon');
 
-    // This logic handles the 2-second delay on page load
+    // Initial 2-second delay: stay on profile icon then move to hero heading
     useEffect(() => {
         const timer = setTimeout(() => {
-            // After 2 seconds, change to 'hero-heading'
-            setActiveId('hero-heading'); 
-        }, 1000);
-
-        return () => clearTimeout(timer); // Cleanup
-    }, []); 
+            setActiveId('hero-heading');
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <HighlightContext.Provider value={{ activeId, setActiveId }}>

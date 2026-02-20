@@ -31,10 +31,10 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
     // Auto-scroll, Readiness, and Highlight synchronization
     React.useEffect(() => {
-        // Initial 1s delay to set component as ready
+        // Initial 2s delay to set component as ready (to match the intro highlight delay)
         let readyTimer: ReturnType<typeof setTimeout> | undefined;
         if (!isReady) {
-            readyTimer = setTimeout(() => setIsReady(true), 1000);
+            readyTimer = setTimeout(() => setIsReady(true), 2000);
         }
 
         // 4s interval for auto-sliding
@@ -43,14 +43,11 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
             setRotationY((prev) => prev + 180);
         }, 4000);
 
-        // Keep highlight context synced with current slide
-        setActiveId('hero-heading');
-
         return () => {
             if (readyTimer) clearTimeout(readyTimer);
             clearInterval(scrollTimer);
         };
-    }, [currentIndex, slides.length, setActiveId, isReady]);
+    }, [currentIndex, slides.length, isReady]);
 
     const currentSlide = slides[currentIndex];
 
@@ -87,7 +84,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                     <FloatingHighlight
                         id="hero-heading"
-                        className="text-3xl md:text-5xl text-white font-imperator tracking-tight md:pt-4 px-6 md:px-8 py-1 md:py-2"
+                        className="text-3xl md:text-5xl  font-imperator tracking-tight md:pt-4 px-6 md:px-8 py-1 md:py-2"
                     >
                         {currentSlide.titleEnd}
                     </FloatingHighlight>
