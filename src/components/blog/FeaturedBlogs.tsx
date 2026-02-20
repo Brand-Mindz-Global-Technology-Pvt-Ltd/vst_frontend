@@ -27,7 +27,7 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
     return (
         <div
             onClick={handleCardClick}
-            className={`relative group overflow-hidden rounded-[20px] cursor-pointer shadow-lg transition-all duration-500 hover:shadow-2xl ${isLarge ? 'h-[550px] md:h-[680px]' : 'h-[260px] md:h-[325px]'}`}
+            className={`relative group overflow-hidden rounded-[40px] cursor-pointer transition-all duration-500 hover:shadow-2xl ${isLarge ? 'h-[550px] md:h-[650px]' : 'h-[260px] md:h-[305px]'}`}
         >
             {/* Background Image */}
             <img
@@ -37,16 +37,16 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
             />
 
             {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500 ${isLarge ? 'opacity-100' : 'opacity-90 group-hover:opacity-100'}`}></div>
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500 ${isLarge ? 'opacity-100' : 'opacity-90 group-hover:opacity-100'}`}></div>
 
             {/* Content Container */}
-            <div className={`absolute inset-0 p-6 md:p-10 flex flex-col justify-end ${isLarge ? 'pb-16' : 'pb-10'}`}>
+            <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isLarge ? 'pb-12 md:pb-16' : 'pb-8 md:pb-10'}`}>
                 {/* Tags */}
                 <div className="flex gap-2 mb-4">
                     {blog.tags.map((tag, idx) => (
                         <span
                             key={idx}
-                            className={`px-3 py-1 pt-2 rounded-[5px] text-[11px] font-bold tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-black'}`}
+                            className={`px-3 py-1 pt-2 rounded-[5px] text-[12px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark border border-gray-200'}`}
                         >
                             {tag}
                         </span>
@@ -54,24 +54,24 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
                 </div>
 
                 {/* Title */}
-                <h3 className={`font-semibold text-white leading-tight group-hover:text-[#00abff] transition-colors ${isLarge ? 'text-2xl md:text-4xl max-w-2xl font-josefin' : 'text-xl md:text-2xl line-clamp-2'}`}>
+                <h3 className={`font-josefin text-white leading-tight group-hover:text-[#00abff] transition-colors ${isLarge ? 'text-2xl md:text-5xl max-w-2xl font-semibold' : 'text-lg md:text-xl max-w-md line-clamp-2'}`}>
                     {blog.title}
                 </h3>
 
                 {/* Metadata for Large Card */}
                 {isLarge && (
-                    <div className="flex flex-wrap items-center gap-6 text-white/80 text-[15px]">
+                    <div className="flex flex-wrap items-center mt-6 gap-6 text-white text-[15px]">
                         <div className="flex items-center gap-3">
-                            <img src={blog.author.avatar} alt={blog.author.name} className="w-12 h-12 rounded-full border border-white/30" />
-                            <span className="font-medium text-white">{blog.author.name}, {blog.date}</span>
+                            <img src={blog.author.avatar} alt={blog.author.name} className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30" />
+                            <span className="font-josefin text-sm md:text-base">{blog.author.name}, {blog.date}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <MessageCircle size={18} />
-                            <span>{blog.comments}</span>
+                        <div className="flex items-center gap-2">
+                            <MessageCircle size={24} className="text-white/80" />
+                            <span className="font-josefin text-base md:text-lg">{blog.comments > 0 ? blog.comments : '0'}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <Clock size={18} />
-                            <span>{blog.readTime}</span>
+                        <div className="flex items-center gap-2">
+                            <Clock size={24} className="text-white/80" />
+                            <span className="font-josefin text-base md:text-lg">{blog.readTime}</span>
                         </div>
                     </div>
                 )}
@@ -79,14 +79,19 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
 
             {/* Scooped Button Corner */}
             <div className="absolute bottom-0 right-0 z-10">
-                <div className="relative w-20 h-20 md:w-24 md:h-24 bg-white rounded-tl-[35px] flex items-center justify-center shadow-[-5px_-5px_20px_rgba(0,0,0,0.1)]">
+                <div className={`relative ${isLarge ? 'w-24 h-24 md:w-28 md:h-28' : 'w-16 h-16 md:w-20 md:h-20'} bg-white rounded-tl-[35px] md:rounded-tl-[50px] flex items-center justify-center`}>
+
                     {/* Inverted Radii for smooth curve */}
-                    <div className="absolute -top-[35px] right-0 w-[35px] h-[35px] bg-transparent shadow-[15px_15px_0_15px_#fff] pointer-events-none"></div>
-                    <div className="absolute bottom-0 -left-[35px] w-[35px] h-[35px] bg-transparent shadow-[15px_15px_0_15px_#fff] pointer-events-none"></div>
+                    <div className={`absolute bottom-0 right-full ${isLarge ? 'w-10 h-10' : 'w-6 h-6'} overflow-hidden pointer-events-none`}>
+                        <div className="w-full h-full rounded-br-[10px] shadow-[15px_15px_0_0_#fff]"></div>
+                    </div>
+                    <div className={`absolute bottom-full right-0 ${isLarge ? 'w-10 h-10' : 'w-6 h-6'} overflow-hidden pointer-events-none`}>
+                        <div className="w-full h-full rounded-br-[10px] shadow-[15px_15px_0_0_#fff]"></div>
+                    </div>
 
                     {/* The Button */}
-                    <div className="w-14 h-14 md:w-16 md:h-16 bg-black rounded-full flex items-center justify-center text-white transition-all group-hover:bg-[#007ebb] transform group-hover:rotate-12">
-                        <ArrowUpRight size={28} strokeWidth={2.5} />
+                    <div className={`${isLarge ? 'w-16 h-16 md:w-20 md:h-20' : 'w-10 h-10 md:w-12 md:h-12'} ${isLarge ? 'bg-black' : 'bg-[#00abff]'} rounded-full flex items-center justify-center text-white transition-all hover:bg-[#007ebb] transform active:scale-95`}>
+                        <ArrowUpRight size={isLarge ? 32 : 24} strokeWidth={2.5} />
                     </div>
                 </div>
             </div>
@@ -136,21 +141,21 @@ const FeaturedBlogs: React.FC = () => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Section Header */}
                 <div className="flex items-center justify-center gap-4 mb-14">
-                    <div className="bg-[#007ebb] text-white px-8 py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-4xl font-medium shadow-xl shadow-blue-900/10">
+                    <div className="bg-[#007ebb] font-imperator text-white pt-2 px-8 py-1 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-3xl md:text-4xl lg:text-5xl font-medium shadow-xl shadow-blue-900/10">
                         Main
                     </div>
-                    <h2 className="text-4xl font-josefin text-dark font-medium pt-1">Blog</h2>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark font-medium pt-1">Blog</h2>
                 </div>
 
                 {/* Grid Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    {/* Large Featured Card */}
-                    <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10">
+                    {/* Large Featured Card (Span 7) */}
+                    <div className="lg:col-span-7">
                         <FeaturedBlogCard blog={featuredBlogs[0]} size="large" />
                     </div>
 
-                    {/* Smaller Stacked Cards */}
-                    <div className="flex flex-col gap-10">
+                    {/* Smaller Stacked Cards (Span 5) */}
+                    <div className="lg:col-span-5 flex flex-col gap-8 md:gap-10">
                         <FeaturedBlogCard blog={featuredBlogs[1]} size="small" />
                         <FeaturedBlogCard blog={featuredBlogs[2]} size="small" />
                     </div>

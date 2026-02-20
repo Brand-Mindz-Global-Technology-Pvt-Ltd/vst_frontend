@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { useHighlight } from '../../../context/HighlightContext'; 
-import FloatingHighlight from '../framer/FloatingHighlight'; 
+import { useHighlight } from '../../../context/HighlightContext';
+import FloatingHighlight from '../framer/FloatingHighlight';
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
-    
+
     // Use the global highlight state
     const { activeId } = useHighlight();
 
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
         { name: 'Shop', href: '/shop' },
         { name: 'Blog', href: '/blog' },
         { name: 'Commercials', href: '#' },
-        { name: 'Industry', href: '#' },
+        { name: 'Industry', href: '/industry' },
         { name: 'Services', href: '#' },
     ];
 
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
                                 <ShoppingCart size={22} strokeWidth={1.5} />
                                 <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
                             </button>
-                            
+
                             {/* --- THE HIGHLIGHTED USER PROFILE --- */}
                             <button className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
                                 <FloatingHighlight id="header-icon" boxClassName="rounded-full">

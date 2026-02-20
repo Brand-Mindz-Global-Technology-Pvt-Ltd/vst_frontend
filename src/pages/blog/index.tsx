@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../../components/ui/footer/Footer';
 import BlogHero from '../../components/blog/BlogHero';
 import FeaturedBlogs from '../../components/blog/FeaturedBlogs';
 import LatestBlogs from '../../components/blog/LatestBlogs';
@@ -14,7 +13,6 @@ const BlogPage: React.FC = () => {
                 <LatestBlogs />
                 <AquaTalksSection />
             </main>
-            <Footer />
         </div>
     );
 };

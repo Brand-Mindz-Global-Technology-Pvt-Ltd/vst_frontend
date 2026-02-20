@@ -7,6 +7,8 @@ import BlogPage from '../pages/blog';
 import BlogDetail from '../pages/blog/BlogDetail';
 import Navbar from '../components/ui/header/navbar';
 import ContactPage from '../pages/contact/ContactPage';
+import IndustryPage from '../pages/industry';
+import Footer from '../components/ui/footer/Footer';
 
 const MainLayout: React.FC = () => {
     return (
@@ -15,6 +17,7 @@ const MainLayout: React.FC = () => {
             <main className="grow">
                 <Outlet />
             </main>
+            <Footer />
         </div>
     );
 };
@@ -29,6 +32,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
+                <Route path="/industry" element={<IndustryPage />} />
             </Route>
         </Routes>
     );

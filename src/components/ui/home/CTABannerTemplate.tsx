@@ -40,7 +40,7 @@ const CTABannerTemplate: React.FC<CTABannerTemplateProps> = ({
                 <div className="relative z-10 py-12 md:py-8 px-6 md:px-20 flex flex-col items-center text-center">
                     {/* Icon Container */}
                     {icon && (
-                        <div className="mb-0 animate-bounce">
+                        <div className="mb-0">
                             {icon}
                         </div>
                     )}
