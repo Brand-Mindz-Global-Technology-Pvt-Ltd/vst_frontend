@@ -13,7 +13,7 @@ const Shop: React.FC = () => {
             <main className="grow">
                 <ShopHero />
                 <ScrollingTicker />
-                <TopPicks />
+                <TopPiccks />
                 <ShopMain />
             </main>
         </div>

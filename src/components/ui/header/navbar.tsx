@@ -102,13 +102,13 @@ const Navbar: React.FC = () => {
                             </button>
 
                             {/* --- THE HIGHLIGHTED USER PROFILE --- */}
-                            <button className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
+                            <a href="/profile" className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
                                 <FloatingHighlight id="header-icon" boxClassName="rounded-full">
                                     <div className="p-2">
                                         <User size={22} strokeWidth={1.5} />
                                     </div>
                                 </FloatingHighlight>
-                            </button>
+                            </a>
 
                             {/* Mobile menu button */}
                             <button

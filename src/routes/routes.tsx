@@ -10,6 +10,7 @@ import Navbar from '../components/ui/header/navbar';
 import ContactPage from '../pages/contact/ContactPage';
 import IndustryPage from '../pages/industry';
 import Footer from '../components/ui/footer/Footer';
+import ProfilePage from '../pages/profile/ProfilePage';
 
 const MainLayout: React.FC = () => {
     return (
@@ -35,6 +36,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/industry" element={<IndustryPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Route>
         </Routes>
     );
