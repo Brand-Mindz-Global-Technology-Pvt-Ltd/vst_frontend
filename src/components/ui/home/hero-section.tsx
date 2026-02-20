@@ -25,19 +25,29 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     // 1. Get the control function from our global context
     const { setActiveId } = useHighlight();
 
-    // 2. Trigger the "Flight" from Navbar to Hero
+    const [isReady, setIsReady] = React.useState(false);
+
     React.useEffect(() => {
         const timer = setTimeout(() => {
-            setActiveId('hero-heading');
-        }, 600); // Animation starts 600ms after page load
+            setIsReady(true); 
+            setActiveId('hero-heading'); 
+        }, 1000);
         return () => clearTimeout(timer);
     }, [setActiveId]);
+
+
+
 
     return (
         <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit">
 
             {/* Heading Layer */}
-            <motion.div   onViewportEnter={() => setActiveId('hero-heading')} className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+            <motion.div
+             onViewportEnter={() => {
+                if (isReady) {
+                    setActiveId('hero-heading');
+                }
+            }} className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
                 <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-dark">
                     {titleStart}
                 </h2>
@@ -52,7 +62,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                 {/* Using the Reusable Component */}
                 <FloatingHighlight
                     id="hero-heading"
-                    className="text-3xl md:text-6xl text-white font-imperator tracking-tight px-6 md:px-8 py-1 md:py-2 "
+                    className="text-3xl md:text-6xl font-imperator tracking-tight px-6 md:px-8 py-1 md:py-2 "
                 >
                     {titleEnd}
                 </FloatingHighlight>
