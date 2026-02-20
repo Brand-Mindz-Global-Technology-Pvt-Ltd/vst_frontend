@@ -23,18 +23,31 @@ const FloatingHighlight: React.FC<FloatingHighlightProps> = ({
             {/* The Magic Blue Box */}
             {isActive && (
                 <motion.div
-                    layoutId="shared-blue-box" // This MUST be the same everywhere
-                    className={`absolute inset-0 bg-[#0077B6] ${boxClassName}`}
+                    layoutId="shared-blue-box"
+                    className={`absolute inset-0 bg-[#0077B6] z-110 ${boxClassName}`}
+                    animate={{
+                        // To make it look like a circle (dot) during flight, 
+                        // we MUST round the corners completely while it's moving.
+                        
+                        // Shrink to a small dot
+                        scale: [1, 0.3, 0.3, 1],
+                    }}
                     transition={{
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 25
+                        layout: {
+                            type: "spring",
+                            stiffness: 180,
+                            damping: 24
+                        },
+                        duration: 0.5,
+                        // Stay as a small circle for the entire middle of the journey (0.15 to 0.85)
+                        times: [0, 0.15, 0.85, 1],
+                        ease: "linear"
                     }}
                 />
             )}
 
             {/* The Content (Text or Icon) */}
-            <div className={`relative z-10 flex items-center justify-center transition-colors duration-500 ${isActive ? 'text-white' : ''} ${className}`}>
+            <div className={`relative z-110 flex items-center justify-center transition-colors duration-500 ${isActive ? 'text-white' : ''} ${className}`}>
                 {children}
             </div>
         </div>

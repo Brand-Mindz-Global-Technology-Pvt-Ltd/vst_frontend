@@ -36,11 +36,22 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     }, [slides.length]);
 
     // Update highlight context when slide changes
+    const [isReady, setIsReady] = React.useState(false);
+
     React.useEffect(() => {
         setActiveId('hero-heading');
     }, [currentIndex, setActiveId]);
 
     const currentSlide = slides[currentIndex];
+        const timer = setTimeout(() => {
+            setIsReady(true); 
+            setActiveId('hero-heading'); 
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [setActiveId]);
+
+
+
 
     return (
         <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit overflow-hidden">
@@ -55,6 +66,15 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                 >
                     {currentSlide.titleStart}
                 </motion.h2>
+            <motion.div
+             onViewportEnter={() => {
+                if (isReady) {
+                    setActiveId('hero-heading');
+                }
+            }} className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+                <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-dark">
+                    {titleStart}
+                </h2>
 
                 <div className="relative">
                     <img

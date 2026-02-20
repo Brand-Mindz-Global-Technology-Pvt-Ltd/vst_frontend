@@ -8,9 +8,20 @@ interface HighlightContextType {
 
 const HighlightContext = createContext<HighlightContextType | undefined>(undefined);
 
-// 2. The Provider wraps your whole app (in main.tsx or App.tsx)
+// 2. The Provider
 export const HighlightProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [activeId, setActiveId] = useState('header-icon'); // Starts at the header
+    // Initial state is 'header-icon' (The Profile Icon)
+    const [activeId, setActiveId] = useState('header-icon'); 
+
+    // This logic handles the 2-second delay on page load
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // After 2 seconds, change to 'hero-heading'
+            setActiveId('hero-heading'); 
+        }, 1000);
+
+        return () => clearTimeout(timer); // Cleanup
+    }, []); 
 
     return (
         <HighlightContext.Provider value={{ activeId, setActiveId }}>
@@ -19,7 +30,7 @@ export const HighlightProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     );
 };
 
-// 3. Custom hook to use the highlight easily
+// 3. Custom hook
 export const useHighlight = () => {
     const context = useContext(HighlightContext);
     if (!context) throw new Error('useHighlight must be used within HighlightProvider');
