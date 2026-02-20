@@ -26,32 +26,33 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     const [rotationY, setRotationY] = React.useState(0);
     const { setActiveId } = useHighlight();
 
-    // Auto-scroll logic (4 seconds)
-    React.useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % slides.length);
-            setRotationY((prev) => prev + 180);
-        }, 4000);
-        return () => clearInterval(timer);
-    }, [slides.length]);
-
     // Update highlight context when slide changes
     const [isReady, setIsReady] = React.useState(false);
 
+    // Auto-scroll, Readiness, and Highlight synchronization
     React.useEffect(() => {
+        // Initial 1s delay to set component as ready
+        let readyTimer: ReturnType<typeof setTimeout> | undefined;
+        if (!isReady) {
+            readyTimer = setTimeout(() => setIsReady(true), 1000);
+        }
+
+        // 4s interval for auto-sliding
+        const scrollTimer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % slides.length);
+            setRotationY((prev) => prev + 180);
+        }, 4000);
+
+        // Keep highlight context synced with current slide
         setActiveId('hero-heading');
-    }, [currentIndex, setActiveId]);
+
+        return () => {
+            if (readyTimer) clearTimeout(readyTimer);
+            clearInterval(scrollTimer);
+        };
+    }, [currentIndex, slides.length, setActiveId, isReady]);
 
     const currentSlide = slides[currentIndex];
-        const timer = setTimeout(() => {
-            setIsReady(true); 
-            setActiveId('hero-heading'); 
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, [setActiveId]);
-
-
-
 
     return (
         <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit overflow-hidden">
@@ -59,36 +60,38 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
             {/* Heading Layer */}
             <div className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
                 <motion.h2
-                    key={`title-${currentIndex}`}
+                    key={`title-start-${currentIndex}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-3xl md:text-5xl font-imperator tracking-tight text-dark md:pt-4"
                 >
                     {currentSlide.titleStart}
                 </motion.h2>
-            <motion.div
-             onViewportEnter={() => {
-                if (isReady) {
-                    setActiveId('hero-heading');
-                }
-            }} className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
-                <h2 className="text-3xl md:text-6xl font-imperator tracking-tight text-dark">
-                    {titleStart}
-                </h2>
 
-                <div className="relative">
-                    <img
-                        src={' ./assets/home/water-droplet.webp'}
-                        alt="Water Droplet" className="w-8 h-8 md:w-16 md:h-16" />
-                    <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
-                </div>
-
-                <FloatingHighlight
-                    id="hero-heading"
-                    className="text-3xl md:text-5xl text-white font-imperator tracking-tight md:pt-4 px-6 md:px-8 py-1 md:py-2"
+                <motion.div
+                    onViewportEnter={() => {
+                        if (isReady) {
+                            setActiveId('hero-heading');
+                        }
+                    }}
+                    className="flex items-center gap-2 md:gap-4"
                 >
-                    {currentSlide.titleEnd}
-                </FloatingHighlight>
+                    <div className="relative">
+                        <img
+                            src={'./assets/home/water-droplet.webp'}
+                            alt="Water Droplet"
+                            className="w-8 h-8 md:w-16 md:h-16"
+                        />
+                        <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
+                    </div>
+
+                    <FloatingHighlight
+                        id="hero-heading"
+                        className="text-3xl md:text-5xl text-white font-imperator tracking-tight md:pt-4 px-6 md:px-8 py-1 md:py-2"
+                    >
+                        {currentSlide.titleEnd}
+                    </FloatingHighlight>
+                </motion.div>
             </div>
 
             {/* Main Banner Container */}
