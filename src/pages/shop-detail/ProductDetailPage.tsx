@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Footer from '../../components/ui/footer/Footer';
 import ProductImageSection from '../../components/shop-detail/ProductImageSection';
 import ProductInfoSection from '../../components/shop-detail/ProductInfoSection';
 import ProductFeaturesBar from '../../components/shop-detail/ProductFeaturesBar';
 import AboutProductSection from '../../components/shop-detail/AboutProductSection';
 import CustomerReviewsSection from '../../components/shop-detail/CustomerReviewsSection';
+import RelatedProductsSection from '../../components/shop-detail/RelatedProductsSection';
 
 const ProductDetailPage: React.FC = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
     return (
         <div className="min-h-screen flex flex-col bg-[#EFEFEF]">
             <main className="grow">
@@ -32,6 +40,9 @@ const ProductDetailPage: React.FC = () => {
 
                 {/* Customer Reviews Section */}
                 <CustomerReviewsSection />
+
+                {/* Related Products Section */}
+                <RelatedProductsSection />
             </main>
             <Footer />
         </div>

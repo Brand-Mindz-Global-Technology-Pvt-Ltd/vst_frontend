@@ -8,6 +8,7 @@ import BlogPage from '../pages/blog';
 import BlogDetail from '../pages/blog/BlogDetail';
 import Navbar from '../components/ui/header/navbar';
 import ContactPage from '../pages/contact/ContactPage';
+import ProfilePage from '../pages/profile/ProfilePage';
 
 const MainLayout: React.FC = () => {
     return (
@@ -31,6 +32,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/shop/:id" element={<ProductDetailPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Route>
         </Routes>
     );
