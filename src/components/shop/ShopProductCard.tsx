@@ -1,4 +1,5 @@
 import { Heart, Star, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface ShopProductCardProps {
     id: number;
@@ -12,6 +13,7 @@ interface ShopProductCardProps {
 }
 
 const ShopProductCard: React.FC<ShopProductCardProps> = ({
+    id,
     name,
     image,
     rating,
@@ -20,6 +22,8 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
     originalPrice,
     isLimitedTime
 }) => {
+    const navigate = useNavigate();
+    const handleNavigation = () => navigate(`/shop/${id}`);
     return (
         <div className="bg-white rounded-[15px] p-5 px-3 flex flex-col relative group transition-all duration-300 hover:shadow-2xl border border-transparent hover:border-gray-100 h-full">
             {/* Product Image area with Overlay Actions/Badges */}
@@ -49,13 +53,17 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
                 <img
                     src={image}
                     alt={name}
-                    className="max-h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out z-10 relative bottom-1"
+                    onClick={handleNavigation}
+                    className="max-h-full object-contain group-hover:scale-105 transition-transform duration-700 ease-out z-10 relative bottom-1 cursor-pointer"
                 />
             </div>
 
             {/* Product Details */}
             <div className="flex flex-col grow">
-                <h3 className="text-[14px] md:text-[17px] md:pr-4 text-justify font-josefin font-medium text-black leading-[1.2] mb-2 line-clamp-3 ">
+                <h3
+                    onClick={handleNavigation}
+                    className="text-[14px] md:text-[17px] md:pr-4 text-justify font-josefin font-medium text-black leading-[1.2] mb-2 line-clamp-3 cursor-pointer hover:text-[#007EBB] transition-colors"
+                >
                     {name}
                 </h3>
 
@@ -81,7 +89,10 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
                         <span className="text-2xl text-black font-semibold leading-none">₹{currentPrice}</span>
                         <span className="text-[13px] text-[#646464] line-through decoration-[#FF0000] font-semibold leading-none">₹{originalPrice}</span>
                     </div>
-                    <button className="bg-[#1DAC00] hover:bg-[#259300] text-white text-[13px] font-normal px-4 py-1  rounded-[3px] shadow-md hover:shadow-lg transition-all transform active:scale-95 whitespace-nowrap">
+                    <button
+                        onClick={handleNavigation}
+                        className="bg-[#1DAC00] hover:bg-[#259300] text-white text-[13px] font-normal px-4 py-1  rounded-[3px] shadow-md hover:shadow-lg transition-all transform active:scale-95 whitespace-nowrap"
+                    >
                         Buy Now
                     </button>
                 </div>

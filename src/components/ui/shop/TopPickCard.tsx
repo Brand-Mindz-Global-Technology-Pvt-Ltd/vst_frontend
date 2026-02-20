@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, ShoppingCart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface TopPickCardProps {
     id: number;
@@ -15,6 +16,7 @@ interface TopPickCardProps {
 }
 
 const TopPickCard: React.FC<TopPickCardProps> = ({
+    id,
     name,
     image,
     discount,
@@ -25,6 +27,7 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
     isDetailed,
     onToggle
 }) => {
+    const navigate = useNavigate();
     if (isDetailed) {
         return (
             <div className="relative w-full h-[480px] sm:h-[520px] md:h-[560px] rounded-[15px] overflow-hidden group shadow-xl bg-white flex flex-col border border-gray-100">
@@ -101,7 +104,10 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
                                 <span className="text-[13px] sm:text-[15px] text-[#646464] line-through decoration-[#FF0000] font-josefin leading-none opacity-80 pt-0.5 sm:pt-1">₹{originalPrice}</span>
                             </div>
                         </div>
-                        <button className="bg-[#007EBB] hover:bg-[#006ca1] text-white px-5 sm:px-8 py-1.5 sm:py-2 rounded-xl font-semibold transition-all transform active:scale-95 shadow-md font-josefin text-xs sm:text-sm">
+                        <button
+                            onClick={() => navigate(`/shop/${id}`)}
+                            className="bg-[#007EBB] hover:bg-[#006ca1] text-white px-5 sm:px-8 py-1.5 sm:py-2 rounded-xl font-semibold transition-all transform active:scale-95 shadow-md font-josefin text-xs sm:text-sm"
+                        >
                             Shop Now
                         </button>
                     </div>
