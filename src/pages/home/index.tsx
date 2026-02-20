@@ -7,7 +7,6 @@ import Testimonials from '../../components/home/Testimonials';
 import ProductShowcase from '../../components/home/ProductShowcase';
 import CTABanner from '../../components/home/CTABanner';
 import AquaTalks from '../../components/home/AquaTalks';
-import Footer from '../../components/ui/footer/Footer';
 
 const Home: React.FC = () => {
     return (
@@ -20,7 +19,6 @@ const Home: React.FC = () => {
             <WhatWeOffer />
             <Testimonials />
             <AquaTalks />
-            <Footer />
         </div>
     );
 };

@@ -28,25 +28,25 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
     return (
         <div
             onClick={handleCardClick}
-            className="bg-white rounded-[30px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group cursor-pointer flex flex-col md:flex-row p-4 md:p-6 gap-6 md:gap-8"
+            className="bg-white rounded-[30px] md:rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 group cursor-pointer flex flex-col md:flex-row gap-0"
         >
-            {/* Image Section */}
-            <div className={`shrink-0 rounded-[20px] overflow-hidden ${isLarge ? 'md:w-2/5 aspect-4/3 md:aspect-auto' : 'md:w-[45%] aspect-4/3 md:aspect-auto'}`}>
+            {/* Image Section - Edge to Edge */}
+            <div className={`shrink-0 overflow-hidden ${isLarge ? 'md:w-[45%] aspect-4/3 md:aspect-auto' : 'md:w-[45%] aspect-4/3 md:aspect-auto'}`}>
                 <img
                     src={blog.image}
                     alt={blog.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
             </div>
 
-            {/* Content Section */}
-            <div className="flex flex-col justify-center flex-1 py-1">
+            {/* Content Section - Balanced Padding */}
+            <div className={`flex flex-col justify-center flex-1 ${isLarge ? 'p-8 md:p-10 lg:p-14' : 'p-6 md:p-8'}`}>
                 {/* Tags */}
-                <div className="flex gap-2 mb-4">
+                <div className="flex gap-2 mb-6">
                     {blog.tags.map((tag, idx) => (
                         <span
                             key={idx}
-                            className={`px-4 py-1.5 rounded-lg text-[11px] font-bold tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-black shadow-sm ring-1 ring-gray-100'}`}
+                            className={`px-4 py-1.5 pt-2.5 rounded-lg text-[14px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark shadow-md shadow-[0px_4px_12px_0px_rgba(40,40,80,0.10)]'}`}
                         >
                             {tag}
                         </span>
@@ -54,27 +54,27 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
                 </div>
 
                 {/* Title */}
-                <h3 className={`font-bold text-dark leading-snug group-hover:text-[#007ebb] transition-colors font-josefin mb-4 ${isLarge ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-lg md:text-xl'}`}>
+                <h3 className={`font-semibold text-dark leading-snug group-hover:text-[#007ebb] transition-colors font-josefin mb-3 ${isLarge ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg'}`}>
                     {blog.title}
                 </h3>
 
                 {/* Description */}
-                <p className={`text-gray-500 leading-relaxed mb-6 line-clamp-3 ${isLarge ? 'text-sm md:text-base' : 'text-sm'}`}>
+                <p className={`text-black leading-relaxed font-josefin font-light line-clamp-3 ${isLarge ? 'text-sm md:text-base lg:text-lg mb-8' : 'text-xs md:text-sm mb-4'}`}>
                     {blog.description}
                 </p>
 
                 {/* Metadata */}
-                <div className="flex flex-wrap items-center gap-4 md:gap-6 mt-auto pt-4 border-t border-gray-100 text-gray-500 text-sm">
+                <div className={`flex flex-wrap items-center mt-auto ${isLarge ? 'gap-8 text-base' : 'gap-4 text-sm'} text-black font-josefin`}>
                     <div className="flex items-center gap-3">
-                        <img src={blog.author.avatar} alt={blog.author.name} className="w-10 h-10 rounded-full border border-gray-100 object-cover" />
+                        <img src={blog.author.avatar} alt={blog.author.name} className={`${isLarge ? 'w-10 h-10 md:w-12 md:h-12' : 'w-8 h-8 md:w-10 md:h-10'} rounded-full border border-gray-100 object-cover`} />
                         <span className="font-medium text-dark">{blog.author.name}, {blog.date}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <MessageCircle size={18} />
+                        <MessageCircle size={isLarge ? 24 : 14} className="text-black" />
                         <span>{blog.comments}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Clock size={18} />
+                        <Clock size={isLarge ? 24 : 14} className="text-black" />
                         <span>{blog.readTime}</span>
                     </div>
                 </div>
@@ -130,12 +130,12 @@ const LatestBlogs: React.FC = () => {
     ];
 
     return (
-        <section className="w-full bg-[#f8fcfd] py-16 px-4 md:px-8 font-josefin">
+        <section className="w-full py-16 px-4 md:px-8 font-imperator">
             <div className="max-w-[1400px] mx-auto">
                 {/* Section Header */}
                 <div className="flex items-center justify-center gap-4 mb-16">
-                    <h2 className="text-4xl font-serif text-dark font-medium pt-1">Latest</h2>
-                    <div className="bg-[#007ebb] text-white px-8 py-2.5 rounded-xl text-3xl font-bold font-josefin shadow-xl shadow-blue-900/10 uppercase tracking-tight">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark font-medium pt-1">Latest</h2>
+                    <div className="bg-[#007ebb] font-imperator text-white pt-4 px-8 py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-3xl md:text-4xl lg:text-5xl font-medium shadow-xl shadow-blue-900/10">
                         Blogs
                     </div>
                 </div>

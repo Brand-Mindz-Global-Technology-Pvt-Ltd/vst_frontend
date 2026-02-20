@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../../components/ui/footer/Footer';
 import ContactBanner from '../../components/contactus/ContactBanner';
 import GetInTouch from '../../components/contactus/GetInTouch';
 import CTABanner from '../../components/contactus/CTABanner';
@@ -17,8 +16,6 @@ const ContactPage: React.FC = () => {
                 <ContactTeam />
                 <MapSection />
             </main>
-
-            <Footer />
         </div>
     );
 };

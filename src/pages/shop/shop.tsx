@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../../components/ui/footer/Footer';
 import ShopHero from '../../components/shop/ShopHero';
 import ScrollingTicker from '../../components/ui/shop/ScrollingTicker';
 import TopPicks from '../../components/shop/TopPicks';
@@ -17,8 +16,6 @@ const Shop: React.FC = () => {
                 <TopPiccks />
                 <ShopMain />
             </main>
-
-            <Footer />
         </div>
     );
 };

@@ -3,7 +3,6 @@ import AboutStory from '../../components/about/AboutStory';
 import MissionVision from '../../components/about/MissionVision';
 import MeetFounder from '../../components/about/MeetFounder';
 import ClientExperiences from '../../components/about/ClientExperiences';
-import Footer from '../../components/ui/footer/Footer';
 
 const About: React.FC = () => {
     return (
@@ -15,7 +14,6 @@ const About: React.FC = () => {
                 <MeetFounder />
                 <ClientExperiences />
             </main>
-            <Footer />
         </div>
     );
 };
