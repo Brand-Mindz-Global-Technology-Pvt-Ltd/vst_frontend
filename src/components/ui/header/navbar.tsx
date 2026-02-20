@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { useHighlight } from '../../../context/HighlightContext';
+import { useCart } from '../../../context/CartContext';
+import { useWishlist } from '../../../context/WishlistContext';
 import FloatingHighlight from '../framer/FloatingHighlight';
 
 const Navbar: React.FC = () => {
@@ -9,7 +10,8 @@ const Navbar: React.FC = () => {
     const location = useLocation();
 
     // Use the global highlight state
-    const { activeId } = useHighlight();
+    const { toggleCart, cartCount } = useCart();
+    const { toggleWishlist, wishlistItems } = useWishlist();
 
     const navLinks = [
         { name: 'Home', href: '/' },
@@ -74,12 +76,29 @@ const Navbar: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex items-center gap-4 md:gap-6">
-                            <button className="text-gray-700 hover:text-black transition-colors" aria-label="Wishlist">
+                            <button
+                                onClick={toggleWishlist}
+                                className="text-gray-700 hover:text-black transition-colors relative"
+                                aria-label="Wishlist"
+                            >
                                 <Heart size={22} strokeWidth={1.5} />
+                                {wishlistItems.length > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                                        {wishlistItems.length}
+                                    </span>
+                                )}
                             </button>
-                            <button className="text-gray-700 hover:text-black transition-colors relative" aria-label="Cart">
+                            <button
+                                onClick={toggleCart}
+                                className="text-gray-700 hover:text-black transition-colors relative"
+                                aria-label="Cart"
+                            >
                                 <ShoppingCart size={22} strokeWidth={1.5} />
-                                <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in-50 duration-300">
+                                        {cartCount}
+                                    </span>
+                                )}
                             </button>
 
                             {/* --- THE HIGHLIGHTED USER PROFILE --- */}

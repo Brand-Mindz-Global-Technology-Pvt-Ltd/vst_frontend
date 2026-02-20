@@ -139,7 +139,7 @@ const IndustryCategories: React.FC = () => {
                                 </div>
 
                                 {/* Main Text Content */}
-                                <div className="flex flex-col flex-grow justify-center mt-2 lg:mt-[4.5rem] animate-in fade-in zoom-in-95 duration-500">
+                                <div className="flex flex-col grow justify-center mt-2 lg:mt-18 animate-in fade-in zoom-in-95 duration-500">
                                     {/* Description Paragraph */}
                                     <p className="text-black font-outfit text-sm md:text-[15px] leading-relaxed font-semibold lg:pl-10 mb-6">
                                         {activeData.description}

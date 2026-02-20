@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Jost:ital,wght@0,100..900;1,100..900&family=Roboto:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -6,6 +6,7 @@
   --font-josefin: "Josefin Sans", sans-serif;
   --font-jost: "Jost", sans-serif;
   --font-roboto: "Roboto", sans-serif;
+  --font-alata: "Alata", sans-serif;
   --color-dark: #1a1a1a;
 }
 
