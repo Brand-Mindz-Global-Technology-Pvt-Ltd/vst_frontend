@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Facebook, Instagram, Youtube } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
     return (
@@ -12,25 +12,24 @@ const Footer: React.FC = () => {
             <div className="max-w-[1500px] mx-auto px-6 md:px-12 relative z-10">
                 <div className="flex flex-col lg:flex-row lg:justify-between gap-12 lg:gap-8 pb-16">
                     {/* Brand Section */}
-                    <div className="w-full lg:w-[32%] flex flex-col gap-6">
-                        <div className="bg-white p-4 rounded-[10px] w-fit shadow-lg">
-                            <h2 className="text-[#a50016] font-bold text-xl tracking-tighter flex flex-col leading-none">
-                                V S T MAARKETING
-                                <span className="text-[#007ebb] text-[10px] tracking-widest mt-1">PURIFYING WATER</span>
-                            </h2>
-                        </div>
+                    <div className="w-full lg:w-[32%] flex flex-col gap-6 items-start">
+                        <img
+                            src="/assets/footer/footer-logo.png"
+                            alt="VST Marketing"
+                            className="h-14 md:h-16 w-auto object-contain"
+                        />
                         <p className="text-white text-sm leading-relaxed max-w-[350px]">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                         </p>
                         <div className="flex gap-4 mt-2">
                             <a href="#" className="p-2 transition-transform hover:scale-110">
-                                <Facebook className="w-6 h-6 text-[#1877F2] fill-[#1877F2]" />
+                                <img src="/assets/footer/facebook.svg" alt="Facebook" className="w-6 h-6" />
                             </a>
                             <a href="#" className="p-2 transition-transform hover:scale-110">
-                                <Instagram className="w-6 h-6 text-[#E4405F]" />
+                                <img src="/assets/footer/instagram.svg" alt="Instagram" className="w-6 h-6" />
                             </a>
                             <a href="#" className="p-2 transition-transform hover:scale-110">
-                                <Youtube className="w-6 h-6 text-[#FF0000] fill-[#FF0000]" />
+                                <img src="/assets/footer/youtube.svg" alt="YouTube" className="w-6 h-6" />
                             </a>
                         </div>
                     </div>

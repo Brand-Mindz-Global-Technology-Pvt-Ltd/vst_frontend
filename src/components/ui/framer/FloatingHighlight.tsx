@@ -13,13 +13,13 @@ const FloatingHighlight: React.FC<FloatingHighlightProps> = ({
     id,
     children,
     className = "",
-    boxClassName = "rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px]" 
+    boxClassName = "rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]"
 }) => {
     const { activeId } = useHighlight();
     const isActive = activeId === id;
 
     return (
-        <div className="relative inline-flex items-center justify-center">
+        <div className="relative inline-flex items-center justify-center shrink-0">
             {/* The Magic Blue Box */}
             {isActive && (
                 <motion.div

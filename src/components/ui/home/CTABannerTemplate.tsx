@@ -51,14 +51,14 @@ const CTABannerTemplate: React.FC<CTABannerTemplateProps> = ({
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-lg md:text-xl text-white/80 font-josefin font-light mb-4 max-w-4xl leading-relaxed">
+                    <p className="text-lg md:text-2xl text-white font-josefin font-light mb-4 max-w-4xl leading-relaxed">
                         {subtitle}
                     </p>
 
                     {/* CTA Button */}
                     <button
                         onClick={onButtonClick}
-                        className="bg-white text-dark px-10 py-4 rounded-full font-josefin font-bold shadow-xl hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 active:scale-95 text-lg">
+                        className="bg-white text-dark px-10 py-4 rounded-full font-josefin font-semibold shadow-xl hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 active:scale-95 text-xl">
                         {buttonText}
                     </button>
                 </div>

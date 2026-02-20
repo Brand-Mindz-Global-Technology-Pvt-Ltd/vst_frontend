@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from '../../components/ui/header/navbar';
 import Footer from '../../components/ui/footer/Footer';
 import ContactBanner from '../../components/contactus/ContactBanner';
 import GetInTouch from '../../components/contactus/GetInTouch';
@@ -10,7 +9,6 @@ import MapSection from '../../components/contactus/MapSection';
 const ContactPage: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col bg-[#EFEFEF]">
-            <Navbar />
 
             <main className="grow">
                 <ContactBanner />

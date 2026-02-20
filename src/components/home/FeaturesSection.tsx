@@ -90,18 +90,18 @@ const FeaturesSection: React.FC = () => {
                     // This tells the blue box: "I am visible now, fly to me!"
                     onViewportEnter={() => setActiveId('features-heading')}
                     viewport={{ amount: 0.5 }} // Triggers when half the heading is visible
-                    className="flex flex-wrap items-center justify-center gap-6 mb-12"
+                    className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-12"
                 >
                     {/* Use our reusable component here */}
                     <FloatingHighlight
                         id="features-heading"
                         boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]  shadow-lg"
-                        className="text-2xl md:text-4xl font-imperator tracking-tight leading-tight px-8 md:px-4 py-3"
+                        className="text-2xl sm:text-2xl md:text-4xl font-imperator tracking-tight leading-tight px-6 sm:px-8 md:px-4 py-3"
                     >
                         Trusted Purification
                     </FloatingHighlight>
 
-                    <h2 className="text-2xl md:text-4xl font-imperator text-dark tracking-tight leading-tight">
+                    <h2 className="text-2xl sm:text-2xl md:text-4xl font-imperator text-dark tracking-tight leading-tight text-center">
                         Smart Technology
                     </h2>
                 </motion.div>
@@ -112,7 +112,7 @@ const FeaturesSection: React.FC = () => {
                         {stats.map((stat, index) => (
                             <div
                                 key={index}
-                                className={`${stat.bg} ${stat.text} p-6 md:p-8 rounded-2xl relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-[#007ebb] hover:text-white group border border-black/5`}>
+                                className={`${stat.bg} ${stat.text} p-6 md:p-8 rounded-2xl relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-[#007ebb] hover:text-[#ffffff] group border border-black/5`}>
                                 <div className={`absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center ${stat.iconBg} ${stat.iconColor} group-hover:bg-white group-hover:text-[#007ebb] transition-all duration-300 shadow-sm`}>
                                     {stat.icon}
                                 </div>

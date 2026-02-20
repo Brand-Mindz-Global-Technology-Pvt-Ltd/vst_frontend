@@ -7,7 +7,7 @@ import Footer from '../../components/ui/footer/Footer';
 
 const About: React.FC = () => {
     return (
-        <div className="min-h-screen flex flex-col font-outfit">
+        <div className="bg-[#EFEFEF] min-h-screen flex flex-col font-outfit">
             <main className="grow">
                 <AboutHero />
                 <AboutStory />

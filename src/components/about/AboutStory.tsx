@@ -22,24 +22,24 @@ const AboutStory: React.FC = () => {
         <section className="w-full bg-white py-12 md:py-20 px-4 md:px-8 font-outfit overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
-                <div className="flex items-center justify-center gap-4 mb-12 md:mb-20">
-                    <span className="bg-[#007ebb] text-white px-6 py-2.5 rounded-[12px] text-3xl md:text-5xl font-imperator leading-tight">
+                <div className="flex items-center justify-center gap-4 mb-12 md:mb-16">
+                    <span className="bg-[#007ebb] text-white px-6 py-2.5 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-2xl md:text-4xl font-imperator leading-tight">
                         Our Story
                     </span>
-                    <span className="text-dark text-3xl md:text-5xl font-imperator leading-tight">
+                    <span className="text-dark text-2xl md:text-4xl font-imperator leading-tight">
                         Our Success
                     </span>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-                    {/* Left Content */}
+                    {/* Left Content Area */}
                     <div className="space-y-8">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-imperator text-dark leading-tight tracking-tight">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark leading-tight tracking-tight">
                             Driven by <span className="text-[#007ebb]">Trust</span>,<br />
                             <span className="text-[#007ebb]">Sustained</span> by Service
                         </h2>
 
-                        <div className="space-y-6 text-gray-700 text-base md:text-lg font-jost leading-relaxed max-w-xl">
+                        <div className="space-y-6 text-gray-700 text-base md:text-lg font-jost leading-relaxed max-w-xl text-justify">
                             <p>
                                 Our journey is not just about products; it's about people. The trust of our customers drives us to innovate and deliver solutions that truly make a difference. With a strong service network and customer-first philosophy, we continue to redefine purity, performance, and peace of mind.
                             </p>
@@ -49,49 +49,62 @@ const AboutStory: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Right Content - Image & Overlays */}
+                    {/* Right Content Area - Image & Stats Card */}
                     <div className="relative">
-                        {/* Main Image Container */}
-                        <div className="relative rounded-[40px] overflow-hidden lg:h-[550px]">
-                            <img
-                                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
-                                alt="Our Story Team"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
+                        <div className="relative w-full">
+                            {/* Main Image Container */}
+                            <div className="relative rounded-[40px] overflow-hidden lg:h-[600px]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
+                                    alt="Our Story Team"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/10" />
+                            </div>
 
-                        {/* Stats Box Card Container */}
-                        <div className="absolute -bottom-8 md:-bottom-12 -left-4 md:-left-8 z-20">
-                            <div className="relative">
-                                {/* Thumbs Up Badge - Positioned at Top Right of Content Box */}
-                                <div className="absolute -top-6 -right-6 z-30">
-                                    <div className="bg-[#007ebb] text-white p-4 md:p-6 rounded-full shadow-2xl shadow-blue-900/40">
-                                        <ThumbsUp size={24} strokeWidth={2.5} className="md:w-8 md:h-8" />
+                            {/* --- STATS BOX (Positioned Bottom Left) --- */}
+                            <div className="absolute bottom-0 left-0 z-20">
+                                <div className="relative bg-white p-2 md:p-5 rounded-tr-[40px] md:rounded-tr-[60px] flex flex-col items-center justify-center min-w-[160px] md:min-w-[360px]">
+
+                                    {/* --- SCOOP CORNERS (Inverted Curves) --- */}
+
+                                    {/* Top-Left Scoop (Above the card) */}
+                                    <div className="absolute bottom-full left-0 w-8 h-8 md:w-16 md:h-16 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-bl-[15px] md:rounded-bl-[35px] shadow-[-10px_10px_0_0_white] md:shadow-[-20px_20px_0_0_white]"></div>
                                     </div>
-                                </div>
 
-                                {/* Content Box */}
-                                <div className="bg-[#f0f2f5] p-8 md:p-12 pb-12 md:pb-16 rounded-[30px] md:rounded-[40px] shadow-lg min-w-[200px] md:min-w-[280px]">
-                                    <div className="min-h-[120px] md:min-h-[160px] flex flex-col items-center justify-center text-center space-y-2">
-                                        <h3 className="text-5xl md:text-7xl font-imperator text-dark font-medium leading-none transition-all duration-500 transform">
+                                    {/* Bottom-Right Scoop (To the right of the card) */}
+                                    <div className="absolute bottom-0 left-full w-8 h-8 md:w-16 md:h-16 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-bl-[15px] md:rounded-bl-[35px] shadow-[-10px_10px_0_0_white] md:shadow-[-20px_20px_0_0_white]"></div>
+                                    </div>
+
+                                    {/* Thumbs Up Badge - Floating at top-right corner of card */}
+                                    <div className="absolute -top-5 -right-5 md:-top-10 md:-right-8 z-30">
+                                        <div className="bg-[#007ebb] text-white w-12 h-12 md:w-28 md:h-28 rounded-full shadow-2xl flex items-center justify-center border-[4px] md:border-[10px] border-white">
+                                            <ThumbsUp size={20} strokeWidth={2.5} className="md:w-14 md:h-14 text-white fill-white" />
+                                        </div>
+                                    </div>
+
+                                    {/* Inner Gray Content Box - Highly compact on mobile */}
+                                    <div className="bg-[#f2f4f7] w-full py-5 md:py-14 px-3 md:px-10 rounded-[20px] md:rounded-[45px] flex flex-col items-center justify-center text-center">
+                                        <h3 className="text-3xl md:text-[65px] font-imperator text-dark font-medium leading-none tracking-tight">
                                             {statsData[activeIndex].value}
                                         </h3>
-                                        <p className="text-gray-600 font-jost text-sm md:text-base leading-tight font-medium max-w-[150px] transition-all duration-500">
+                                        <p className="text-dark font-josefin text-[10px] md:text-[22px] leading-tight font-medium max-w-[110px] md:max-w-[280px] mt-1.5 md:mt-4">
                                             {statsData[activeIndex].label}
                                         </p>
                                     </div>
-
-
-                                    {/* Progress Bar at Bottom */}
-                                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[80%] max-w-[200px]">
-                                        <div className="relative h-1.5 bg-gray-300 rounded-full overflow-hidden">
-                                            <div
-                                                className="absolute top-0 left-0 h-full bg-[#007ebb] rounded-full transition-all duration-500"
-                                                style={{ width: `${((activeIndex + 1) / statsData.length) * 100}%` }}
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Progress Bar Container - Positioned at bottom-left area of the column */}
+                        <div className="w-full max-w-[200px] md:max-w-[300px]">
+                            <div className="h-1.5 md:h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-[#007ebb] rounded-full transition-all duration-700 ease-in-out"
+                                    style={{ width: `${((activeIndex + 1) / statsData.length) * 100}%` }}
+                                />
                             </div>
                         </div>
                     </div>

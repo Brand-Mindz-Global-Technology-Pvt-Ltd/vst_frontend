@@ -14,6 +14,7 @@ interface TestimonialData {
     rating: number;
     avatar: string;
     videoThumbnail: string;
+    videoId: string;
 }
 
 const testimonialsData: TestimonialData[] = [
@@ -26,7 +27,8 @@ const testimonialsData: TestimonialData[] = [
         description: "Nam exercitationem commodi et ducimus quia in dolore animi sit mollitia amet id quod eligendi. Et labore harum non nobis ipsum eum molestias et corporis praesentium a laudantium internos. Nam exercitationem commodi et ducimus quia in dolore animi sit mollitia amet id quod eligendi. Et labore harum non nobis ipsum eum molestias.",
         rating: 5,
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop"
+        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop",
+        videoId: "EngW7tLk6R8"
     },
     {
         id: 2,
@@ -37,7 +39,8 @@ const testimonialsData: TestimonialData[] = [
         description: "Excellent service and product quality. The installation was seamless, and the water tastes amazing. Highly recommend to everyone looking for a reliable water purifier. The customer support team is also very responsive and helpful with any queries.",
         rating: 5,
         avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=1727&auto=format&fit=crop"
+        videoThumbnail: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=1727&auto=format&fit=crop",
+        videoId: "EngW7tLk6R8"
     },
     {
         id: 3,
@@ -48,7 +51,8 @@ const testimonialsData: TestimonialData[] = [
         description: "We have been using this for 6 months now. Zero issues. The water quality is tested and it is perfectly safe. The design of the unit also adds a modern look to our kitchen. Very happy with the purchase and the periodic maintenance alerts.",
         rating: 4,
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop"
+        videoThumbnail: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop",
+        videoId: "EngW7tLk6R8"
     },
     {
         id: 4,
@@ -59,7 +63,8 @@ const testimonialsData: TestimonialData[] = [
         description: "The team was very professional. They explained everything clearly and ensured the setup was correct. The water purifier itself is top-notch. I especially like the compact design and the smart features that notify us about filter life.",
         rating: 5,
         avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop"
+        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop",
+        videoId: "EngW7tLk6R8"
     },
     {
         id: 5,
@@ -70,7 +75,8 @@ const testimonialsData: TestimonialData[] = [
         description: "I use this water for my restaurant too. Consistent quality is what I need and that's what I get. The high flow rate is a big plus for busy kitchen hours. Service is prompt and technical team is knowledgeable.",
         rating: 5,
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?q=80&w=1974&auto=format&fit=crop"
+        videoThumbnail: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?q=80&w=1974&auto=format&fit=crop",
+        videoId: "EngW7tLk6R8"
     }
 ];
 
@@ -112,82 +118,95 @@ const Testimonials: React.FC = () => {
                 className={`transition-all duration-1000 ease-in-out cursor-pointer h-full relative shrink-0
                     ${isActive
                         ? 'w-full max-w-3xl z-20 scale-100 opacity-100'
-                        : 'w-full max-w-3xl z-10 scale-90 opacity-20 hidden lg:block'
+                        : 'w-full max-w-3xl z-10 scale-[0.88] opacity-60 hidden lg:block'
                     }
-                    ${position === 'prev' ? 'lg:-translate-x-[25%]' : ''}
-                    ${position === 'next' ? 'lg:translate-x-[25%]' : ''}`}>
-                <div className="bg-white rounded-[15px] md:rounded-[15px] shadow-2xl overflow-hidden grid grid-cols-12 min-h-[350px] md:min-h-[480px] border border-gray-100">
-                    {/* Left: Video Component (Wider column per user request) */}
-                    <div className="col-span-12 md:col-span-5 relative group bg-black overflow-hidden h-full">
-                        {isPlaying === data.id && isActive ? (
-                            <div className="w-full h-full flex items-center justify-center bg-black text-white p-4 text-center italic text-sm">
-                                Video is playing... <br /> (Iframe would load here)
-                            </div>
-                        ) : (
-                            <div className="w-full h-full relative" onClick={(e) => isActive && handleVideoClick(e, data.id)}>
-                                <img
-                                    src={data.videoThumbnail}
-                                    alt="Video Thumbnail"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-black/20"></div>
-                                {/* Play Button Integration */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
-                                        <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center text-dark shadow-xl">
-                                            <Play size={20} fill="currentColor" strokeWidth={3} className="ml-1" />
+                    ${position === 'prev' ? 'lg:-translate-x-0%' : ''}
+                    ${position === 'next' ? 'lg:translate-x-[0%]' : ''}`}>
+                {/* Gradient Border Wrapper */}
+                <div className="rounded-[15px] md:rounded-[15px] p-[2px] bg-linear-to-br from-gray-300 via-gray-200 to-gray-100 shadow-2xl">
+                    <div className="bg-white rounded-[13px] md:rounded-[13px] overflow-hidden grid grid-cols-12 min-h-[350px] md:min-h-[480px]">
+                        {/* Left: Video Component (Wider column per user request) */}
+                        <div className="col-span-12 md:col-span-5 relative group bg-black overflow-hidden h-full min-h-[220px] md:min-h-full aspect-video md:aspect-auto">
+                            {isPlaying === data.id && isActive ? (
+                                <div className="w-full h-full relative">
+                                    <iframe
+                                        className="absolute inset-0 w-full h-full"
+                                        src={`https://www.youtube.com/embed/${data.videoId}?autoplay=1&controls=1`}
+                                        title="User Testimonial Video"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            ) : (
+                                <div className="w-full h-full relative cursor-pointer" onClick={(e) => isActive && handleVideoClick(e, data.id)}>
+                                    <img
+                                        src={data.videoThumbnail}
+                                        alt="Video Thumbnail"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-black/20"></div>
+                                    {/* Play Button Integration */}
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
+                                            <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center text-dark shadow-xl">
+                                                <Play size={20} fill="currentColor" strokeWidth={3} className="ml-1" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Right: Content Area */}
-                    <div className="col-span-12 md:col-span-7 p-8 md:p-10 md:pl-12 flex flex-col relative bg-white">
-                        {/* Quote Icon - Rotated and placed as per design */}
-                        <div className="absolute top-8 right-10 text-gray-100 z-0 select-none">
-                            <Quote size={100} fill="currentColor" className="opacity-50" />
+                            )}
                         </div>
 
-                        <div className="relative z-10 flex flex-col h-full">
-                            {/* User Profile */}
-                            <div className="flex items-center gap-4 mb-6">
-                                <img
-                                    src={data.avatar}
-                                    alt={data.name}
-                                    className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover border-4 border-white shadow-lg"
-                                />
-                                <div>
-                                    <h4 className="text-lg md:text-2xl font-bold text-dark mb-0.5 font-serif">
-                                        {data.name}
-                                    </h4>
-                                    <p className="text-xs md:text-sm text-gray-400 font-medium">
-                                        {data.location}
-                                    </p>
-                                </div>
+                        {/* Right: Content Area */}
+                        <div className="col-span-12 md:col-span-7 p-8 md:p-10 md:pl-12 flex flex-col relative bg-white">
+                            {/* Quote Icon - Rotated and placed as per design */}
+                            <div className="absolute top-24 right-10 rotate-180 text-gray-100 z-0 select-none">
+                                <Quote size={90} fill="currentColor" className="opacity-80" />
                             </div>
 
-                            {/* Testimonial Text */}
-                            <div className="mb-6 grow">
-                                <h3 className="text-lg md:text-xl font-bold text-dark mb-4 tracking-tight leading-tight">
-                                    {data.title}
-                                </h3>
-                                <p className="text-gray-500 text-xs md:text-[14px] leading-relaxed italic font-normal text-justify max-w-xl">
-                                    "{data.description}"
-                                </p>
-                            </div>
-
-                            {/* Ratings */}
-                            <div className="flex items-center gap-1 mt-auto pt-6 border-t border-gray-50">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star
-                                        key={i}
-                                        size={18}
-                                        fill={i < data.rating ? "#FFB800" : "none"}
-                                        className={i < data.rating ? "text-[#FFB800]" : "text-gray-200"}
+                            <div className="relative z-10 flex flex-col h-full">
+                                {/* User Profile (Top) */}
+                                <div className="flex items-center gap-4 mb-2">
+                                    <img
+                                        src={data.avatar}
+                                        alt={data.name}
+                                        className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shadow-lg"
                                     />
-                                ))}
+                                    <div>
+                                        <h4 className="text-lg md:text-2xl font-semibold text-dark mb-0.5 font-josfins">
+                                            {data.name}
+                                        </h4>
+                                        <p className="text-xs md:text-sm text-black font-medium font-josfins">
+                                            {data.location}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Flexible Spacer to push following content to bottom */}
+                                <div className="flex-1"></div>
+
+                                {/* Testimonial Text (Bottom) */}
+                                <div className="mt-auto">
+                                    <h3 className="text-lg md:text-2xl font-semibold text-dark mb-4 tracking-tight leading-tight font-josfins">
+                                        {data.title}
+                                    </h3>
+                                    <p className="text-black text-xs md:text-[16px] leading-relaxed font-normal text-start max-w-xl font-jost opacity-90">
+                                        "{data.description}"
+                                    </p>
+
+                                    {/* Ratings (Bottom-most) */}
+                                    <div className="flex items-center gap-1 mt-4 pt-4">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star
+                                                key={i}
+                                                size={18}
+                                                fill={i < data.rating ? "#FFB800" : "none"}
+                                                className={i < data.rating ? "text-[#FFB800]" : "text-gray-200"}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -203,16 +222,16 @@ const Testimonials: React.FC = () => {
                 <motion.div
                     onViewportEnter={() => setActiveId('testimonials-heading')}
                     viewport={{ amount: 0.5 }}
-                    className="flex flex-col md:flex-row items-center justify-center gap-4 mb-20 px-8"
+                    className="flex flex-nowrap items-center justify-center gap-2 sm:gap-4 mb-20 px-4 sm:px-8"
                 >
                     <FloatingHighlight
                         id="testimonials-heading"
-                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] rounded-br-[5px] shadow-lg"
-                        className="text-3xl md:text-5xl font-imperator tracking-tight leading-none px-8 md:px-8 py-3 md:py-4"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[5px] shadow-lg"
+                        className="text-2xl sm:text-2xl md:text-4xl font-imperator tracking-tight leading-none px-4 sm:px-8 py-3 md:py-4"
                     >
                         Testimonial
                     </FloatingHighlight>
-                    <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
+                    <h2 className="text-2xl sm:text-2xl md:text-4xl font-imperator text-dark tracking-tight whitespace-nowrap">
                         Our Success Stories
                     </h2>
                 </motion.div>

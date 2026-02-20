@@ -137,21 +137,19 @@ const ProductShowcase: React.FC = () => {
                     <motion.div
                         onViewportEnter={() => setActiveId('product-showcase-heading')}
                         viewport={{ amount: 0.5 }}
-                        className="flex flex-wrap items-center justify-center gap-6 mb-10"
-                    >
-                        <h2 className="text-3xl md:text-5xl font-imperator text-dark tracking-tight">
+                        className="flex flex-nowrap items-center justify-center gap-6 mb-10">
+                        <h2 className="pt-4 text-2xl sm:text-3xl md:text-4xl font-imperator text-dark tracking-tight">
                             Choose
                         </h2>
                         <FloatingHighlight
                             id="product-showcase-heading"
                             boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg"
-                            className="text-2xl md:text-4xl font-imperator tracking-tight px-6 md:px-6 pt-2 pb-2"
-                        >
+                            className="text-2xl sm:text-3xl md:text-4xl font-imperator tracking-tight px-6 md:px-6 pt-4 pb-2">
                             Your Pure Solution
                         </FloatingHighlight>
                     </motion.div>
 
-                    <div className="w-full flex flex-col md:flex-row items-center justify-center gap-6 relative max-w-5xl mx-auto">
+                    <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-6 relative max-w-5xl mx-auto">
                         <div className="flex flex-wrap items-center justify-center bg-white rounded-3xl md:rounded-full border border-black/5">
                             {categories.map((cat) => (
                                 <button
@@ -169,7 +167,7 @@ const ProductShowcase: React.FC = () => {
                             ))}
                         </div>
 
-                        <div className="md:absolute md:right-[-60px] lg:right-[-100px]">
+                        <div className="lg:absolute lg:right-[-100px]">
                             <button className="bg-[#007ebb] text-white px-6 py-2 rounded-full font-semibold hover:bg-dark transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base">
                                 See More
                             </button>
@@ -223,8 +221,8 @@ const ProductShowcase: React.FC = () => {
                             <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 bg-linear-to-t from-[#EAF8FF] via-[#EAF8FF]/80 to-transparent z-30 pointer-events-none rounded-b-[15px]"></div>
 
                             {/* See Details Button - Bottom Center */}
-                            <div className="absolute bottom-6 md:bottom-4 left-0 right-0 flex justify-center z-40 px-6">
-                                <button className="w-full max-w-[140px] sm:max-w-[160px] md:max-w-[180px] bg-[#007ebb] text-white py-2 md:py-2.5 rounded-full font-bold shadow-xl hover:bg-dark transition-all transform hover:scale-105 active:scale-95 text-xs sm:text-sm md:text-base flex items-center justify-center gap-2">
+                            <div className="absolute bottom-6 md:bottom-10 left-0 right-0 flex justify-center z-40 px-6">
+                                <button className="w-full max-w-[140px] sm:max-w-[160px] md:max-w-[180px] bg-[#007ebb] text-white py-2 md:py-2.5 rounded-full font-semibold shadow-xl hover:bg-dark transition-all transform hover:scale-105 active:scale-95 text-xs sm:text-sm md:text-lg flex items-center justify-center gap-2">
                                     See Details
                                 </button>
                             </div>
