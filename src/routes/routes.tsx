@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from 'react-router-dom';
 import Home from '../pages/home';
 import About from '../pages/about';
 import Shop from '../pages/shop/shop';
+import Commercial from '../pages/shop/commercial';
 import ProductDetailPage from '../pages/shop-detail/ProductDetailPage';
 import BlogPage from '../pages/blog';
 import BlogDetail from '../pages/blog/BlogDetail';
@@ -32,6 +33,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/shop" element={<Shop />} />
+                <Route path="/commercial" element={<Commercial />} />
                 <Route path="/shop/:id" element={<ProductDetailPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
