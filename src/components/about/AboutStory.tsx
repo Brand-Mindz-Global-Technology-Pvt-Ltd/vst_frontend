@@ -65,7 +65,7 @@ const AboutStory: React.FC = () => {
                     <div className="relative">
                         <div className="relative w-full">
                             {/* Main Image Container */}
-                            <div className="relative rounded-[25px] overflow-hidden border-4 md:border-10 border-white">
+                            <div className="relative rounded-[25px] overflow-hidden border-4 md:border-10 border-white shadow-2xl">
                                 <img
                                     src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
                                     alt="Our Story Team"

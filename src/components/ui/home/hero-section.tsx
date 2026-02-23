@@ -232,23 +232,23 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                         {/* --- ORDER NOW BUTTON TAB --- */}
                         <div className="absolute bottom-0 right-0 z-40">
-                            <div className="relative bg-[#EFEFEF] pt-6 pb-2 pl-6 pr-4 rounded-tl-[40px] shadow-[-10px_-10px_20px_rgba(0,0,0,0.05)] flex items-center">
+                            <div className="relative bg-[#EFEFEF] pt-2 pb-1 sm:pt-4 sm:pb-1.5 pl-4 sm:pl-6 md:pl-5 pr-3 sm:pr-4 md:pr-4 rounded-tl-[25px] sm:rounded-tl-[35px] md:rounded-tl-[45px] flex items-center shadow-md">
 
                                 {/* Mirror Scoops for the Tab */}
-                                <div className="absolute bottom-0 right-full w-10 h-10 overflow-hidden pointer-events-none">
-                                    <div className="w-full h-full rounded-br-[30px] shadow-[15px_15px_0_0_#EFEFEF]"></div>
+                                <div className="absolute bottom-0 right-full w-8 h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
-                                <div className="absolute right-0 bottom-full w-10 h-10 overflow-hidden pointer-events-none">
-                                    <div className="w-full h-full rounded-br-[30px] shadow-[15px_15px_0_0_#EFEFEF]"></div>
+                                <div className="absolute right-0 bottom-full w-8 h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                    <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
 
                                 <button
                                     onClick={onOrderClick}
-                                    className="bg-black text-white py-2 pl-6 pr-1.5 rounded-full flex items-center gap-4 text-lg md:text-xl font-medium transition-all hover:bg-neutral-800 active:scale-95 group"
+                                    className="bg-black text-white py-1.5 md:py-3 pl-4 sm:pl-8 pr-1.5 md:pr-2 rounded-full flex items-center gap-3 md:gap-5 text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight transition-all hover:bg-neutral-800 shadow-sm active:scale-95 group"
                                 >
                                     Order Now
-                                    <div className="bg-white text-black rounded-full p-2 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
-                                        <ArrowRight size={18} className="-rotate-45" strokeWidth={3} />
+                                    <div className="bg-white text-black rounded-full p-1 sm:p-1.5 md:p-4 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
+                                        <ArrowRight size={12} className="sm:w-3 sm:h-3 md:w-5 md:h-5 -rotate-45" strokeWidth={3} />
                                     </div>
                                 </button>
                             </div>
