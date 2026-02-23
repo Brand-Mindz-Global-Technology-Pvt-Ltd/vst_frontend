@@ -13,25 +13,40 @@ const BlogHero: React.FC = () => {
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&auto=format&fit=crop",
     ];
 
+    const [isReady, setIsReady] = React.useState(false);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => setIsReady(true), 2000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    React.useEffect(() => {
+        if (isReady) {
+            setActiveId('blog-hero');
+        }
+    }, [isReady, setActiveId]);
+
     return (
-        <section className="w-full py-12 px-4 md:px-8 font-josefin">
+        <section className="w-full py-12 pt-2 md:pt-1 px-4 md:px-8 font-josefin">
             <div className="max-w-[1400px] mx-auto">
 
                 <motion.div
-                    onViewportEnter={() => setActiveId('blog-hero')}
+                    onViewportEnter={() => {
+                        if (isReady) setActiveId('blog-hero');
+                    }}
                     viewport={{ amount: 0.5 }}
-                    className="flex items-center justify-center mb-10"
+                    className="flex items-center justify-center mb-9"
                 >
-                    <h1 className="text-4xl md:text-5xl lg:text-5xl font-imperator text-dark tracking-tight flex items-center gap-1 md:gap-2">
+                    <h1 className="text-3xl md:text-6xl  lg:text-6xl font-imperator text-dark tracking-tight flex items-center gap-1 md:gap-2">
                         <span>Pure Water</span>
                         <span className="flex items-center justify-center px-1 md:px-2">
                             <img
                                 src="/assets/home/water-droplet.webp"
-                                alt="Droplet" className="w-10 h-10 md:w-16 md:h-16 object-contain translate-y-[-2px]" />
+                                alt="Droplet" className="w-10 h-10 md:w-20 md:h-20 object-contain translate-y-[-2px]" />
                         </span>
                         <FloatingHighlight
                             id="blog-hero"
-                            className="text-white px-5 md:px-8 py-2 md:py-3 leading-none text-3xl md:text-5xl lg:text-5xl"
+                            className="px-5 md:px-8 py-2 md:py-1 md:mt-2 leading-none text-3xl md:text-5xl lg:text-5xl"
                             boxClassName="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px]"
                         >
                             Pure Life
@@ -49,7 +64,14 @@ const BlogHero: React.FC = () => {
                     />
 
                     {/* Dark Overlay for text legibility */}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500"></div>
+                    <motion.div
+                        animate={{
+                            background: `linear-gradient(to left, #00A7FF, #00A7FF59, transparent)`
+                        }}
+                        transition={{ duration: 0.8 }}
+                        className="absolute inset-0 z-0 opacity-40 group-hover:opacity-30 transition-opacity duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors duration-500"></div>
 
                     {/* Blog Title Overlay */}
                     <div className="absolute bottom-10 left-10 md:bottom-16 md:left-28 z-10">
