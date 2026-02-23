@@ -124,7 +124,7 @@ const Testimonials: React.FC = () => {
                     ${position === 'next' ? 'lg:translate-x-[0%]' : ''}`}>
                 {/* Gradient Border Wrapper */}
                 <div className="rounded-[15px] md:rounded-[15px] p-[2px] bg-linear-to-br from-gray-300 via-gray-200 to-gray-100 shadow-2xl">
-                    <div className="bg-white rounded-[13px] md:rounded-[13px] overflow-hidden grid grid-cols-12 min-h-[350px] md:min-h-[480px]">
+                    <div className="bg-white rounded-[13px] md:rounded-[13px] overflow-hidden grid grid-cols-12 min-h-[520px] md:min-h-[480px]">
                         {/* Left: Video Component (Wider column per user request) */}
                         <div className="col-span-12 md:col-span-5 relative group bg-black overflow-hidden h-full min-h-[220px] md:min-h-full aspect-video md:aspect-auto">
                             {isPlaying === data.id && isActive ? (
@@ -270,7 +270,7 @@ const Testimonials: React.FC = () => {
                 </div>
 
                 {/* Fixed Carousel with Half-Hidden side cards */}
-                <div className="relative w-full flex justify-center items-center overflow-visible px-4 md:px-0 h-[400px] md:h-[520px]">
+                <div className="relative w-full flex justify-center items-center overflow-visible px-4 md:px-0 h-[580px] md:h-[520px]">
                     {displayedTestimonials.map((item) => (
                         <TestimonialCard key={`${item.data.id}-${item.position}`} {...item} />
                     ))}

@@ -111,7 +111,7 @@ const TopPicks: React.FC = () => {
         <section
             ref={containerRef}
             onClick={handleSectionClick}
-            className="w-full bg-[#EAF8FF] py-8 sm:py-12 md:py-20 overflow-hidden"
+            className="w-full bg-[#EAF8FF] py-8 md:mt-7 sm:py-12 md:py-20 overflow-hidden"
         >
             {/* Header Area - Edge to Edge */}
             <div className="flex items-center justify-between mb-8 md:mb-16 w-full">

@@ -55,12 +55,12 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
         <section className="w-full bg-[#EFEFEF] py-8 md:py-6 px-4 md:px-8 font-outfit overflow-hidden">
 
             {/* Heading Layer */}
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-8 md:mb-12">
+            <div className="flex items-center justify-center gap-1.5 md:gap-4 mb-8 md:mb-12 flex-nowrap whitespace-nowrap px-2">
                 <motion.h2
                     key={`title-start-${currentIndex}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-3xl md:text-5xl font-imperator tracking-tight text-dark md:pt-4"
+                    className="text-2xl sm:text-3xl md:text-6xl font-imperator tracking-tight text-dark md:pt-4"
                 >
                     {currentSlide.titleStart}
                 </motion.h2>
@@ -71,20 +71,20 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                             setActiveId('hero-heading');
                         }
                     }}
-                    className="flex items-center gap-2 md:gap-4"
+                    className="flex items-center gap-1.5 md:gap-4"
                 >
-                    <div className="relative">
+                    <div className="relative shrink-0">
                         <img
                             src={'./assets/home/water-droplet.webp'}
                             alt="Water Droplet"
-                            className="w-8 h-8 md:w-16 md:h-16"
+                            className="w-6 h-6 sm:w-8 sm:h-8 md:w-16 md:h-16"
                         />
                         <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
                     </div>
 
                     <FloatingHighlight
                         id="hero-heading"
-                        className="text-3xl md:text-5xl  font-imperator tracking-tight md:pt-4 px-6 md:px-8 py-1 md:py-2"
+                        className="text-2xl sm:text-3xl md:text-6xl font-imperator tracking-tight md:pt-4 px-4 sm:px-6 md:px-8 py-0.5 md:py-2"
                     >
                         {currentSlide.titleEnd}
                     </FloatingHighlight>
@@ -257,7 +257,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                 </div>
 
                 {/* Bottom Pagination (Cumulative Segmented Progress Bar) */}
-                <div className="absolute bottom-0 left-24 md:bottom-6 md:left-1/2 md:-translate-x-1/2 w-32 md:w-48 h-1 md:h-1.5 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm z-30 flex">
+                <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 md:bottom-6 md:-translate-x-1/2 w-32 md:w-48 h-1 md:h-1.5 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm z-30 flex">
                     {slides.map((_, index) => (
                         <div key={index} className="flex-1 relative h-full bg-white/10">
                             {/* Previous segments already filled */}
