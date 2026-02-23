@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Droplets, Users, MapPin, Clock, ChevronFirst, ChevronLast, ArrowUpRight } from 'lucide-react';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
@@ -69,23 +69,63 @@ const imageSets = [
 ];
 
 const FeaturesSection: React.FC = () => {
-    const [currentSet, setCurrentSet] = useState(0);
-
     const { setActiveId } = useHighlight();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isPaused, setIsPaused] = useState(false);
 
-    const nextSet = () => {
-        setCurrentSet((prev) => (prev + 1) % imageSets.length);
+    // Duplicate sets for seamless looping
+    const scrollingSets = [...imageSets, ...imageSets];
+
+    // Smooth continuous scroll logic
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer) return;
+
+        let animationFrameId: number;
+        let lastTimestamp = 0;
+        const scrollSpeed = 0.5; // Pixels per frame
+
+        const step = (timestamp: number) => {
+            if (!lastTimestamp) lastTimestamp = timestamp;
+            const delta = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
+
+            if (!isPaused && scrollContainer) {
+                scrollContainer.scrollLeft += scrollSpeed * (delta / 16.67);
+
+                // Seamless loop: when reaches half-way, reset to start
+                const halfWidth = scrollContainer.scrollWidth / 2;
+                if (scrollContainer.scrollLeft >= halfWidth) {
+                    scrollContainer.scrollLeft -= halfWidth;
+                }
+            }
+
+            animationFrameId = requestAnimationFrame(step);
+        };
+
+        animationFrameId = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [isPaused]);
+
+    const handleNext = () => {
+        if (scrollRef.current) {
+            // Best practice: scroll by the approximate width of one item
+            const itemWidth = window.innerWidth < 768 ? window.innerWidth - 32 : (window.innerWidth < 1024 ? 600 : 712);
+            scrollRef.current.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
     };
 
-    const prevSet = () => {
-        setCurrentSet((prev) => (prev - 1 + imageSets.length) % imageSets.length);
+    const handlePrev = () => {
+        if (scrollRef.current) {
+            const itemWidth = window.innerWidth < 768 ? window.innerWidth - 32 : (window.innerWidth < 1024 ? 600 : 712);
+            scrollRef.current.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+        }
     };
 
     return (
-        <section className="w-full bg-white py-10 px-4 md:px-8 font-josefin mt-10 mb-16">
+        <section className="w-full bg-white py-10 px-4 md:px-8 font-josefin mt-10 mb-16 overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
                 {/* Heading Layer */}
-                {/* NEW UPDATED HEADING LAYER */}
                 <motion.div
                     // This tells the blue box: "I am visible now, fly to me!"
                     onViewportEnter={() => setActiveId('features-heading')}
@@ -95,7 +135,7 @@ const FeaturesSection: React.FC = () => {
                     {/* Use our reusable component here */}
                     <FloatingHighlight
                         id="features-heading"
-                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]  shadow-lg"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-lg"
                         className="text-2xl sm:text-2xl md:text-4xl font-imperator tracking-tight leading-tight px-6 sm:px-8 md:px-4 py-3"
                     >
                         Trusted Purification
@@ -131,13 +171,22 @@ const FeaturesSection: React.FC = () => {
                         ))}
                     </div>
 
-                    {/* Right Column: Complex Multi-Image Carousel */}
-                    <div className="flex flex-col overflow-hidden relative group rounded-2xl">
+                    {/* Right Column: Complex Multi-Image Carousel with Continuous Scroll */}
+                    <div
+                        onMouseEnter={() => setIsPaused(true)}
+                        onMouseLeave={() => setIsPaused(false)}
+                        className="relative group rounded-2xl overflow-hidden"
+                    >
                         <div
-                            className="flex transition-transform duration-700 ease-in-out"
-                            style={{ transform: `translateX(-${currentSet * 100}%)` }}>
-                            {imageSets.map((set, index) => (
-                                <div key={index} className="w-full shrink-0">
+                            ref={scrollRef}
+                            className="flex overflow-x-auto no-scrollbar pointer-events-auto cursor-grab active:cursor-grabbing"
+                            style={{ scrollSnapType: 'none' }}
+                        >
+                            {scrollingSets.map((set, setIndex) => (
+                                <div
+                                    key={setIndex}
+                                    className="w-[calc(100vw-32px)] md:w-[600px] lg:w-[680px] shrink-0 px-2 lg:px-4"
+                                >
                                     {set.layout === 'standard' ? (
                                         <div className="relative grid grid-cols-12 gap-4 h-full md:h-[400px]">
                                             {/* Feature 1: Top Banner */}
@@ -204,20 +253,20 @@ const FeaturesSection: React.FC = () => {
                         {/* Navigation Buttons - Responsive Positioning */}
                         <div className="relative mt-6 pb-8 flex justify-center gap-3 md:absolute md:bottom-4 md:left-6 md:mt-0 md:pb-0 md:justify-start z-30">
                             <button
-                                onClick={prevSet}
+                                onClick={handlePrev}
                                 className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5 shadow-md">
-                                <ChevronFirst size={24} strokeWidth={2.5} />
+                                <ChevronFirst size={20} strokeWidth={2.5} />
                             </button>
                             <button
-                                onClick={nextSet}
+                                onClick={handleNext}
                                 className="bg-[#EFEFEF] backdrop-blur-sm text-dark p-3 rounded-full hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-105 border border-black/5 shadow-md">
-                                <ChevronLast size={24} strokeWidth={2.5} />
+                                <ChevronLast size={20} strokeWidth={2.5} />
                             </button>
                         </div>
 
                         {/* Central Floating Action Button - Positioned exactly at intersection */}
-                        <div className="absolute top-[200px] left-[58.33%] -translate-x-1/2 -translate-y-1/2 z-30 hidden md:block group-hover:scale-110 transition-transform duration-300">
-                            <button className="bg-[#007ebb] text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all shadow-[#007ebb]/40">
+                        <div className="absolute top-[200px] left-[58.33%] -translate-x-1/2 -translate-y-1/2 z-30 hidden md:block group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+                            <button className="bg-[#007ebb] text-white p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all shadow-[#007ebb]/40 pointer-events-auto">
                                 <ArrowUpRight size={28} strokeWidth={3} />
                             </button>
                         </div>

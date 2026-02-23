@@ -54,12 +54,12 @@ const Footer: React.FC = () => {
                             Customer Support
                         </h3>
                         <ul className="flex flex-col gap-4 text-white text-sm">
-                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">FAQs</a></li>
+                            {/* <li><a href="#" className="hover:text-[#007ebb] transition-colors">FAQs</a></li>
                             <li><a href="#" className="hover:text-[#007ebb] transition-colors">Warranty Registration</a></li>
-                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">Installation Request</a></li>
-                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">Service Booking</a></li>
-                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">Return & Refund Policy</a></li>
-                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" className="hover:text-[#007ebb] transition-colors">Installation Request</a></li> */}
+                            <li><a href="/terms-conditions" className="hover:text-[#007ebb] transition-colors">Terms & Conditions</a></li>
+                            <li><a href="/cookie-policy" className="hover:text-[#007ebb] transition-colors">Cookie Policy</a></li>
+                            <li><a href="/privacy-policy" className="hover:text-[#007ebb] transition-colors">Privacy Policy</a></li>
                         </ul>
                     </div>
 
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
             {/* Copyright Bar */}
             <div className="w-full bg-[#000000] py-6">
                 <div className="max-w-[1500px] mx-auto px-6 text-center text-sm text-white font-medium">
-                    2023 VST Purifier | All Rights Reserved
+                    Copyright © 2026 VST, All rights reserved. Made with ❤ by Brand Mindz.
                 </div>
             </div>
         </footer>
