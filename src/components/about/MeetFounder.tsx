@@ -50,7 +50,7 @@ const MeetFounder: React.FC = () => {
                         </div>
 
                         {/* Checkmark Badge Container (Bottom Right Cutout) */}
-                        <div className="absolute bottom-0 right-13 z-20">
+                        <div className="absolute bottom-0 right-0 md:right-13 lg:right-11 z-20">
                             <div className="bg-white p-2 md:p-4 pt-4 md:pt-8 pl-4 md:pl-8 rounded-tl-[40px] md:rounded-tl-[60px] relative shadow-[-4px_-4px_10px_rgba(0,0,0,0.02)]">
                                 {/* Responsive Inverted Curves (Scoops) - Corner design like hero banner */}
                                 <div className="absolute bottom-0 right-full w-8 h-8 md:w-14 md:h-14 overflow-hidden pointer-events-none">
