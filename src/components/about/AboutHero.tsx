@@ -7,6 +7,7 @@ const AboutHero: React.FC = () => {
             title="About Us"
             logoText1="Legacy of"
             logoText2="Purity"
+            highlightId="about-hero"
             image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80"
             avatars={[
                 "https://i.pravatar.cc/150?u=1",

@@ -1,6 +1,9 @@
 import React from 'react';
 import { MessageCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface BlogMetadata {
     id: number | string;
@@ -46,7 +49,7 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
                     {blog.tags.map((tag, idx) => (
                         <span
                             key={idx}
-                            className={`px-4 py-1.5 pt-2.5 rounded-lg text-[14px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark shadow-md shadow-[0px_4px_12px_0px_rgba(40,40,80,0.10)]'}`}
+                            className={`px-4 py-1.5 pt-2.5 rounded-lg text-[14px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark shadow-md'}`}
                         >
                             {tag}
                         </span>
@@ -84,6 +87,7 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
 };
 
 const LatestBlogs: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const latestBlogs: BlogMetadata[] = [
         {
             id: 1,
@@ -133,12 +137,20 @@ const LatestBlogs: React.FC = () => {
         <section className="w-full py-16 px-4 md:px-8 font-imperator">
             <div className="max-w-[1400px] mx-auto">
                 {/* Section Header */}
-                <div className="flex items-center justify-center gap-4 mb-16">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark font-medium pt-1">Latest</h2>
-                    <div className="bg-[#007ebb] font-imperator text-white pt-4 px-8 py-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-3xl md:text-4xl lg:text-5xl font-medium shadow-xl shadow-blue-900/10">
+                <motion.div
+                    onViewportEnter={() => setActiveId('latest-blogs')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-4 mb-16"
+                >
+                    <h2 className="text-3xl md:text-4xl lg:text-4xl font-imperator text-dark font-medium pt-1">Latest</h2>
+                    <FloatingHighlight
+                        id="latest-blogs"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-xl shadow-blue-900/10"
+                        className="pt-3 px-8 py-2 text-3xl md:text-4xl lg:text-4xl font-medium"
+                    >
                         Blogs
-                    </div>
-                </div>
+                    </FloatingHighlight>
+                </motion.div>
 
                 {/* Grid Layout */}
                 <div className="flex flex-col gap-10">

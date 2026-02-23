@@ -28,7 +28,7 @@ const FloatingHighlight: React.FC<FloatingHighlightProps> = ({
                     animate={{
                         // To make it look like a circle (dot) during flight, 
                         // we MUST round the corners completely while it's moving.
-                        
+
                         // Shrink to a small dot
                         scale: [1, 0.3, 0.3, 1],
                     }}

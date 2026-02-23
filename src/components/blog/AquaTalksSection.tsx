@@ -1,7 +1,10 @@
 import React from 'react';
 import AquaTalksTemplate, { type BlogData } from '../ui/home/AquaTalksTemplate';
+import { useHighlight } from '../../context/HighlightContext';
+import { motion } from 'framer-motion';
 
 const AquaTalksSection: React.FC = () => {
+    const { setActiveId } = useHighlight();
     // This data can be fetched from an API in the future to make it dynamic
     const aquaTalksBlogs: BlogData[] = [
         {
@@ -35,9 +38,12 @@ const AquaTalksSection: React.FC = () => {
     ];
 
     return (
-        <section className="bg-white">
+        <motion.section
+            onViewportEnter={() => setActiveId('aqua-talks-heading')}
+            className="bg-white"
+        >
             <AquaTalksTemplate blogs={aquaTalksBlogs} />
-        </section>
+        </motion.section>
     );
 };
 

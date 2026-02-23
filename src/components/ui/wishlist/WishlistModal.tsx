@@ -28,11 +28,11 @@ const WishlistModal: React.FC = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={toggleWishlist}
-                        className="fixed inset-0 bg-black/50 z-[500] backdrop-blur-sm"
+                        className="fixed inset-0 bg-black/50 z-500 backdrop-blur-sm"
                     />
 
                     {/* Modal Container */}
-                    <div className="fixed inset-0 z-[501] flex items-center justify-center p-4 md:p-6 pointer-events-none font-alata">
+                    <div className="fixed inset-0 z-501 flex items-center justify-center p-4 md:p-6 pointer-events-none font-jost">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -42,7 +42,7 @@ const WishlistModal: React.FC = () => {
                         >
                             {/* Header */}
                             <div className="bg-[#007ebb] text-white p-4 md:p-5 flex justify-between items-center shrink-0">
-                                <h2 className="text-xl md:text-3xl font-imperator font-medium tracking-tight">Wishlist</h2>
+                                <h2 className="text-xl md:text-3xl font-josefin font-medium tracking-tight">Wishlist</h2>
                                 <button onClick={toggleWishlist} className="hover:scale-110 transition-transform">
                                     <X size={24} strokeWidth={2.5} />
                                 </button>
@@ -52,7 +52,7 @@ const WishlistModal: React.FC = () => {
                             <div className="p-4 md:p-6 flex gap-3 shrink-0 overflow-x-auto no-scrollbar bg-gray-50/30">
                                 <button
                                     onClick={() => setActiveFilter('in')}
-                                    className={`px-6 py-1.5 rounded-lg font-medium text-base transition-all shadow-sm ${activeFilter === 'in'
+                                    className={`px-6 py-1.5 rounded-lg font-josefin font-medium text-base transition-all shadow-sm ${activeFilter === 'in'
                                         ? 'bg-[#007ebb] text-white shadow-md'
                                         : 'bg-white text-[#007ebb] border border-[#007ebb]/20'
                                         }`}
@@ -61,7 +61,7 @@ const WishlistModal: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={() => setActiveFilter('out')}
-                                    className={`px-6 py-1.5 rounded-lg font-medium text-base transition-all shadow-sm ${activeFilter === 'out'
+                                    className={`px-6 py-1.5 rounded-lg font-josefin font-medium text-base transition-all shadow-sm ${activeFilter === 'out'
                                         ? 'bg-[#007ebb] text-white shadow-md'
                                         : 'bg-white text-[#007ebb] border border-[#007ebb]/20'
                                         }`}
@@ -121,7 +121,7 @@ const WishlistModal: React.FC = () => {
 
                                                 {/* Info */}
                                                 <div className="flex flex-col grow font-josefin p-3 pt-0">
-                                                    <h3 className="text-[11px] md:text-xs font-medium text-dark line-clamp-2 mb-1.5 leading-snug min-h-[2.2rem]">
+                                                    <h3 className="text-[11px] md:text-xs font-josefin font-medium text-dark line-clamp-2 mb-1.5 leading-snug min-h-[2.2rem]">
                                                         {item.name}
                                                     </h3>
 
@@ -144,12 +144,12 @@ const WishlistModal: React.FC = () => {
                                                     {/* Price and CTA */}
                                                     <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-50">
                                                         <div className="flex flex-col">
-                                                            <span className="text-sm md:text-base font-bold text-dark">₹{item.price.toLocaleString()}</span>
+                                                            <span className="text-sm md:text-base font-bold font-imperator text-dark">₹{item.price.toLocaleString()}</span>
                                                             {item.originalPrice && (
-                                                                <span className="text-[10px] text-gray-400 line-through">₹{item.originalPrice.toLocaleString()}</span>
+                                                                <span className="text-[10px] text-gray-400 font-imperator line-through">₹{item.originalPrice.toLocaleString()}</span>
                                                             )}
                                                         </div>
-                                                        <button className="bg-[#24ac11] text-white px-3 py-1 rounded-md text-[10px] font-bold hover:bg-black transition-colors whitespace-nowrap">
+                                                        <button className="bg-[#24ac11] text-white px-3 py-1 rounded-md text-[10px] font-alata font-bold hover:bg-black transition-colors whitespace-nowrap">
                                                             Buy Now
                                                         </button>
                                                     </div>
@@ -160,8 +160,7 @@ const WishlistModal: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* Footer */}
-                            <div className="p-4 md:p-6 bg-white border-t border-gray-100 shrink-0">
+                            <div className="p-4 md:p-6 bg-white border-t border-gray-100 shrink-0 font-alata">
                                 <button className="w-full bg-[#007ebb] text-white py-3 rounded-xl font-bold text-lg hover:bg-black transition-all transform active:scale-95 shadow-md">
                                     Buy now
                                 </button>

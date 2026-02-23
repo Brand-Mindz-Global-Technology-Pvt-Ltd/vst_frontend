@@ -1,6 +1,9 @@
 import React from 'react';
 import { ArrowUpRight, MessageCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface BlogMetadata {
     id: number | string;
@@ -37,7 +40,7 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
             />
 
             {/* Gradient Overlay */}
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500 ${isLarge ? 'opacity-100' : 'opacity-90 group-hover:opacity-100'}`}></div>
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
             {/* Content Container */}
             <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isLarge ? 'pb-12 md:pb-16' : 'pb-8 md:pb-10'}`}>
@@ -54,7 +57,7 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
                 </div>
 
                 {/* Title */}
-                <h3 className={`font-josefin text-white leading-tight group-hover:text-[#00abff] transition-colors ${isLarge ? 'text-2xl md:text-5xl max-w-2xl font-semibold' : 'text-lg md:text-xl max-w-md line-clamp-2'}`}>
+                <h3 className={`font-josefin text-white leading-tight group-hover:text-[#00abff] transition-colors ${isLarge ? 'text-2xl md:text-4xl max-w-2xl font-semibold' : 'text-lg md:text-xl max-w-md line-clamp-2'}`}>
                     {blog.title}
                 </h3>
 
@@ -100,6 +103,7 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
 };
 
 const FeaturedBlogs: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const featuredBlogs: BlogMetadata[] = [
         {
             id: 1,
@@ -140,12 +144,20 @@ const FeaturedBlogs: React.FC = () => {
         <section className="w-full bg-[#ffffff] py-16 px-4 md:px-8 font-josefin">
             <div className="max-w-[1400px] mx-auto">
                 {/* Section Header */}
-                <div className="flex items-center justify-center gap-4 mb-14">
-                    <div className="bg-[#007ebb] font-imperator text-white pt-2 px-8 py-1 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-3xl md:text-4xl lg:text-5xl font-medium shadow-xl shadow-blue-900/10">
+                <motion.div
+                    onViewportEnter={() => setActiveId('featured-blogs')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-4 mb-14"
+                >
+                    <FloatingHighlight
+                        id="featured-blogs"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] shadow-xl shadow-blue-900/10"
+                        className="pt-2 px-8 py-1 text-3xl md:text-4xl lg:text-4xl font-medium font-imperator"
+                    >
                         Main
-                    </div>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark font-medium pt-1">Blog</h2>
-                </div>
+                    </FloatingHighlight>
+                    <h2 className="text-3xl md:text-4xl lg:text-4xl font-imperator text-dark font-medium pt-1">Blog</h2>
+                </motion.div>
 
                 {/* Grid Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10">

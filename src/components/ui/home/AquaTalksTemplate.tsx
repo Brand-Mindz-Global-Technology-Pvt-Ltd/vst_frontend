@@ -36,12 +36,12 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                         viewport={{ amount: 0.5 }}
                         className="flex items-center gap-2"
                     >
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-imperator text-dark tracking-tight flex items-center gap-3">
+                        <h2 className="text-2xl md:text-4xl lg:text-4xl font-imperator text-dark tracking-tight flex items-center gap-3">
                             Aqua
                             <FloatingHighlight
                                 id="aqua-talks-heading"
                                 boxClassName="rounded-tl-[15px] rounded-bl-[15px]"
-                                className="px-4 pt-2 pb-1.5 flex items-center justify-center leading-none">
+                                className="px-4 pt-3 pb-1.5 flex items-center justify-center leading-none">
                                 Talks
                             </FloatingHighlight>
                         </h2>

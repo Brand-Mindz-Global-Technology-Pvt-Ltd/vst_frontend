@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ThumbsUp } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const AboutStory: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const [activeIndex, setActiveIndex] = useState(0);
 
     const statsData = [
@@ -22,14 +26,22 @@ const AboutStory: React.FC = () => {
         <section className="w-full bg-white py-12 md:py-20 px-4 md:px-8 font-outfit overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
-                <div className="flex items-center justify-center gap-4 mb-12 md:mb-16">
-                    <span className="bg-[#007ebb] text-white px-6 py-2.5 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-2xl md:text-4xl font-imperator leading-tight">
+                <motion.div
+                    onViewportEnter={() => setActiveId('about-story')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-4 mb-12 md:mb-16"
+                >
+                    <FloatingHighlight
+                        id="about-story"
+                        className="px-6 py-2.5 text-2xl md:text-4xl font-imperator leading-tight"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]"
+                    >
                         Our Story
-                    </span>
+                    </FloatingHighlight>
                     <span className="text-dark text-2xl md:text-4xl font-imperator leading-tight">
                         Our Success
                     </span>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
                     {/* Left Content Area */}
@@ -53,7 +65,7 @@ const AboutStory: React.FC = () => {
                     <div className="relative">
                         <div className="relative w-full">
                             {/* Main Image Container */}
-                            <div className="relative rounded-[40px] overflow-hidden lg:h-[600px]">
+                            <div className="relative rounded-[25px] overflow-hidden border-4 md:border-10 border-white shadow-2xl">
                                 <img
                                     src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
                                     alt="Our Story Team"
@@ -80,7 +92,7 @@ const AboutStory: React.FC = () => {
 
                                     {/* Thumbs Up Badge - Floating at top-right corner of card */}
                                     <div className="absolute -top-5 -right-5 md:-top-10 md:-right-8 z-30">
-                                        <div className="bg-[#007ebb] text-white w-12 h-12 md:w-28 md:h-28 rounded-full shadow-2xl flex items-center justify-center border-[4px] md:border-[10px] border-white">
+                                        <div className="bg-[#007ebb] text-white w-12 h-12 md:w-28 md:h-28 rounded-full shadow-2xl flex items-center justify-center border-4 md:border-10 border-white">
                                             <ThumbsUp size={20} strokeWidth={2.5} className="md:w-14 md:h-14 text-white fill-white" />
                                         </div>
                                     </div>

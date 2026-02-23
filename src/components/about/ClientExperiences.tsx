@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, Quote } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface Testimonial {
     id: number;
@@ -42,6 +45,7 @@ const testimonials: Testimonial[] = [
 ];
 
 const ClientExperiences: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const [activeIndex, setActiveIndex] = useState(1); // Default to Arun (index: 1)
 
     const handleNext = () => {
@@ -66,16 +70,24 @@ const ClientExperiences: React.FC = () => {
 
             <div className="max-w-[1400px] mx-auto relative z-10">
                 {/* Section Header - Styled as per image */}
-                <div className="flex items-center justify-center gap-4 mb-8 md:mb-10">
+                <motion.div
+                    onViewportEnter={() => setActiveId('client-experiences')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-4 mb-8 md:mb-10"
+                >
                     <span className="text-white text-3xl md:text-4xl lg:text-4xl font-imperator leading-tight">
                         Client
                     </span>
-                    <div className="bg-white px-6 py-2 md:py-3 rounded-lg shadow-sm">
-                        <span className="text-[#007ebb] text-3xl md:text-4xl lg:text-4xl font-imperator leading-tight">
+                    <div className="bg-white rounded-lg shadow-sm">
+                        <FloatingHighlight
+                            id="client-experiences"
+                            className="text-[#007ebb] px-6 py-2 md:py-3 text-3xl md:text-4xl lg:text-4xl font-imperator leading-tight"
+                            boxClassName="rounded-lg shadow-sm"
+                        >
                             Experiences
-                        </span>
+                        </FloatingHighlight>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Main Card with light white opacity reduced background */}
                 <div className="relative w-full min-h-[340px] lg:min-h-[420px] rounded-[20px] overflow-hidden shadow-2xl border border-white/20">

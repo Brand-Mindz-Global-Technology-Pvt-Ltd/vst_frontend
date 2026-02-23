@@ -1,7 +1,11 @@
 import React from 'react';
 import { Facebook, Instagram } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const GetInTouch: React.FC = () => {
+    const { setActiveId } = useHighlight();
     // Redirection and content data
     const data = {
         image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=2070&auto=format&fit=crop",
@@ -36,23 +40,31 @@ const GetInTouch: React.FC = () => {
 
                             {/* Bottom Right Social Cutout */}
                             <div className="absolute bottom-0 right-0 z-20">
-                                <div className="bg-white pt-6 pl-5 pb-2 pr-4 rounded-tl-[50px] relative">
+                                <div className="bg-white pt-4 sm:pt-6 pl-5 sm:pl-8 pb-2 sm:pb-3 pr-2 sm:pr-4 rounded-tl-[35px] sm:rounded-tl-[45px] relative">
+                                    {/* Responsive Mirror Scoops (Inverted Corners) */}
+                                    <div className="absolute bottom-0 right-full w-6 h-6 sm:w-10 sm:h-10 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[40px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
+                                    </div>
 
-                                    {/* Social Box */}
-                                    <div className="bg-black py-4 px-8 rounded-[25px] flex items-center gap-8 shadow-xl">
+                                    <div className="absolute right-0 bottom-full w-6 h-6 sm:w-10 sm:h-10 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[40px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
+                                    </div>
+
+                                    {/* Social Box - Black Pill */}
+                                    <div className="bg-black py-2.5 sm:py-6 px-6 sm:px-10 rounded-full flex items-center gap-6 sm:gap-10 shadow-xl">
                                         {data.socials.map((link, index) => (
                                             <a
                                                 key={index}
                                                 href={link.href}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-white hover:text-[#007ebb] transition-colors transform hover:scale-110"
+                                                className="text-white hover:text-[#007ebb] transition-colors transform hover:scale-110 flex items-center justify-center"
                                                 aria-label={link.label}
                                             >
-                                                <span className="block w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7">
+                                                <span className="block w-6 h-6 sm:w-6 lg:w-7">
                                                     {/* Clone icon with responsive sizes */}
-                                                    {React.cloneElement(link.icon, {
-                                                        className: `${link.icon.props.className || ''} w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8`
+                                                    {React.cloneElement(link.icon as React.ReactElement<{ className?: string }>, {
+                                                        className: `${(link.icon as React.ReactElement<{ className?: string }>).props.className || ''} w-full h-full`
                                                     })}
                                                 </span>
                                             </a>
@@ -65,16 +77,25 @@ const GetInTouch: React.FC = () => {
 
                     {/* Right Column - Content (40% width) */}
                     <div className="w-full lg:w-[35%] flex flex-col gap-6">
-                        <div className="space-y-0">
+                        <motion.div
+                            onViewportEnter={() => setActiveId('get-in-touch')}
+                            viewport={{ amount: 0.5 }}
+                            className="space-y-0"
+                        >
                             <h2 className="text-4xl md:text-5xl lg:text-5xl font-imperator tracking-tight leading-tight">
                                 <span className="text-black">Get </span>
                                 <span className="text-[#0077B6]">in -</span>
                             </h2>
-                            <h2 className="text-4xl md:text-5xl lg:text-5xl font-imperator tracking-tight leading-tight">
-                                <span className="text-[#0077B6]">Touch </span>
+                            <h2 className="text-4xl md:text-5xl lg:text-5xl font-imperator tracking-tight leading-tight flex items-center gap-2">
+                                <FloatingHighlight
+                                    id="get-in-touch"
+                                    className="text-[#0077B6] pt-2 px-2 font-imperator"
+                                >
+                                    Touch
+                                </FloatingHighlight>
                                 <span className="text-black">with us</span>
                             </h2>
-                        </div>
+                        </motion.div>
 
                         <p className="text-black text-base sm:text-lg md:text-xl leading-relaxed font-josefin font-medium opacity-80 max-w-full md:max-w-[600px] text-justify">
                             {data.description}

@@ -1,19 +1,31 @@
 import React from 'react';
 import { Eye, Target } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const MissionVision: React.FC = () => {
+    const { setActiveId } = useHighlight();
     return (
         <section className="w-full bg-[#f4faff] mt-12 mb-12 py-16 md:py-16 px-4 md:px-8 font-outfit overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
                 {/* Header Section */}
-                <div className="flex items-center justify-center gap-4 mb-16 md:mb-8">
+                <motion.div
+                    onViewportEnter={() => setActiveId('mission-vision')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-4 mb-16 md:mb-8"
+                >
                     <span className="text-dark text-2xl md:text-4xl lg:text-4xl font-imperator leading-tight">
                         Our Mission
                     </span>
-                    <span className="bg-[#007ebb] text-white px-6 py-2 pt-3 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px] text-2xl md:text-4xl lg:text-4xl font-imperator leading-tight">
+                    <FloatingHighlight
+                        id="mission-vision"
+                        className="px-6 py-2 pt-3 text-2xl md:text-4xl lg:text-4xl font-imperator leading-tight"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]"
+                    >
                         & Vision
-                    </span>
-                </div>
+                    </FloatingHighlight>
+                </motion.div>
 
                 {/* Main Content Area - Unified Responsive Path */}
                 <div className="relative w-full overflow-hidden rounded-[10px] shadow-2xl">
@@ -25,8 +37,8 @@ const MissionVision: React.FC = () => {
                             className="w-full h-full object-cover"
                         />
                         {/* Inner Shadows for depth */}
-                        <div className="absolute inset-y-0 left-0 w-24 md:w-48 bg-gradient-to-r from-black/70 to-transparent z-10" />
-                        <div className="absolute inset-y-0 right-0 w-24 md:w-48 bg-gradient-to-l from-black/70 to-transparent z-10" />
+                        <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-linear-to-r from-transparent to-black opacity-60" />
+                        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-linear-to-l from-transparent to-black opacity-60" />
 
                         {/* General dark overlay for text contrast */}
                         <div className="absolute inset-0 bg-black/30 z-0" />

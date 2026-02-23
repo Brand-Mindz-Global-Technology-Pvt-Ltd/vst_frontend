@@ -15,8 +15,10 @@ export interface CartItem {
 
 interface CartContextType {
     isCartOpen: boolean;
+    isCheckoutOpen: boolean;
     cartItems: CartItem[];
     toggleCart: () => void;
+    toggleCheckout: () => void;
     addToCart: (item: CartItem) => void;
     removeFromCart: (id: string | number) => void;
     updateQuantity: (id: string | number, quantity: number) => void;
@@ -36,6 +38,7 @@ export const useCart = () => {
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     // Mock data based on design
     const [cartItems, setCartItems] = useState<CartItem[]>([
         {
@@ -65,6 +68,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     ]);
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
+    const toggleCheckout = () => setIsCheckoutOpen(!isCheckoutOpen);
 
     const addToCart = (item: CartItem) => {
         setCartItems(prev => {
@@ -91,8 +95,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return (
         <CartContext.Provider value={{
             isCartOpen,
+            isCheckoutOpen,
             cartItems,
             toggleCart,
+            toggleCheckout,
             addToCart,
             removeFromCart,
             updateQuantity,

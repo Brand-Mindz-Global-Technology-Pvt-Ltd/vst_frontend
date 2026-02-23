@@ -23,6 +23,7 @@ const ContactBanner: React.FC = () => {
             image={bannerData.image}
             logoText1={bannerData.logoText1}
             logoText2={bannerData.logoText2}
+            highlightId="contact-hero"
             phoneRedirection={bannerData.phoneRedirection}
             avatars={bannerData.avatars}
         />

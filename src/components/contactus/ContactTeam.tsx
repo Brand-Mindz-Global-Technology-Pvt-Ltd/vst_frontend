@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Phone, MapPin, MessageCircle, Calendar, Clock } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const ContactTeam: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -27,16 +31,22 @@ const ContactTeam: React.FC = () => {
             <div className="max-w-[1500px] mx-auto px-6 md:px-12">
 
                 {/* Header */}
-                <div className="flex items-center justify-center gap-3 mb-8">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark tracking-tight font-normal">
+                <motion.div
+                    onViewportEnter={() => setActiveId('contact-team')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-3 mb-8"
+                >
+                    <h2 className="pt-2 text-3xl md:text-4xl lg:text-4xl font-imperator text-dark tracking-tight font-normal">
                         Contact
                     </h2>
-                    <div className="bg-[#007ebb] px-4 py-2 rounded-tr-[15px] rounded-br-[15px] rounded-tl-[10px]">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-white tracking-tight font-normal">
-                            Our Team
-                        </h2>
-                    </div>
-                </div>
+                    <FloatingHighlight
+                        id="contact-team"
+                        className="pt-4 px-4 py-2 text-3xl md:text-4xl lg:text-4xl font-imperator tracking-tight font-normal"
+                        boxClassName="rounded-tr-[15px] rounded-br-[15px] rounded-tl-[10px]"
+                    >
+                        Our Team
+                    </FloatingHighlight>
+                </motion.div>
 
                 {/* Main White Container */}
                 <div className="bg-white rounded-[15px] shadow-xl overflow-hidden p-6 md:p-12">

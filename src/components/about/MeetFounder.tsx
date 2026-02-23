@@ -1,19 +1,31 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const MeetFounder: React.FC = () => {
+    const { setActiveId } = useHighlight();
     return (
         <section className="w-full bg-white py-16 md:py-12 px-4 md:px-8 font-outfit overflow-hidden">
             <div className="max-w-[1400px] mx-auto">
                 {/* Section Header */}
-                <div className="flex items-center justify-center gap-2 mb-4 md:mb-4">
-                    <span className="bg-[#007ebb] text-white px-4 py-1.5 pt-2 rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[12px] text-2xl md:text-3xl lg:text-4xl font-imperator leading-tight">
+                <motion.div
+                    onViewportEnter={() => setActiveId('meet-founder')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center gap-2 mb-4 md:mb-4"
+                >
+                    <FloatingHighlight
+                        id="meet-founder"
+                        className="px-4 py-1.5 pt-2 text-2xl md:text-3xl lg:text-4xl font-imperator leading-tight"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[12px]"
+                    >
                         Meet Our
-                    </span>
+                    </FloatingHighlight>
                     <span className="text-dark text-2xl md:text-3xl lg:text-4xl font-imperator leading-tight">
                         Founder
                     </span>
-                </div>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     {/* Left Column: Separated Background and Founder Image with Overflow */}

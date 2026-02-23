@@ -1,7 +1,11 @@
 import React from 'react';
-import { ArrowRight, Droplets } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useHighlight } from '../../context/HighlightContext';
+import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 const BlogHero: React.FC = () => {
+    const { setActiveId } = useHighlight();
     const avatars = [
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&auto=format&fit=crop",
@@ -13,19 +17,27 @@ const BlogHero: React.FC = () => {
         <section className="w-full py-12 px-4 md:px-8 font-josefin">
             <div className="max-w-[1400px] mx-auto">
 
-                <div className="flex items-center justify-center gap-2 md:gap-4 mb-10">
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-imperator text-dark tracking-tight flex items-center">
-                        Pure Water
-                        <span className="mx-2 md:mx-4 flex items-center justify-center">
+                <motion.div
+                    onViewportEnter={() => setActiveId('blog-hero')}
+                    viewport={{ amount: 0.5 }}
+                    className="flex items-center justify-center mb-10"
+                >
+                    <h1 className="text-4xl md:text-5xl lg:text-5xl font-imperator text-dark tracking-tight flex items-center gap-1 md:gap-2">
+                        <span>Pure Water</span>
+                        <span className="flex items-center justify-center px-1 md:px-2">
                             <img
                                 src="/assets/home/water-droplet.webp"
-                                alt="Droplet" className="w-10 h-10 md:w-16 md:h-16 object-contain"/>
+                                alt="Droplet" className="w-10 h-10 md:w-16 md:h-16 object-contain translate-y-[-2px]" />
                         </span>
-                        <span className="bg-[#007ebb] text-white px-4 md:px-6 py-1 md:py-2 rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px]">
+                        <FloatingHighlight
+                            id="blog-hero"
+                            className="text-white px-5 md:px-8 py-2 md:py-3 leading-none text-3xl md:text-5xl lg:text-5xl"
+                            boxClassName="rounded-tl-[20px] rounded-bl-[20px] rounded-tr-[10px]"
+                        >
                             Pure Life
-                        </span>
+                        </FloatingHighlight>
                     </h1>
-                </div>
+                </motion.div>
 
                 {/* Main Banner with Scoops */}
                 <div className="relative w-full h-[300px] sm:h-[350px] md:h-[500px] rounded-[30px] md:rounded-[50px] overflow-hidden group">

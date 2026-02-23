@@ -1,5 +1,8 @@
 import React from 'react';
 import { Phone } from 'lucide-react';
+import { useHighlight } from '../../../context/HighlightContext';
+import FloatingHighlight from '../framer/FloatingHighlight';
+import { motion } from 'framer-motion';
 
 interface ContactBannerTemplateProps {
     title?: string;
@@ -9,6 +12,7 @@ interface ContactBannerTemplateProps {
     phoneRedirection?: string;
     logoIcon?: string;
     avatars?: string[];
+    highlightId?: string;
 }
 
 const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
@@ -18,14 +22,20 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
     logoText2 = "Pure Life",
     phoneRedirection = "tel:+919843232131",
     logoIcon = "/assets/home/water-droplet.webp",
-    avatars = []
+    avatars = [],
+    highlightId = "contact-hero"
 }) => {
+    const { setActiveId } = useHighlight();
     return (
         <section className="w-full bg-[#EFEFEF] pt-8 pb-12 md:pb-12 lg:pb-16 font-outfit">
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-12">
 
                 {/* 1. Header Logo / Slogan Section */}
-                <div className="flex flex-row items-center justify-center gap-2 sm:gap-4 mb-8 md:mb-10">
+                <motion.div
+                    onViewportEnter={() => setActiveId(highlightId)}
+                    viewport={{ amount: 0.5 }}
+                    className="flex flex-row items-center justify-center gap-2 sm:gap-4 mb-8 md:mb-10"
+                >
                     <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator font-medium text-dark tracking-tight">
                         {logoText1}
                     </h2>
@@ -35,12 +45,13 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                         <img src={logoIcon} alt="Water Drop" className="w-[60px] sm:w-[100px] md:w-[120px] h-auto object-contain" />
                     </div>
 
-                    <div className="bg-[#007ebb] px-3 sm:px-6 py-1 sm:py-2 rounded-[5px]">
-                        <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator font-medium text-white tracking-tight leading-none">
-                            {logoText2}
-                        </h2>
-                    </div>
-                </div>
+                    <FloatingHighlight
+                        id={highlightId}
+                        className="px-3 sm:px-6 py-1 sm:py-2 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-medium font-imperator"
+                        boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]">
+                        {logoText2}
+                    </FloatingHighlight>
+                </motion.div>
 
                 {/* 2. Main Banner Wrapper — NO overflow-hidden so title can bleed out */}
                 <div className="relative w-full">
