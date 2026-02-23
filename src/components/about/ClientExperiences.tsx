@@ -159,13 +159,13 @@ const ClientExperiences: React.FC = () => {
                                             <div key={testimonial.id} className="relative z-0">
                                                 {/* Top-Left offset background — active card only */}
                                                 {isActive && (
-                                                    <div className="absolute bottom-2 right-2 lg:-top-[4px] lg:left-[-84px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
+                                                    <div className="absolute bottom-2 right-2 lg:-top-[4px] lg:left-[-84px] w-full h-full bg-[#0077B6] -z-10 pointer-events-none" />
                                                 )}
                                                 {/* Bottom-Right offset background — active card only */}
                                                 {isActive && (
-                                                    <div className="absolute top-2 left-2 lg:bottom-[5px] lg:left-[-70px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
+                                                    <div className="absolute top-2 left-2 lg:bottom-[5px] lg:left-[-70px] w-full h-full bg-[#0077B6] -z-10 pointer-events-none" />
                                                 )}
-
+    ``
                                                 <div
                                                     className={`
                                                         relative bg-white p-4 sm:p-6 md:p-4 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 sm:gap-6 transition-all duration-500 transform w-full lg:max-w-2xl rounded-[5px]

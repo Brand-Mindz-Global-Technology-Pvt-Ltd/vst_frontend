@@ -226,7 +226,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                                 {/* Top Surface */}
                                 <div className="w-full h-[70px] bg-white rounded-[100%] border-b-[6px] border-gray-200/50 shadow-[0_15px_30px_rgba(0,0,0,0.1)] relative z-20"></div>
                                 {/* Curved Base */}
-                                <div className="w-full h-[60px] bg-gradient-to-b from-white via-gray-100 to-gray-300 rounded-b-[120px] -mt-[35px] border-x border-gray-200 shadow-inner z-10"></div>
+                                <div className="w-full h-[60px] bg-linear-to-b from-white via-gray-100 to-gray-300 rounded-b-[120px] -mt-[35px] border-x border-gray-200 shadow-inner z-10"></div>
                             </div>
                         </div>
 
