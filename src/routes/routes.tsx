@@ -12,6 +12,9 @@ import ContactPage from '../pages/contact/ContactPage';
 import IndustryPage from '../pages/industry';
 import Footer from '../components/ui/footer/Footer';
 import ProfilePage from '../pages/profile/ProfilePage';
+import PrivacyPolicy from '../pages/policies/PrivacyPolicy';
+import CookiePolicy from '../pages/policies/CookiePolicy';
+import TermsConditions from '../pages/policies/TermsConditions';
 
 const MainLayout: React.FC = () => {
     return (
@@ -39,6 +42,9 @@ const AppRoutes: React.FC = () => {
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/industry" element={<IndustryPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/terms-conditions" element={<TermsConditions />} />
             </Route>
         </Routes>
     );

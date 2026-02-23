@@ -160,7 +160,7 @@ const ProductShowcase: React.FC = () => {
                                     }}
                                     className={`px-4 md:px-10 py-2 md:py-4 rounded-full text-md md:text-2xl font-semibold transition-all duration-300 ${activeTab === cat.id
                                         ? 'bg-[#3d3d3d] text-white shadow-xl'
-                                        : 'bg-white text-dark hover:text-dark'
+                                        : 'bg-white text-[#3E3E3E] hover:text-dark'
                                         }`}>
                                     {cat.name}
                                 </button>
@@ -232,7 +232,7 @@ const ProductShowcase: React.FC = () => {
                     {/* Right Column: Details & Carousel */}
                     <div className="lg:col-span-8 flex flex-col gap-12">
                         <div className={`flex flex-col gap-2 transition-all duration-500 ${isAnimating ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'}`}>
-                            <h3 className="text-4xl md:text-4xl font-imperator text-dark leading-tight lowercase first-letter:uppercase">
+                            <h3 className="text-4xl md:text-4xl font-imperator text-[#3E3E3E] leading-tight lowercase first-letter:uppercase">
                                 {featuredProduct.type || 'VV'}
                             </h3>
                             <p className="text-base md:text-lg text-[#282828] leading-relaxed max-w-4xl font-normal text-justify">
@@ -244,12 +244,12 @@ const ProductShowcase: React.FC = () => {
                                 <button
                                     onClick={prevProduct}
                                     className="bg-white text-dark w-12 h-12 rounded-full shadow-md hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-110 active:scale-90 border border-gray-100 flex items-center justify-center group">
-                                    <ChevronFirst size={24} strokeWidth={2} className="group-hover:-translate-x-0.5 transition-transform" />
+                                    <ChevronFirst size={20} strokeWidth={2} className="group-hover:-translate-x-0.5 transition-transform" />
                                 </button>
                                 <button
                                     onClick={nextProduct}
                                     className="bg-white text-dark w-12 h-12 rounded-full shadow-md hover:bg-[#007ebb] hover:text-white transition-all transform hover:scale-110 active:scale-90 flex items-center justify-center group">
-                                    <ChevronLast size={24} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />
+                                    <ChevronLast size={20} strokeWidth={2} className="group-hover:translate-x-0.5 transition-transform" />
                                 </button>
                             </div>
                         </div>

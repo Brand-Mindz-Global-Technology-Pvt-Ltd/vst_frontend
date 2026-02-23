@@ -32,7 +32,7 @@ const ClientsLogos: React.FC = () => {
                     animation-play-state: paused;
                 }
             `}} />
-            <div className="max-w-[1500px] mx-auto bg-white rounded-[15px] md:rounded-[15px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 md:p-10 border border-white/50 overflow-hidden">
+            <div className="max-w-[1400px] mx-auto bg-white rounded-[15px] md:rounded-[15px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] p-6 md:p-10 border border-white/50 overflow-hidden">
                 <div className="flex items-center gap-8 md:gap-16 lg:gap-36 w-max animate-scroll">
                     {scrollingClients.map((client, index) => (
                         <div

@@ -232,7 +232,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                         {/* --- ORDER NOW BUTTON TAB --- */}
                         <div className="absolute bottom-0 right-0 z-40">
-                            <div className="relative bg-[#EFEFEF] pt-6 pb-2 pl-10 pr-4 rounded-tl-[40px] shadow-[-10px_-10px_20px_rgba(0,0,0,0.05)] flex items-center">
+                            <div className="relative bg-[#EFEFEF] pt-6 pb-2 pl-6 pr-4 rounded-tl-[40px] shadow-[-10px_-10px_20px_rgba(0,0,0,0.05)] flex items-center">
 
                                 {/* Mirror Scoops for the Tab */}
                                 <div className="absolute bottom-0 right-full w-10 h-10 overflow-hidden pointer-events-none">
@@ -244,7 +244,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                                 <button
                                     onClick={onOrderClick}
-                                    className="bg-black text-white py-2 pl-6 pr-1.5 rounded-full flex items-center gap-4 text-lg md:text-xl font-medium transition-all hover:bg-neutral-800 shadow-xl active:scale-95 group"
+                                    className="bg-black text-white py-2 pl-6 pr-1.5 rounded-full flex items-center gap-4 text-lg md:text-xl font-medium transition-all hover:bg-neutral-800 active:scale-95 group"
                                 >
                                     Order Now
                                     <div className="bg-white text-black rounded-full p-2 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
