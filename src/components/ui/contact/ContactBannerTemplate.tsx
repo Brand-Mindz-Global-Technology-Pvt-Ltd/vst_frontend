@@ -36,7 +36,7 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                     viewport={{ amount: 0.5 }}
                     className="flex flex-row items-center justify-center gap-2 sm:gap-4 mb-8 md:mb-10"
                 >
-                    <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator font-medium text-dark tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-imperator font-medium text-dark tracking-tight">
                         {logoText1}
                     </h2>
 
@@ -47,7 +47,7 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
 
                     <FloatingHighlight
                         id={highlightId}
-                        className="px-3 sm:px-6 py-1 sm:py-2 text-xl sm:text-3xl md:text-4xl lg:text-5xl font-medium font-imperator"
+                        className="px-3 sm:px-6 py-1 sm:py-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium font-imperator"
                         boxClassName="rounded-tl-[15px] rounded-bl-[15px] rounded-tr-[10px]">
                         {logoText2}
                     </FloatingHighlight>
