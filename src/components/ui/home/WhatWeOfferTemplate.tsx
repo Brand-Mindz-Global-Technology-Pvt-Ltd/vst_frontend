@@ -30,7 +30,7 @@ const ServiceCard: React.FC<ServiceData> = ({
     onCtaClick,
 }) => {
     return (
-        <div className="relative group overflow-hidden rounded-[30px] bg-white aspect-4/5 lg:aspect-16/10">
+        <div className="relative group overflow-hidden rounded-[20px] bg-white aspect-4/5 lg:aspect-16/10">
             {/* Background Image */}
             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                 <img
@@ -45,7 +45,7 @@ const ServiceCard: React.FC<ServiceData> = ({
             {/* --- TOP-LEFT TAB with Icon Badge (Hero-Style) --- */}
             {icon && (
                 <div className="absolute top-0 left-0 z-20">
-                    <div className="relative bg-[#f1f8ff] p-3 sm:p-2.5 md:p-3 lg:p-5 rounded-tl-[30px] rounded-br-[25px] sm:rounded-br-[22px] md:rounded-br-[28px] lg:rounded-br-[40px] flex items-center justify-center">
+                    <div className="relative bg-[#f1f8ff] p-3 sm:p-2.5 md:p-3 lg:p-5 rounded-tl-[10px] rounded-br-[25px] sm:rounded-br-[22px] md:rounded-br-[28px] lg:rounded-br-[40px] flex items-center justify-center">
                         <div className="bg-black text-white p-2.5 sm:p-2 md:p-2.5 lg:p-4 rounded-full shadow-lg">
                             {icon}
                         </div>
@@ -81,22 +81,22 @@ const ServiceCard: React.FC<ServiceData> = ({
 
             {/* --- BOTTOM-RIGHT TAB with Enquiry Button (Hero-Style) --- */}
             <div className="absolute bottom-0 right-0 z-20">
-                <div className="relative bg-[#f1f8ff] p-2.5 sm:p-2 md:p-2.5 lg:p-4 rounded-br-[30px] rounded-tl-[25px] sm:rounded-tl-[22px] md:rounded-tl-[28px] lg:rounded-tl-[40px] flex items-center">
+                <div className="relative bg-[#f1f8ff] p-2.5 sm:p-2 md:p-2.5 lg:p-3   rounded-tl-[25px] sm:rounded-tl-[20px] md:rounded-tl-[23px] lg:rounded-tl-[25px] flex items-center">
 
                     {/* Scoop extending left along bottom edge */}
-                    <div className="absolute bottom-0 right-full w-6 h-6 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-10 lg:h-10 overflow-hidden pointer-events-none">
-                        <div className="w-full h-full rounded-br-[18px] sm:rounded-br-[15px] md:rounded-br-[18px] lg:rounded-br-[30px] shadow-[10px_10px_0_0_#f1f8ff] sm:shadow-[8px_8px_0_0_#f1f8ff] md:shadow-[10px_10px_0_0_#f1f8ff] lg:shadow-[16px_16px_0_0_#f1f8ff]"></div>
+                    <div className="absolute bottom-0 right-full w-6 h-6 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-16 lg:h-16 overflow-hidden pointer-events-none">
+                        <div className="w-full h-full rounded-br-[18px] sm:rounded-br-[15px] md:rounded-br-[18px] lg:rounded-br-[20px] shadow-[10px_10px_0_0_#f1f8ff] sm:shadow-[8px_8px_0_0_#f1f8ff] md:shadow-[10px_10px_0_0_#f1f8ff] lg:shadow-[16px_16px_0_0_#f1f8ff]"></div>
                     </div>
 
                     {/* Scoop extending up along right edge */}
-                    <div className="absolute bottom-full right-0 w-6 h-6 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-10 lg:h-10 overflow-hidden pointer-events-none">
-                        <div className="w-full h-full rounded-br-[18px] sm:rounded-br-[15px] md:rounded-br-[18px] lg:rounded-br-[30px] shadow-[10px_10px_0_0_#f1f8ff] sm:shadow-[8px_8px_0_0_#f1f8ff] md:shadow-[10px_10px_0_0_#f1f8ff] lg:shadow-[16px_16px_0_0_#f1f8ff]"></div>
+                    <div className="absolute bottom-full right-0 w-6 h-6 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-16 lg:h-16 overflow-hidden pointer-events-none">
+                        <div className="w-full h-full rounded-br-[18px] sm:rounded-br-[15px] md:rounded-br-[18px] lg:rounded-br-[25px] shadow-[10px_10px_0_0_#f1f8ff] sm:shadow-[8px_8px_0_0_#f1f8ff] md:shadow-[10px_10px_0_0_#f1f8ff] lg:shadow-[16px_16px_0_0_#f1f8ff]"></div>
                     </div>
 
                     {/* Enquiry Button */}
                     <button
                         onClick={onCtaClick}
-                        className="bg-black text-white pl-5 sm:pl-4 md:pl-5 lg:pl-8 pr-1.5 sm:pr-1.5 md:pr-1.5 lg:pr-2.5 py-1.5 sm:py-1.5 md:py-1.5 lg:py-3 rounded-full font-medium flex items-center gap-3 sm:gap-2 md:gap-2.5 lg:gap-4 group/btn hover:bg-[#007ebb] transition-all transform hover:scale-105 active:scale-95 shadow-xl">
+                        className="bg-black text-white pl-5 sm:pl-4 md:pl-5 lg:pl-8 pr-1.5 sm:pr-1.5 md:pr-1.5 lg:pr-2.5 py-1.5 sm:py-1.5 md:py-1.5 lg:py-2 rounded-full font-medium flex items-center gap-3 sm:gap-2 md:gap-2.5 lg:gap-4 group/btn hover:bg-[#007ebb] transition-all transform hover:scale-105 active:scale-95 shadow-xl">
                         <span className="text-sm sm:text-xs md:text-sm lg:text-lg tracking-tight">{ctaText}</span>
                         <div className="bg-white text-black rounded-full p-1.5 sm:p-1 md:p-1.5 lg:p-2.5 transition-transform group-hover/btn:-rotate-45">
                             <ArrowRight size={14} className="sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 lg:w-5 lg:h-5" />

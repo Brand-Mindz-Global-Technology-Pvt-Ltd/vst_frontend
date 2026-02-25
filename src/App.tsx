@@ -3,6 +3,7 @@ import AppRoutes from './routes/routes';
 import { HighlightProvider } from './context/HighlightContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import ScrollToTop from './components/ui/common/ScrollToTop';
 import CartModal from './components/ui/cart/CartModal';
 import WishlistModal from './components/ui/wishlist/WishlistModal';
 import CheckoutModal from './components/ui/checkout/CheckoutModal';
@@ -11,6 +12,7 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <HighlightProvider>
         <WishlistProvider>
           <CartProvider>

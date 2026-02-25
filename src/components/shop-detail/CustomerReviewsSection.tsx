@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Star } from 'lucide-react';
+import ReviewModal from './ReviewModal';
+
 
 const CustomerReviewsSection: React.FC = () => {
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
     const ratings = [
         { stars: 5, percentage: 95 },
         { stars: 4, percentage: 80 },
@@ -42,22 +46,22 @@ const CustomerReviewsSection: React.FC = () => {
 
                         <div className="flex flex-col gap-4 mb-8">
                             <div className="flex text-yellow-400 gap-1">
-                                {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={20} fill="currentColor" stroke="none" />)}
+                                {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={25} fill="currentColor" stroke="none" />)}
                             </div>
-                            <span className="text-sm text-black font-medium">Based on 5000 reviews</span>
+                            <span className="text-sm md:text-md text-black font-semibold">Based on 5000 reviews</span>
                         </div>
 
                         <div className="flex flex-col gap-3 mb-10">
                             {ratings.map((rate) => (
                                 <div key={rate.stars} className="flex items-center gap-4">
                                     <span className="text-md font-medium text-black w-12">{rate.stars} Star</span>
-                                    <div className="flex-1 h-3 bg-gray-100  overflow-hidden">
+                                    <div className="flex-1 h-4 border border-gray-300  bg-gray-100  overflow-hidden">
                                         <div
                                             className="h-full bg-yellow-400 transition-all duration-500"
                                             style={{ width: `${rate.percentage}%` }}
                                         ></div>
                                     </div>
-                                    <span className="text-sm font-medium text-black w-8">{rate.percentage}%</span>
+                                    <span className="text-sm md:text-md font-medium text-black w-8">{rate.percentage}%</span>
                                 </div>
                             ))}
                         </div>
@@ -67,11 +71,20 @@ const CustomerReviewsSection: React.FC = () => {
                         <div className="flex flex-col gap-4">
                             <h3 className="text-xl md:text-3xl font-josefin text-dark">Reviews this product</h3>
                             <p className="text-black text-sm">Share your thoughts with other customers</p>
-                            <button className="w-full  py-2 px-6 border border-black rounded-full font-semibold text-lg hover:bg-black hover:text-white transition-all tracking-wider">
+                            <button
+                                onClick={() => setIsReviewModalOpen(true)}
+                                className="w-full  py-2 px-6 border border-black rounded-full font-semibold text-lg hover:bg-black hover:text-white transition-all tracking-wider"
+                            >
                                 Write a product review
                             </button>
                         </div>
                     </div>
+
+                    {/* Review Modal */}
+                    <ReviewModal
+                        isOpen={isReviewModalOpen}
+                        onClose={() => setIsReviewModalOpen(false)}
+                    />
 
                     {/* Right Scrollable Content */}
                     <div className="lg:col-span-8">

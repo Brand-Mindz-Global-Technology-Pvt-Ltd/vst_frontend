@@ -40,18 +40,18 @@ const GetInTouch: React.FC = () => {
 
                             {/* Bottom Right Social Cutout */}
                             <div className="absolute bottom-0 right-0 z-20">
-                                <div className="bg-white pt-4 sm:pt-6 pl-5 sm:pl-8 pb-2 sm:pb-3 pr-2 sm:pr-4 rounded-tl-[35px] sm:rounded-tl-[45px] relative">
+                                <div className="bg-white pt-4 sm:pt-4 pl-5 sm:pl-5 pb-2 sm:pb-3 pr-2 sm:pr-4 rounded-tl-[35px] sm:rounded-tl-[35px] relative">
                                     {/* Responsive Mirror Scoops (Inverted Corners) */}
-                                    <div className="absolute bottom-0 right-full w-6 h-6 sm:w-10 sm:h-10 overflow-hidden pointer-events-none">
-                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[40px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
+                                    <div className="absolute bottom-0 right-full w-6 h-6 sm:w-16 sm:h-16 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
                                     </div>
 
-                                    <div className="absolute right-0 bottom-full w-6 h-6 sm:w-10 sm:h-10 overflow-hidden pointer-events-none">
-                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[40px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
+                                    <div className="absolute right-0 bottom-full w-6 h-6 sm:w-16 sm:h-16 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#FFFFFF]"></div>
                                     </div>
 
                                     {/* Social Box - Black Pill */}
-                                    <div className="bg-black py-2.5 sm:py-6 px-6 sm:px-10 rounded-full flex items-center gap-6 sm:gap-10 shadow-xl">
+                                    <div className="bg-black py-2.5 sm:py-4 px-6 sm:px-10 rounded-full flex items-center gap-6 sm:gap-10 shadow-xl">
                                         {data.socials.map((link, index) => (
                                             <a
                                                 key={index}

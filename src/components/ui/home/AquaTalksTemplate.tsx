@@ -47,7 +47,10 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                         </h2>
                     </motion.div>
 
-                    <button className="md:absolute md:right-4 bg-[#007ebb] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#006699] transition-all flex items-center justify-center text-lg md:text-xl shadow-md active:scale-95">
+                    <button
+                        onClick={() => navigate('/blog')}
+                        className="md:absolute md:right-4 bg-[#007ebb] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#006699] transition-all flex items-center justify-center text-lg md:text-xl shadow-md active:scale-95"
+                    >
                         See More
                     </button>
                 </div>
@@ -100,11 +103,11 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                                         {blog.tags.map((tag, i) => (
                                             <span
                                                 key={i}
-                                                className={`px-2 pt-1.5 py-1 rounded-[6px] text-[11px] whitespace-nowrap font-bold uppercase tracking-tight
+                                                className={`px-2 pt-1.5 py-1 rounded-[10px] text-[11px] whitespace-nowrap font-bold uppercase tracking-tight
                                                     ${i === 0 ? 'bg-[#00abff] text-white' : 'bg-black text-white'}`}
                                             >
                                                 {tag}
-                                            </span>
+                                            </span>     
                                         ))}
                                     </span>
                                 </div>

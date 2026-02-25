@@ -49,7 +49,7 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
                     {blog.tags.map((tag, idx) => (
                         <span
                             key={idx}
-                            className={`px-4 py-1.5 pt-2.5 rounded-lg text-[14px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark shadow-md'}`}
+                            className={`px-4 py-1.5 pt-2.5 rounded-lg text-[14px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark shadow-xl'}`}
                         >
                             {tag}
                         </span>
@@ -57,19 +57,19 @@ const HorizontalBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small'
                 </div>
 
                 {/* Title */}
-                <h3 className={`font-semibold text-dark leading-snug group-hover:text-[#007ebb] transition-colors font-josefin mb-3 ${isLarge ? 'text-2xl md:text-3xl lg:text-4xl' : 'text-base md:text-lg'}`}>
+                <h3 className={`font-semibold text-dark  group-hover:text-[#007ebb] transition-colors font-josefin mb-3 ${isLarge ? 'text-2xl md:text-3xl lg:text-4xl md:leading-[45px]' : 'text-base md:text-lg'}`}>
                     {blog.title}
                 </h3>
 
                 {/* Description */}
-                <p className={`text-black leading-relaxed font-josefin font-light line-clamp-3 ${isLarge ? 'text-sm md:text-base lg:text-lg mb-8' : 'text-xs md:text-sm mb-4'}`}>
+                <p className={`text-black  font-josefin font-light line-clamp-4 text-justify ${isLarge ? 'text-sm md:text-base lg:text-xl mb-8 md:leading-[25px]' : 'text-xs md:text-sm mb-4'}`}>
                     {blog.description}
                 </p>
 
                 {/* Metadata */}
                 <div className={`flex flex-wrap items-center mt-auto ${isLarge ? 'gap-8 text-base' : 'gap-4 text-sm'} text-black font-josefin`}>
                     <div className="flex items-center gap-3">
-                        <img src={blog.author.avatar} alt={blog.author.name} className={`${isLarge ? 'w-10 h-10 md:w-12 md:h-12' : 'w-8 h-8 md:w-10 md:h-10'} rounded-full border border-gray-100 object-cover`} />
+                        <img src={blog.author.avatar} alt={blog.author.name} className={`${isLarge ? 'w-10 h-10 md:w-14 md:h-14' : 'w-8 h-8 md:w-10 md:h-10'} rounded-full border border-gray-100 object-cover`} />
                         <span className="font-medium text-dark">{blog.author.name}, {blog.date}</span>
                     </div>
                     <div className="flex items-center gap-2">

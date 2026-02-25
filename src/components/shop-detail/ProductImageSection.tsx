@@ -12,25 +12,26 @@ const ProductImageSection: React.FC = () => {
             <div className="bg-[#EAF8FF] rounded-3xl overflow-hidden relative flex items-center justify-center p-6 sm:p-12 min-h-[400px] sm:min-h-[500px]">
                 {/* 99.9% Badge */}
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 scale-90 sm:scale-100 origin-top-left">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-start gap-2">
                         <img src="/assets/shopdetail/icons/guarantee.png" className="w-8 h-8 sm:w-9 sm:h-9" alt="" />
                         <div className="flex flex-col">
-                            <span className="text-xl sm:text-3xl font-bold font-josefin leading-none">99.9%</span>
-                            <span className="text-[9px] sm:text-[12px] font-medium font-josefin uppercase bg-black text-white px-2 py-0.5 rounded-sm w-fit">Guarantee pure water</span>
+                            <span className="text-xl sm:text-4xl font-bold font-josefin leading-none">99.9%</span>
+                            <span className="text-[9px] sm:text-[17px] font-semibold font-josefin   text-black px-0 py-0 rounded-sm w-fit">Guarantee pure water</span>
                         </div>
                     </div>
                 </div>
 
                 {/* 10X Badge */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 text-left scale-90 sm:scale-100 origin-top-right">
+                <div className="absolute top-4 right-10 sm:top-6 sm:right-10 z-10 text-left scale-90 sm:scale-100 origin-top-right">
                     <div className="flex items-start gap-2">
-                        <div className="flex flex-col items-start">
-                            <span className="text-xl sm:text-3xl font-bold font-josefin leading-none flex items-start">
-                                <span className="text-sm sm:text-lg mr-1 rotate-45">✨</span>10X
-                            </span>
-                            <span className="text-[9px] sm:text-[12px] font-medium font-josefin uppercase leading-tight max-w-[100px] sm:max-w-[120px]">
-                                more effective at removing impurities
-                            </span>
+                        <div className="flex items-start gap-2">
+                            <img src='/assets/shopdetail/icons/watercheck.png' className='w-8 h-8 sm:w-10 sm:h-10 md:mt-0' alt='' />
+                            <div className='flex flex-col'>
+                                <span className='text-xl sm:text-4xl font-bold font-josefin leading-none'>10X</span>
+                                <span className="text-[10px] sm:text-[18px] font-semibold font-josefin leading-tight max-w-[140px] sm:max-w-[200px]">
+                                    more effective at <br className="hidden sm:block" />removing impurities
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

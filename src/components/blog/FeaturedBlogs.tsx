@@ -30,7 +30,7 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
     return (
         <div
             onClick={handleCardClick}
-            className={`relative group overflow-hidden rounded-[40px] cursor-pointer transition-all duration-500 hover:shadow-2xl ${isLarge ? 'h-[550px] md:h-[650px]' : 'h-[260px] md:h-[305px]'}`}
+            className={`relative group overflow-hidden rounded-[25px] cursor-pointer transition-all duration-500 hover:shadow-2xl ${isLarge ? 'h-[550px] md:h-[650px]' : 'h-[260px] md:h-[305px]'}`}
         >
             {/* Background Image */}
             <img
@@ -43,13 +43,13 @@ const FeaturedBlogCard: React.FC<{ blog: BlogMetadata; size: 'large' | 'small' }
             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
             {/* Content Container */}
-            <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isLarge ? 'pb-12 md:pb-16' : 'pb-8 md:pb-10'}`}>
+            <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isLarge ? 'pb-12 md:pb-5' : 'pb-8 md:pb-8'}`}>
                 {/* Tags */}
                 <div className="flex gap-2 mb-4">
                     {blog.tags.map((tag, idx) => (
                         <span
                             key={idx}
-                            className={`px-3 py-1 pt-2 rounded-[5px] text-[12px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff] text-white' : 'bg-white text-dark border border-gray-200'}`}
+                            className={`px-2 py-1 pt-2 rounded-[10px] text-[12px] font-josefin font-medium tracking-wider ${tag === 'Trending' ? 'bg-[#00abff]  border-1 border-white text-white' : 'bg-white text-dark border border-gray-200'}`}
                         >
                             {tag}
                         </span>

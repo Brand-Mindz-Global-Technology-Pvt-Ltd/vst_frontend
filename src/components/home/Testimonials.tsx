@@ -171,7 +171,7 @@ const Testimonials: React.FC = () => {
                                     <img
                                         src={data.avatar}
                                         alt={data.name}
-                                        className="w-14 h-14 md:w-16 md:h-16 rounded-full object-cover shadow-lg"
+                                        className="w-14 h-14 md:w-24 md:h-24 rounded-full object-cover shadow-lg"
                                     />
                                     <div>
                                         <h4 className="text-lg md:text-2xl font-semibold text-dark mb-0.5 font-josfins">

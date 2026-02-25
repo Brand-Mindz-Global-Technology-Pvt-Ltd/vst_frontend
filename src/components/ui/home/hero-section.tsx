@@ -77,7 +77,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                         <img
                             src={'./assets/home/water-droplet.webp'}
                             alt="Water Droplet"
-                            className="w-6 h-6 sm:w-8 sm:h-8 md:w-16 md:h-16"
+                            className="w-6 h-6 sm:w-8 sm:h-8 md:w-24 md:h-24"
                         />
                         <div className="absolute inset-0 blur-2xl bg-[#00a8e8]/20 rounded-full"></div>
                     </div>
