@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, Quote } from 'lucide-react';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Testimonial {
     id: number;
@@ -47,13 +47,41 @@ const testimonials: Testimonial[] = [
 const ClientExperiences: React.FC = () => {
     const { setActiveId } = useHighlight();
     const [activeIndex, setActiveIndex] = useState(1); // Default to Arun (index: 1)
+    const [direction, setDirection] = useState(0); // -1 for up, 1 for down
 
     const handleNext = () => {
+        setDirection(1);
         setActiveIndex((prev) => (prev + 1) % testimonials.length);
     };
 
     const handlePrev = () => {
+        setDirection(-1);
         setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    };
+
+    const variants = {
+        enter: (direction: number) => ({
+            y: direction > 0 ? 50 : -50,
+            opacity: 0,
+            scale: 0.95
+        }),
+        center: {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.5,
+                ease: [0.16, 1, 0.3, 1]
+            }
+        },
+        exit: (direction: number) => ({
+            y: direction > 0 ? -50 : 50,
+            opacity: 0,
+            scale: 0.95,
+            transition: {
+                duration: 0.4
+            }
+        })
     };
 
     return (
@@ -126,7 +154,7 @@ const ClientExperiences: React.FC = () => {
                             <div className="absolute lg:-left-2 sm:lg:left-2 lg:h-full lg:py-20 flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-6 lg:gap-0 z-20 pointer-events-none lg:translate-x-[10%] bottom-8 lg:bottom-auto">
                                 <button
                                     onClick={handlePrev}
-                                    className="w-12 h-12 flex flex-col items-center justify-center bg-white text-[#007ebb] rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 border-2 border-[#007ebb] pointer-events-auto"
+                                    className="w-12 h-12 flex flex-col items-center justify-center bg-white text-[#007ebb] rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 border-2 border-[#007ebb] pointer-events-auto active:scale-95"
                                 >
                                     <div className="hidden lg:block w-3 h-[2px] bg-[#007ebb] rounded-full mb-0.5" />
                                     <ChevronUp size={20} strokeWidth={3} className="hidden lg:block" />
@@ -134,7 +162,7 @@ const ClientExperiences: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={handleNext}
-                                    className="w-12 h-12 flex flex-col items-center justify-center bg-[#007ebb] text-white rounded-full shadow-md hover:bg-[#006699] transition-all duration-300 pointer-events-auto"
+                                    className="w-12 h-12 flex flex-col items-center justify-center bg-[#007ebb] text-white rounded-full shadow-md hover:bg-[#006699] transition-all duration-300 pointer-events-auto active:scale-95"
                                 >
                                     <ChevronDown size={20} strokeWidth={3} className="hidden lg:block" />
                                     <ChevronUp size={20} strokeWidth={3} className="lg:hidden rotate-90" />
@@ -147,64 +175,75 @@ const ClientExperiences: React.FC = () => {
 
                             {/* Testimonials Stack */}
                             <div className="flex flex-col gap-6 w-full max-w-lg items-center px-10 sm:px-0">
-                                {(() => {
-                                    // Custom ordering to keep active in middle: [prev, active, next]
-                                    const prevIdx = (activeIndex - 1 + testimonials.length) % testimonials.length;
-                                    const nextIdx = (activeIndex + 1) % testimonials.length;
-                                    const visibleIndices = [prevIdx, activeIndex, nextIdx];
+                                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                                    {(() => {
+                                        // Custom ordering to keep active in middle: [prev, active, next]
+                                        const prevIdx = (activeIndex - 1 + testimonials.length) % testimonials.length;
+                                        const nextIdx = (activeIndex + 1) % testimonials.length;
+                                        const visibleIndices = [prevIdx, activeIndex, nextIdx];
 
-                                    return visibleIndices.map((idx) => {
-                                        const testimonial = testimonials[idx];
-                                        const isActive = idx === activeIndex;
+                                        return visibleIndices.map((idx, pos) => {
+                                            const testimonial = testimonials[idx];
+                                            const isActive = idx === activeIndex;
 
-                                        return (
-                                            <div key={testimonial.id} className="relative z-0">
-                                                {/* Top-Left offset background — active card only */}
-                                                {isActive && (
-                                                    <div className="absolute bottom-2 right-2 lg:-top-[4px] lg:left-[-84px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
-                                                )}
-                                                {/* Bottom-Right offset background — active card only */}
-                                                {isActive && (
-                                                    <div className="absolute top-2 left-2 lg:bottom-[5px] lg:left-[-70px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
-                                                )}
+                                            return (
+                                                <motion.div
+                                                    key={testimonial.id}
+                                                    custom={direction}
+                                                   
+                                                    initial="enter"
+                                                    animate="center"
+                                                    exit="exit"
+                                                    layout
+                                                    className="relative z-0 w-full"
+                                                >
+                                                    {/* Top-Left offset background — active card only */}
+                                                    {isActive && (
+                                                        <div className="absolute bottom-2 right-2 lg:-top-[4px] lg:left-[-84px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
+                                                    )}
+                                                    {/* Bottom-Right offset background — active card only */}
+                                                    {isActive && (
+                                                        <div className="absolute top-2 left-2 lg:bottom-[5px] lg:left-[-70px] w-full h-full bg-[#0077B6] rounded-[5px] -z-10 pointer-events-none" />
+                                                    )}
 
-                                                <div
-                                                    className={`
-                                                        relative bg-white p-4 sm:p-6 md:p-4 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 sm:gap-6 transition-all duration-500 transform w-full lg:max-w-2xl rounded-[5px]
-                                                        ${isActive
-                                                            ? 'z-10 scale-100 opacity-100 lg:translate-x-[-15%] lg:self-start'
-                                                            : 'shadow-md scale-90 opacity-40 blur-[0.2px] lg:self-end'}
-                                                    `}>
+                                                    <div
+                                                        className={`
+                                                            relative bg-white p-4 sm:p-6 md:p-4 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-4 sm:gap-6 transition-all duration-500 transform w-full lg:max-w-2xl rounded-[5px]
+                                                            ${isActive
+                                                                ? 'z-10 scale-100 opacity-100 lg:translate-x-[-15%] lg:self-start'
+                                                                : 'shadow-md scale-90 opacity-40 blur-[0.2px] lg:self-end'}
+                                                        `}>
 
-                                                    <div className="relative shrink-0">
-                                                        <img
-                                                            src={testimonial.image}
-                                                            alt={testimonial.name}
-                                                            className="w-16 h-16 md:w-20 md:h-20 lg:w-32 lg:h-32 rounded-full object-cover border-2 border-gray-100 shadow-sm"
-                                                        />
-                                                    </div>
-                                                    <div className="flex-1 space-y-2 relative w-full text-center sm:text-left">
-                                                        {/* Quote Icon - Desktop position as per image */}
-                                                        <div className="absolute -top-1 -right-1">
-                                                            <Quote
-                                                                size={40}
-                                                                className={isActive ? "text-[#38bdf8]" : "text-gray-400"}
-                                                                fill="currentColor"
+                                                        <div className="relative shrink-0">
+                                                            <img
+                                                                src={testimonial.image}
+                                                                alt={testimonial.name}
+                                                                className="w-16 h-16 md:w-20 md:h-20 lg:w-32 lg:h-32 rounded-full object-cover border-2 border-gray-100 shadow-sm"
                                                             />
                                                         </div>
+                                                        <div className="flex-1 space-y-2 relative w-full text-center sm:text-left">
+                                                            {/* Quote Icon - Desktop position as per image */}
+                                                            <div className="absolute -top-1 -right-1">
+                                                                <Quote
+                                                                    size={40}
+                                                                    className={isActive ? "text-[#38bdf8]" : "text-gray-400"}
+                                                                    fill="currentColor"
+                                                                />
+                                                            </div>
 
-                                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-imperator text-dark tracking-wide font-normal">
-                                                            {testimonial.name}
-                                                        </h3>
-                                                        <p className="text-dark/95 font-jost text-[12px] sm:text-[14px] md:text-sm lg:text-lg leading-relaxed font-normal">
-                                                            "{testimonial.text}"
-                                                        </p>
+                                                            <h3 className="text-xl sm:text-2xl md:text-3xl font-imperator text-dark tracking-wide font-normal">
+                                                                {testimonial.name}
+                                                            </h3>
+                                                            <p className="text-dark/95 font-jost text-[12px] sm:text-[14px] md:text-sm lg:text-lg leading-relaxed font-normal">
+                                                                "{testimonial.text}"
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    });
-                                })()}
+                                                </motion.div>
+                                            );
+                                        });
+                                    })()}
+                                </AnimatePresence>
                             </div>
                         </div>
 

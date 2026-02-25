@@ -36,10 +36,10 @@ const Footer: React.FC = () => {
 
                     {/* Quick Links */}
                     <div className="w-full lg:w-[18%] flex flex-col gap-6">
-                        <h3 className="text-xl font-serif tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
+                        <h3 className="text-xl font-josefin tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
                             Quick Links
                         </h3>
-                        <ul className="flex flex-col gap-4 text-white text-sm">
+                        <ul className="flex flex-col gap-4 text-white text-sm md:text-md">
                             <li><a href="/" className="hover:text-[#007ebb] transition-colors">Home</a></li>
                             <li><a href="/about" className="hover:text-[#007ebb] transition-colors">About us</a></li>
                             <li><a href="/products" className="hover:text-[#007ebb] transition-colors">Products</a></li>
@@ -50,10 +50,10 @@ const Footer: React.FC = () => {
 
                     {/* Customer Support */}
                     <div className="w-full lg:w-[22%] flex flex-col gap-6">
-                        <h3 className="text-xl font-serif tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
+                        <h3 className="text-xl font-josefin tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
                             Customer Support
                         </h3>
-                        <ul className="flex flex-col gap-4 text-white text-sm">
+                        <ul className="flex flex-col gap-4 text-white text-sm md:text-md">
                             {/* <li><a href="#" className="hover:text-[#007ebb] transition-colors">FAQs</a></li>
                             <li><a href="#" className="hover:text-[#007ebb] transition-colors">Warranty Registration</a></li>
                             <li><a href="#" className="hover:text-[#007ebb] transition-colors">Installation Request</a></li> */}
@@ -65,10 +65,10 @@ const Footer: React.FC = () => {
 
                     {/* Contact Us */}
                     <div className="w-full lg:w-[22%] flex flex-col gap-6">
-                        <h3 className="text-xl font-serif tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
+                        <h3 className="text-xl font-josefin tracking-wide border-b border-white pb-2 w-fit min-w-[120px]">
                             Contact Us
                         </h3>
-                        <ul className="flex flex-col gap-6 text-white text-sm">
+                        <ul className="flex flex-col gap-6 text-white text-sm md:text-md">
                             <li className="flex gap-3">
                                 <div className="mt-1"><MapPin className="w-5 h-5 text-white" /></div>
                                 <span>Thai Complex, 906L, Tenkasi Road, Rajapalayam, Tamil Nadu, 626117</span>

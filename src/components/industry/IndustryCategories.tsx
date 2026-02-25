@@ -66,7 +66,7 @@ const IndustryCategories: React.FC = () => {
     const activeData = categoriesData.find(cat => cat.id === activeTab) || categoriesData[0];
 
     return (
-        <section className="w-full bg-[#EFEFEF] py-12 md:py-20 font-outfit">
+        <section className="w-full bg-[#EFEFEF] py-12 md:py-20 font-outfit overflow-x-hidden">
             <div className="max-w-[1300px] mx-auto px-4 md:px-8">
 
                 {/* Header Area */}
@@ -95,7 +95,7 @@ const IndustryCategories: React.FC = () => {
                                     className={`
                                         w-full flex items-center p-3 md:p-4 rounded-xl md:rounded-2xl transition-all duration-300 text-left cursor-pointer
                                         ${isActive
-                                            ? 'bg-[#007ebb] text-white shadow-lg scale-[1.02] ml-0 md:ml-4'
+                                            ? 'bg-[#007ebb] text-white shadow-lg scale-[1.02] ml-0 '
                                             : 'bg-white text-dark hover:bg-gray-50 shadow-sm ml-0'
                                         }
                                     `}
@@ -103,13 +103,13 @@ const IndustryCategories: React.FC = () => {
                                     {/* Icon Container */}
                                     <div className={`
                                         w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full shrink-0 mr-4 transition-colors duration-300
-                                        ${isActive ? 'bg-white text-[#007ebb]' : 'bg-[#EFEFEF] text-[#007ebb] border border-gray-200'}
+                                        ${isActive ? 'bg-white text-[#007ebb]' : ' text-[#007ebb] border border-gray-500'}
                                     `}>
                                         {category.icon}
                                     </div>
 
                                     {/* Tab Title */}
-                                    <span className="font-outfit font-medium text-lg md:text-xl lg:text-xl">
+                                    <span className="font-outfit font-medium text-lg md:text-xl lg:text-2xl">
                                         {category.title}
                                     </span>
                                 </button>
@@ -119,7 +119,10 @@ const IndustryCategories: React.FC = () => {
 
                     {/* Right: Content Panel */}
                     <div className="w-full lg:w-[65%] mt-8 lg:mt-0 relative flex items-stretch">
-                        <div className="w-full bg-[#cdecff] p-5 md:p-8 lg:p-10 flex flex-col lg:flex-row items-stretch rounded-sm shadow-sm gap-8 lg:gap-0">
+                        {/* Background Bleed */}
+                        <div className="absolute inset-y-0 left-0 lg:right-[-100vw] right-0 bg-[#cdecff] z-0 pointer-events-none rounded-sm lg:rounded-r-none shadow-sm"></div>
+
+                        <div className="relative z-10 w-full p-5 md:p-8 lg:p-10 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
 
                             {/* Image container */}
                             <div className="w-full lg:w-[45%] h-[250px] md:h-[350px] lg:h-auto lg:min-h-[400px] shrink-0 relative pointer-events-none">
@@ -141,14 +144,14 @@ const IndustryCategories: React.FC = () => {
                                 {/* Main Text Content */}
                                 <div className="flex flex-col grow justify-center mt-2 lg:mt-18 animate-in fade-in zoom-in-95 duration-500">
                                     {/* Description Paragraph */}
-                                    <p className="text-black font-outfit text-sm md:text-[15px] leading-relaxed font-semibold lg:pl-10 mb-6">
+                                    <p className="text-black font-outfit text-sm md:text-[15px] leading-relaxed font-semibold lg:pl-5 mb-6">
                                         {activeData.description}
                                     </p>
 
                                     {/* Checkmark List */}
                                     <ul className="space-y-3 mb-8">
                                         {activeData.benefits.map((benefit, index) => (
-                                            <li key={index} className="flex items-center gap-3 md:gap-4 lg:pl-10 bg-white p-1.5 pr-6 md:pr-8 rounded-r-[50px] w-max max-w-full shadow-sm">
+                                            <li key={index} className="flex items-center gap-3 md:gap-4 lg:pl-5 bg-white p-1.5 pr-6 md:pr-8 rounded-r-[50px] w-max max-w-full shadow-sm">
                                                 <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-green-600 flex items-center justify-center shrink-0">
                                                     <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -162,7 +165,7 @@ const IndustryCategories: React.FC = () => {
                                     </ul>
 
                                     {/* Enquiry Button */}
-                                    <div className="lg:pl-10">
+                                    <div className="lg:pl-5">
                                         <a
                                             href="/contact"
                                             className="inline-flex items-center gap-3 bg-black rounded-full py-2.5 px-6 hover:bg-[#007ebb] transition-colors duration-300 group/btn shadow-md"

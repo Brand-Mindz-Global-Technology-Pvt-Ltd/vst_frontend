@@ -102,24 +102,24 @@ const BlogContent: React.FC<BlogContentProps> = ({ data = blogData }) => {
         <article className="w-full max-w-[1600px] mx-auto px-4 md:px-0 font-josefin text-dark">
 
             {/* Title */}
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-normal leading-tight mb-6">
                 {data.title}
             </h1>
 
             {/* Meta Bar - Bottom (Right Aligned) */}
-            <div className="flex flex-wrap items-center justify-end gap-4 md:gap-6 text-sm md:text-base text-gray-500 mt-6 pb-6">
+            <div className="flex flex-wrap items-center justify-end gap-4 md:gap-6 text-sm md:text-base text-gray-600 mt-6 pb-6">
                 <span>{data.date}</span>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center text-gray-500 gap-1">
                     <MessageCircle size={16} />
                     <span>{data.comments}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center text-gray-500 gap-1">
                     <Clock size={16} />
                     <span>{data.readTime}</span>
                 </div>
                 <button
                     onClick={handleShare}
-                    className="flex items-center gap-2 bg-dark text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-[#007ebb] transition-colors"
+                    className="flex items-center gap-2 bg-dark text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-[#007ebb] transition-colors"
                 >
                     <Share2 size={14} />
                     Share
@@ -132,7 +132,7 @@ const BlogContent: React.FC<BlogContentProps> = ({ data = blogData }) => {
                     switch (section.type) {
                         case 'intro':
                             return (
-                                <p key={idx} className="text-dark">
+                                <p key={idx} className="text-dark leading-9">
                                     {section.content}
                                 </p>
                             );
@@ -140,21 +140,20 @@ const BlogContent: React.FC<BlogContentProps> = ({ data = blogData }) => {
                         case 'heading':
                             return (
                                 <div key={idx} className="space-y-3">
-                                    <h2 className="text-base md:text-lg font-bold text-dark">
+                                    <h2 className="text-base md:text-lg font-jost font-semibold text-dark">
                                         {section.heading}
                                     </h2>
                                     {section.content && (
-                                        <p className="text-dark indent-8">{section.content}</p>
+                                        <p className="text-dark indent-20 leading-9 ">{section.content}</p>
                                     )}
                                     {section.featureLabel && (
                                         <p className="font-semibold">{section.featureLabel}</p>
                                     )}
                                     {section.items && (
-                                        <ul className="space-y-1 pl-4">
+                                        <ul className="space-y-2 list-disc pl-24 text-dark">
                                             {section.items.map((item, i) => (
-                                                <li key={i} className="flex items-start gap-2">
-                                                    <span className="mt-1 text-dark font-bold">·</span>
-                                                    <span>{item.text}</span>
+                                                <li key={i} className="pl-2">
+                                                    {item.text}
                                                 </li>
                                             ))}
                                         </ul>
@@ -172,10 +171,10 @@ const BlogContent: React.FC<BlogContentProps> = ({ data = blogData }) => {
                         case 'conclusion':
                             return (
                                 <div key={idx} className="space-y-3">
-                                    <h2 className="text-base md:text-lg font-bold text-dark">
+                                    <h2 className="text-base md:text-lg font-jost font-semibold text-dark">
                                         {section.heading}
                                     </h2>
-                                    <p className="text-dark indent-8">{section.content}</p>
+                                    <p className="text-dark indent-8 leading-9">{section.content}</p>
                                 </div>
                             );
 

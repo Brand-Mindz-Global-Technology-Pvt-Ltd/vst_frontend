@@ -105,25 +105,25 @@ const IndustryHero: React.FC<IndustryHeroProps> = ({
 
                         {/* Bottom-Right Enquiry Cutout */}
                         <div className="absolute bottom-0 right-0 z-20">
-                            <div className="bg-[#EFEFEF] pt-4 sm:pt-6 pl-6 sm:pl-8 pb-3 sm:pb-4 pr-3 sm:pr-4 rounded-tl-[35px] sm:rounded-tl-[40px] md:rounded-tl-[45px] relative">
+                            <div className="bg-[#EFEFEF] pt-2 pb-1 sm:pt-4 sm:pb-1.5 pl-4 sm:pl-6 md:pl-5 pr-3 sm:pr-4 md:pr-4 rounded-tl-[25px] sm:rounded-tl-[35px] md:rounded-tl-[45px] relative shadow-md">
                                 {/* Responsive Mirror Scoops */}
-                                <div className="absolute bottom-0 right-full w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                <div className="absolute bottom-0 right-full w-8 h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
                                     <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
 
-                                <div className="absolute right-0 bottom-full w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                                <div className="absolute right-0 bottom-full w-8 h-8 md:w-10 md:h-10 overflow-hidden pointer-events-none">
                                     <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
 
                                 <a
                                     href="/contact"
-                                    className="flex items-center gap-2 sm:gap-3 bg-black rounded-full py-2 sm:py-3 px-4 sm:px-6 hover:bg-[#007ebb] transition-colors duration-300 group/btn"
+                                    className="flex items-center gap-3 md:gap-5 bg-black rounded-full py-1.5 md:py-3 pl-4 sm:pl-8 pr-1.5 md:pr-2 hover:bg-neutral-800 shadow-sm active:scale-95 transition-all duration-300 group/btn"
                                 >
-                                    <span className="text-white text-sm sm:text-base md:text-lg font-medium whitespace-nowrap">
+                                    <span className="text-white text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight whitespace-nowrap">
                                         Enquiry Now
                                     </span>
-                                    <div className="bg-white rounded-full p-1 sm:p-1.5 flex items-center justify-center group-hover/btn:bg-white group-hover/btn:text-[#007ebb] transition-colors duration-300">
-                                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-black group-hover/btn:text-[#007ebb]" />
+                                    <div className="bg-white rounded-full p-1 sm:p-1.5 md:p-4 flex items-center justify-center group-hover/btn:bg-[#00a8e8] group-hover/btn:text-white transition-all duration-300">
+                                        <ArrowRight size={12} className="w-3 h-3 sm:w-3 sm:h-3 md:w-5 md:h-5 text-black group-hover/btn:text-white -rotate-45" strokeWidth={3} />
                                     </div>
                                 </a>
                             </div>

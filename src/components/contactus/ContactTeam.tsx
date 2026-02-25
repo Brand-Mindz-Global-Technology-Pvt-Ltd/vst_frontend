@@ -153,7 +153,7 @@ const ContactTeam: React.FC = () => {
 
                                     {/* Name Field */}
                                     <div>
-                                        <label className="block text-dark font-medium mb-2">
+                                        <label className="block text-dark md:text-lg font-medium mb-2">
                                             Name
                                         </label>
                                         <input
@@ -169,7 +169,7 @@ const ContactTeam: React.FC = () => {
 
                                     {/* Email Field */}
                                     <div>
-                                        <label className="block text-dark font-medium mb-2">
+                                        <label className="block text-dark md:text-lg font-medium mb-2">
                                             Gmail
                                         </label>
                                         <input
@@ -185,7 +185,7 @@ const ContactTeam: React.FC = () => {
 
                                     {/* Phone Field */}
                                     <div>
-                                        <label className="block text-dark font-medium mb-2">
+                                        <label className="block text-dark md:text-lg font-medium mb-2">
                                             Phone number
                                         </label>
                                         <input
@@ -201,7 +201,7 @@ const ContactTeam: React.FC = () => {
 
                                     {/* Message Field */}
                                     <div>
-                                        <label className="block text-dark font-medium mb-2">
+                                        <label className="block text-dark md:text-lg font-medium mb-2">
                                             Message
                                         </label>
                                         <textarea

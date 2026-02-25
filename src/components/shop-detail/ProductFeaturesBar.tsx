@@ -3,12 +3,12 @@ import { ShoppingCart, Settings2, ShieldCheck, ThumbsUp } from 'lucide-react';
 
 const ProductFeaturesBar: React.FC = () => {
     return (
-        <div className="bg-[#2B2B2B] py-8 w-full">
+        <div className="bg-[#2B2B2B] py-5 w-full">
             <div className="max-w-[1440px] mx-auto px-4 sm:px-10 md:px-20">
                 <div className="grid grid-cols-2 lg:flex items-center lg:justify-between gap-y-10 lg:gap-y-0 gap-x-4">
                     {/* Item 1 */}
                     <div className="flex items-center gap-3 text-white justify-start lg:justify-center">
-                        <ShoppingCart size={24} strokeWidth={1.5} className="opacity-90" />
+                        <ShoppingCart size={35} strokeWidth={1.5} className="opacity-90" />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Buy in store or online</span>
                     </div>
 
@@ -16,7 +16,7 @@ const ProductFeaturesBar: React.FC = () => {
 
                     {/* Item 2 */}
                     <div className="flex items-center gap-3 text-white justify-start lg:justify-center">
-                        <Settings2 size={24} strokeWidth={1.5} className="opacity-90" />
+                        <Settings2 size={35} strokeWidth={1.5} className="opacity-90" />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Service & Installation</span>
                     </div>
 
@@ -24,7 +24,7 @@ const ProductFeaturesBar: React.FC = () => {
 
                     {/* Item 3 - Disabled */}
                     <div className="flex items-center gap-3 text-[#646464] justify-start lg:justify-center">
-                        <ShieldCheck size={24} strokeWidth={1.5} />
+                        <ShieldCheck size={35} strokeWidth={1.5} />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Product Warranty</span>
                     </div>
 
@@ -32,7 +32,7 @@ const ProductFeaturesBar: React.FC = () => {
 
                     {/* Item 4 - Disabled */}
                     <div className="flex items-center gap-3 text-[#646464] justify-start lg:justify-center">
-                        <ThumbsUp size={24} strokeWidth={1.5} />
+                        <ThumbsUp size={35} strokeWidth={1.5} />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Top Rated Products</span>
                     </div>
                 </div>
