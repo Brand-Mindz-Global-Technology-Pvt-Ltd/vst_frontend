@@ -5,7 +5,7 @@ const TermsConditions: React.FC = () => {
     return (
         <div className="bg-[#EFEFEF] min-h-screen font-outfit">
             <ContactBannerTemplate
-                title="Terms & Conditions"
+                title="Terms"
                 logoText1="Pure Water"
                 logoText2="Pure Life"
                 highlightId="terms-conditions-hero"

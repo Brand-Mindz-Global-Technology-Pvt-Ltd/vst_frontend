@@ -125,7 +125,7 @@ const ContactBannerTemplate: React.FC<ContactBannerTemplateProps> = ({
                         </div>
                         {/* 3. "Contact Us" title — positioned at the bottom edge, half in / half out */}
                         <div className="absolute bottom-6 left-4 sm:left-6 md:left-32 translate-y-1/2 pointer-events-none z-30">
-                            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[100px] xl:text-[120px] font-imperator text-white/50 tracking-tight leading-none select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[100px] xl:text-[120px] font-imperator text-white/50 tracking-tight leading-none select-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
                                 {title}
                             </h1>
                         </div>

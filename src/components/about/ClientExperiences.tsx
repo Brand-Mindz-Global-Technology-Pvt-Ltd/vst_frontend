@@ -104,7 +104,7 @@ const ClientExperiences: React.FC = () => {
                                             <img
                                                 src="/assets/home/water-droplet.webp"
                                                 alt="Drop"
-                                                className="w-10 h-16 md:w-16 lg:w-16"
+                                                className="w-10 h-10 md:w-16 md:h-16 object-contain"
                                                 onError={(e) => (e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/3105/3105807.png')}
                                             />
                                         </div>
@@ -120,23 +120,25 @@ const ClientExperiences: React.FC = () => {
                         </div>
 
                         {/* Right Side: Slider Area (60%) */}
-                        <div className="w-full lg:w-[58%] relative p-5 md:p-10 lg:p-12 flex flex-col items-center justify-center bg-white/85">
+                        <div className="w-full lg:w-[58%] relative p-5 md:p-10 lg:p-12 pb-24 lg:pb-12 flex flex-col items-center justify-center bg-white/85">
 
                             {/* Navigation Arrows - Responsive Placement */}
-                            <div className="absolute -left-2 sm:left-2 lg:left-10 h-full py-20 flex flex-col justify-between z-20 pointer-events-none lg:translate-x-[-50%]">
+                            <div className="absolute lg:-left-2 sm:lg:left-2 lg:h-full lg:py-20 flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-6 lg:gap-0 z-20 pointer-events-none lg:translate-x-[10%] bottom-8 lg:bottom-auto">
                                 <button
                                     onClick={handlePrev}
                                     className="w-12 h-12 flex flex-col items-center justify-center bg-white text-[#007ebb] rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 border-2 border-[#007ebb] pointer-events-auto"
                                 >
-                                    <div className="w-3 h-[2px] bg-[#007ebb] rounded-full mb-0.5" />
-                                    <ChevronUp size={20} strokeWidth={3} />
+                                    <div className="hidden lg:block w-3 h-[2px] bg-[#007ebb] rounded-full mb-0.5" />
+                                    <ChevronUp size={20} strokeWidth={3} className="hidden lg:block" />
+                                    <ChevronDown size={20} strokeWidth={3} className="lg:hidden rotate-90" />
                                 </button>
                                 <button
                                     onClick={handleNext}
                                     className="w-12 h-12 flex flex-col items-center justify-center bg-[#007ebb] text-white rounded-full shadow-md hover:bg-[#006699] transition-all duration-300 pointer-events-auto"
                                 >
-                                    <ChevronDown size={20} strokeWidth={3} />
-                                    <div className="w-3 h-[2px] bg-white rounded-full mt-0.5" />
+                                    <ChevronDown size={20} strokeWidth={3} className="hidden lg:block" />
+                                    <ChevronUp size={20} strokeWidth={3} className="lg:hidden rotate-90" />
+                                    <div className="hidden lg:block w-3 h-[2px] bg-white rounded-full mt-0.5" />
                                 </button>
                             </div>
 

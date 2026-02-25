@@ -37,7 +37,7 @@ const BlogHero: React.FC = () => {
                     viewport={{ amount: 0.5 }}
                     className="flex items-center justify-center mb-9"
                 >
-                    <h1 className="text-3xl md:text-6xl  lg:text-6xl font-imperator text-dark tracking-tight flex items-center gap-1 md:gap-2">
+                    <h1 className="text-3xl md:text-5xl lg:text-5xl font-imperator text-dark tracking-tight flex items-center gap-1 md:gap-2">
                         <span>Pure Water</span>
                         <span className="flex items-center justify-center px-1 md:px-2">
                             <img
@@ -74,54 +74,55 @@ const BlogHero: React.FC = () => {
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors duration-500"></div>
 
                     {/* Blog Title Overlay */}
-                    <div className="absolute bottom-10 left-10 md:bottom-16 md:left-28 z-10">
-                        <h2 className="text-6xl md:text-8xl lg:text-9xl font-imperator text-white/40">
+                    <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-16 md:left-28 z-10 pointer-events-none">
+                        <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-imperator text-white/40 leading-none">
                             Blog
                         </h2>
                     </div>
 
                     {/* Top-Left Scooped Cutout (Avatars) */}
-                    <div className="absolute top-0 left-0 bg-[#EFEFEF] pt-2 pb-2 md:pt-4 md:pb-4 pl-4 md:pl-6 pr-6 md:pr-10 rounded-br-[30px] md:rounded-br-[50px] z-20 flex items-center shadow-sm">
+                    <div className="absolute top-0 left-0 bg-[#f9f9f9] pt-2 pb-2 md:pt-4 md:pb-4 pl-4 md:pl-6 pr-6 md:pr-10 rounded-br-[25px] md:rounded-br-[50px] z-20 flex items-center shadow-sm">
                         {/* Inverted radii for the scoop */}
-                        <div className="absolute top-0 left-full w-6 h-6 md:w-10 md:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-tl-[20px] md:rounded-tl-[30px] shadow-[-10px_-10px_0_0_#EFEFEF]"></div>
+                        <div className="absolute top-0 left-full w-4 h-4 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                            <div className="w-full h-full rounded-tl-[15px] md:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f9f9f9] md:shadow-[-10px_-10px_0_0_#f9f9f9]"></div>
                         </div>
-                        <div className="absolute top-full left-0 w-6 h-6 md:w-10 md:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-tl-[20px] md:rounded-tl-[30px] shadow-[-10px_-10px_0_0_#EFEFEF]"></div>
+                        <div className="absolute top-full left-0 w-4 h-4 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                            <div className="w-full h-full rounded-tl-[15px] md:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f9f9f9] md:shadow-[-10px_-10px_0_0_#f9f9f9]"></div>
                         </div>
 
                         {/* Avatar Stack */}
-                        <div className="flex -space-x-4">
+                        <div className="flex -space-x-3 md:-space-x-4">
                             {avatars.map((avatar, idx) => (
                                 <img
                                     key={idx}
                                     src={avatar}
                                     alt="User"
-                                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-[#222] object-cover"
+                                    className="w-8 h-8 md:w-12 md:h-12 rounded-full border-2 border-[#222] object-cover"
                                 />
                             ))}
-                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#00abff] border-2 border-[#222] flex items-center justify-center text-white text-[10px] md:text-xs font-bold shadow-lg">
+                            <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-[#00abff] border-2 border-[#222] flex items-center justify-center text-white text-[8px] md:text-xs font-bold shadow-lg">
                                 15K
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom-Right Scooped Cutout (Read More Button) */}
-                    <div className="absolute bottom-0 right-0 bg-[#EFEFEF] pt-6 pb-2 pl-10 pr-4 rounded-tl-[30px] md:rounded-tl-[50px] z-20 flex items-center justify-center shadow-sm">
+                    <div className="absolute bottom-0 right-0 bg-[#f9f9f9] pt-4 pb-2 pl-6 pr-2 md:pt-6 md:pb-2 md:pl-10 md:pr-4 rounded-tl-[25px] md:rounded-tl-[50px] z-20 flex items-center justify-center shadow-sm">
 
                         {/* Inverted radii for the scoop */}
-                        <div className="absolute bottom-0 right-full w-6 h-6 md:w-10 md:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-br-[20px] md:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
+                        <div className="absolute bottom-0 right-full w-4 h-4 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                            <div className="w-full h-full rounded-br-[15px] md:rounded-br-[30px] shadow-[6px_6px_0_0_#f9f9f9] md:shadow-[10px_10px_0_0_#f9f9f9]"></div>
                         </div>
-                        <div className="absolute bottom-full right-0 w-6 h-6 md:w-10 md:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-br-[20px] md:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
+                        <div className="absolute bottom-full right-0 w-4 h-4 md:w-10 md:h-10 overflow-hidden pointer-events-none">
+                            <div className="w-full h-full rounded-br-[15px] md:rounded-br-[30px] shadow-[6px_6px_0_0_#f9f9f9] md:shadow-[10px_10px_0_0_#f9f9f9]"></div>
                         </div>
 
                         {/* Read More Button */}
-                        <button className="bg-black text-white mr-2 md:mr-4 px-4 py-2 rounded-full flex items-center gap-3 group/btn hover:bg-[#007ebb] transition-all transform active:scale-95">
-                            <span className="font-josefin text-xs md:text-sm font-medium tracking-wider">Read More</span>
-                            <div className="bg-white rounded-full p-2 transition-transform group-hover/btn:-rotate-45">
-                                <ArrowRight size={14} className="text-black" />
+                        <button className="bg-black text-white mr-1 md:mr-4 px-3 md:px-4 py-2 rounded-full flex items-center gap-2 md:gap-3 group/btn hover:bg-[#007ebb] transition-all transform active:scale-95">
+                            <span className="font-josefin text-[10px] md:text-sm font-medium tracking-wider">Read More</span>
+                            <div className="bg-white rounded-full p-1.5 md:p-2 transition-transform group-hover/btn:-rotate-45">
+                                <ArrowRight size={12} className="text-black md:hidden" />
+                                <ArrowRight size={14} className="text-black hidden md:block" />
                             </div>
                         </button>
                     </div>
