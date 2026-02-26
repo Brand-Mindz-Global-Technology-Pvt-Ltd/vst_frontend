@@ -1,6 +1,6 @@
 import React from 'react';
 import CTABannerTemplate from '../ui/home/CTABannerTemplate';
-import { Phone } from 'lucide-react';
+
 
 const CTABanner: React.FC = () => {
     // Editable CTA data

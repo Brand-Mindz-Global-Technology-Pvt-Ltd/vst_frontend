@@ -1,5 +1,4 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ShopProductCard from './ShopProductCard';
 
 const products = [

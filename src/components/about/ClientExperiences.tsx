@@ -71,7 +71,7 @@ const ClientExperiences: React.FC = () => {
             scale: 1,
             transition: {
                 duration: 0.5,
-                ease: [0.16, 1, 0.3, 1]
+                ease: [0.16, 1, 0.3, 1] as [number, number, number, number]
             }
         },
         exit: (direction: number) => ({
@@ -182,7 +182,7 @@ const ClientExperiences: React.FC = () => {
                                         const nextIdx = (activeIndex + 1) % testimonials.length;
                                         const visibleIndices = [prevIdx, activeIndex, nextIdx];
 
-                                        return visibleIndices.map((idx, pos) => {
+                                        return visibleIndices.map((idx) => {
                                             const testimonial = testimonials[idx];
                                             const isActive = idx === activeIndex;
 
@@ -190,7 +190,8 @@ const ClientExperiences: React.FC = () => {
                                                 <motion.div
                                                     key={testimonial.id}
                                                     custom={direction}
-                                                   
+
+                                                    variants={variants}
                                                     initial="enter"
                                                     animate="center"
                                                     exit="exit"

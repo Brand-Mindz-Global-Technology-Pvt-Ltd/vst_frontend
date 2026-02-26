@@ -4,10 +4,10 @@ import { ShieldCheck } from 'lucide-react';
 
 const tickerItems = [
     { icon: <ShieldCheck size={22} />, text: "RO + UV + UF Technology" },
-    { icon: <img src="/assets/shop/icons/delivery-icon.png" alt="Delivery" className="w-6 h-6 object-contain shrink-0" onError={(e) => console.error("Ticker Icon Error: delivery")} />, text: "Free Installation On All Water Purifiers" },
-    { icon: <img src="/assets/shop/icons/product-icon.png" alt="Product" className="w-6 h-6 object-contain shrink-0" onError={(e) => console.error("Ticker Icon Error: product")} />, text: "Fresh Water Every Day" },
-    { icon: <img src="/assets/shop/icons/payment-icon.png" alt="Payment" className="w-6 h-6 object-contain shrink-0" onError={(e) => console.error("Ticker Icon Error: payment")} />, text: "Safe Online Payment, 100% Secure Checkout" },
-    { icon: <img src="/assets/shop/icons/support-icon.png" alt="Support" className="w-6 h-6 object-contain shrink-0" onError={(e) => console.error("Ticker Icon Error: support")} />, text: "24/7 Support Always Be There for You" },
+    { icon: <img src="/assets/shop/icons/delivery-icon.png" alt="Delivery" className="w-6 h-6 object-contain shrink-0" onError={(_e) => console.error("Ticker Icon Error: delivery")} />, text: "Free Installation On All Water Purifiers" },
+    { icon: <img src="/assets/shop/icons/product-icon.png" alt="Product" className="w-6 h-6 object-contain shrink-0" onError={(_e) => console.error("Ticker Icon Error: product")} />, text: "Fresh Water Every Day" },
+    { icon: <img src="/assets/shop/icons/payment-icon.png" alt="Payment" className="w-6 h-6 object-contain shrink-0" onError={(_e) => console.error("Ticker Icon Error: payment")} />, text: "Safe Online Payment, 100% Secure Checkout" },
+    { icon: <img src="/assets/shop/icons/support-icon.png" alt="Support" className="w-6 h-6 object-contain shrink-0" onError={(_e) => console.error("Ticker Icon Error: support")} />, text: "24/7 Support Always Be There for You" },
 ];
 
 const ScrollingTicker: React.FC = () => {
