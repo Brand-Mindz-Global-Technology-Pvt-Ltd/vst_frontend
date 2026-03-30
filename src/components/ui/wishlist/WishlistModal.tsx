@@ -28,11 +28,11 @@ const WishlistModal: React.FC = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={toggleWishlist}
-                        className="fixed inset-0 bg-black/50 z-500 backdrop-blur-sm"
+                        className="fixed inset-0 bg-black/50 z-10000 backdrop-blur-sm"
                     />
 
                     {/* Modal Container */}
-                    <div className="fixed inset-0 z-501 flex items-center justify-center p-4 md:p-6 pointer-events-none font-jost">
+                    <div className="fixed inset-0 z-10001 flex items-center justify-center p-4 md:p-6 pointer-events-none font-jost">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}

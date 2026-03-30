@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
-import { Heart, ShoppingCart, User, Menu, X, Megaphone } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, Menu, X, Megaphone } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { useCart } from '../../../context/CartContext';
-import { useWishlist } from '../../../context/WishlistContext';
+import { useAuth } from '../../../context/AuthContext';
 import FloatingHighlight from '../framer/FloatingHighlight';
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation();
+    const { user, isAuthenticated } = useAuth();
 
-    // Use the global highlight state
-    const { toggleCart, cartCount } = useCart();
-    const { toggleWishlist, wishlistItems } = useWishlist();
+    // Scroll listener for sticky effect
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const navLinks = [
         { name: 'Home', href: '/' },
-        { name: 'Shop', href: '/shop' },
-        { name: 'Commercials', href: '/commercial' },
-        { name: 'Industry', href: '/industry' },
-        { name: 'Blog', href: '/blog' },
-        // { name: 'Services', href: '#' },
+        { name: 'About Us', href: '/about' },
+        { name: 'Contact Us', href: '/contact' }
     ];
 
     return (
-        <header className="w-full font-josefin">
+        <header className="w-full font-josefin z-9999 sticky top-0 transition-all duration-500">
             {/* Announcement Bar */}
-            <div className="bg-dark text-white py-3 px-4 flex items-center justify-center gap-4 text-[13px] md:text-sm tracking-wide">
+            <div className={`bg-dark text-white transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-center gap-4 text-[13px] md:text-sm tracking-wide ${isScrolled ? 'h-0 opacity-0' : 'h-auto py-3 px-4'}`}>
                 <Megaphone size={16} className="shrink-0" />
                 <p className="text-center font-medium">
                     Exclusive Deal : Order now and save additional 10% · Limited time only!
@@ -33,23 +36,27 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Main Navbar */}
-            <nav className="bg-[#EFEFEF] backdrop-blur-md sticky top-0 z-50">
-                <div className="max-w-[1500px] mx-auto px-4 md:px-8">
-                    <div className="flex items-center justify-between h-20 md:h-24">
-                        {/* Logo */}
-                        <div className="shrink-0 flex items-center">
-                            <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center rounded-full border border-gray-100 overflow-hidden bg-white shadow-sm">
-                                <img
-                                    src="./assets/home/VST-logo.png"
-                                    alt="VST Logo"
-                                    className="w-10 h-10 md:w-12 md:h-12 object-contain"
-                                />
+            <div className={`transition-all duration-500 ease-in-out ${isScrolled ? 'py-4 px-4 md:px-12' : 'py-0 px-0'}`}>
+                <nav className={`transition-all duration-500 ease-in-out ${isScrolled
+                    ? 'bg-white/40 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl border border-white/40 max-w-[1400px] mx-auto'
+                    : 'bg-[#EFEFEF] backdrop-blur-md w-full'
+                    }`}>
+                    <div className="max-w-[1500px] mx-auto px-4 md:px-8">
+                        <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16 md:h-18' : 'h-20 md:h-24'}`}>
+                            {/* Logo */}
+                            <div className="shrink-0 flex items-center">
+                                <div className={`transition-all duration-300 flex items-center justify-center rounded-full border border-gray-100 overflow-hidden bg-white shadow-sm ${isScrolled ? 'w-10 h-10 md:w-14 md:h-14' : 'w-12 h-12 md:w-16 md:h-16'}`}>
+                                    <img
+                                        src="/assets/home/VST-logo.png"
+                                        alt="VST Logo"
+                                        className={`object-contain transition-all duration-300 ${isScrolled ? 'w-8 h-8 md:w-10 md:h-10' : 'w-10 h-10 md:w-12 md:h-12'}`}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center justify-center flex-1">
-                            <div className="flex items-baseline space-x-8 lg:space-x-12">
+                            <div className={`flex items-baseline transition-all duration-300 ${isScrolled ? 'space-x-6 lg:space-x-8' : 'space-x-8 lg:space-x-12'}`}>
                                 {navLinks.map((link) => {
                                     const isActive = link.href === '/'
                                         ? location.pathname === '/'
@@ -59,7 +66,7 @@ const Navbar: React.FC = () => {
                                         <a
                                             key={link.name}
                                             href={link.href}
-                                            className={`relative text-[15px] transition-colors duration-200 ${isActive
+                                            className={`relative text-[15px] whitespace-nowrap transition-colors duration-200 ${isActive
                                                 ? 'text-black font-semibold'
                                                 : 'text-black font-medium'
                                                 }`}
@@ -76,36 +83,13 @@ const Navbar: React.FC = () => {
 
                         {/* Actions */}
                         <div className="flex items-center gap-4 md:gap-6">
-                            <button
-                                onClick={toggleWishlist}
-                                className="text-gray-700 hover:text-black transition-colors relative"
-                                aria-label="Wishlist"
-                            >
-                                <Heart size={22} strokeWidth={1.5} />
-                                {wishlistItems.length > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-                                        {wishlistItems.length}
-                                    </span>
-                                )}
-                            </button>
-                            <button
-                                onClick={toggleCart}
-                                className="text-gray-700 hover:text-black transition-colors relative"
-                                aria-label="Cart"
-                            >
-                                <ShoppingCart size={22} strokeWidth={1.5} />
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in-50 duration-300">
-                                        {cartCount}
-                                    </span>
-                                )}
-                            </button>
-
-                            {/* --- THE HIGHLIGHTED USER PROFILE --- */}
-                            <a href="/profile" className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
+                             <a href="/profile" className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
                                 <FloatingHighlight id="header-icon" boxClassName="rounded-full">
-                                    <div className="p-2">
+                                    <div className="p-2 flex items-center gap-2">
                                         <User size={22} strokeWidth={1.5} />
+                                        {isAuthenticated && user && (
+                                            <span className="hidden lg:block text-sm font-medium text-dark">{user.name.split(' ')[0]}</span>
+                                        )}
                                     </div>
                                 </FloatingHighlight>
                             </a>
@@ -148,7 +132,8 @@ const Navbar: React.FC = () => {
                         </div>
                     </div>
                 )}
-            </nav>
+                </nav>
+            </div>
         </header>
     );
 };

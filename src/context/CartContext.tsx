@@ -16,12 +16,15 @@ export interface CartItem {
 interface CartContextType {
     isCartOpen: boolean;
     isCheckoutOpen: boolean;
+    isHeroCheckout: boolean;
+    selectedProduct: CartItem | null;
     cartItems: CartItem[];
     toggleCart: () => void;
-    toggleCheckout: () => void;
+    toggleCheckout: (isHero?: boolean, product?: CartItem | null) => void;
     addToCart: (item: CartItem) => void;
     removeFromCart: (id: string | number) => void;
     updateQuantity: (id: string | number, quantity: number) => void;
+    clearCart: () => void;
     cartTotal: number;
     cartCount: number;
 }
@@ -39,36 +42,30 @@ export const useCart = () => {
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const [isHeroCheckout, setIsHeroCheckout] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<CartItem | null>(null);
     // Mock data based on design
     const [cartItems, setCartItems] = useState<CartItem[]>([
         {
             id: 1,
             name: "ATLANTIS Frosty Plus Hot, Normal & Cold Water Dispenser | Floor Standing | 5L/Hour Cooling & Heating Capacity | Smart Glass Push-Pull Taps | 1 Year Warranty",
             description: "",
-            price: 4000,
-            originalPrice: 8000,
-            image: "/assets/about/subtract.png",
+            price: 7500,
+            originalPrice: 12500,
+            image: "/assets/home/aqu-banner.png",
             quantity: 1,
-            rating: 4.6,
-            reviewsCount: "3K Reviews",
-            discount: "40% OFF"
-        },
-        {
-            id: 2,
-            name: "ATLANTIS Frosty Plus Hot, Normal & Cold Water Dispenser | Floor Standing | 5L/Hour Cooling & Heating Capacity | Smart Glass Push-Pull Taps | 1 Year Warranty",
-            description: "",
-            price: 4000,
-            originalPrice: 8000,
-            image: "/assets/about/subtract.png",
-            quantity: 1,
-            rating: 4.6,
-            reviewsCount: "3K Reviews",
+            rating: 4.8,
+            reviewsCount: "2.5K Reviews",
             discount: "40% OFF"
         }
     ]);
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
-    const toggleCheckout = () => setIsCheckoutOpen(!isCheckoutOpen);
+    const toggleCheckout = (isHero = false, product: CartItem | null = null) => {
+        setIsCheckoutOpen(!isCheckoutOpen);
+        setIsHeroCheckout(isHero);
+        setSelectedProduct(product);
+    };
 
     const addToCart = (item: CartItem) => {
         setCartItems(prev => {
@@ -90,18 +87,24 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     const cartTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const clearCart = () => {
+        setCartItems([]);
+    };
     const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
 
     return (
         <CartContext.Provider value={{
             isCartOpen,
             isCheckoutOpen,
+            isHeroCheckout,
+            selectedProduct,
             cartItems,
             toggleCart,
             toggleCheckout,
             addToCart,
             removeFromCart,
             updateQuantity,
+            clearCart,
             cartTotal,
             cartCount
         }}>

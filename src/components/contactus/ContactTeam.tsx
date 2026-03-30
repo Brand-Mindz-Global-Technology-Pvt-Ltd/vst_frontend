@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Phone, MapPin, MessageCircle, Calendar, Clock } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Calendar, Clock, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { apiSubmitContact } from '../../services/contact/contactService';
 
 const ContactTeam: React.FC = () => {
     const { setActiveId } = useHighlight();
@@ -12,6 +13,8 @@ const ContactTeam: React.FC = () => {
         phone: '',
         message: ''
     });
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({
@@ -20,10 +23,20 @@ const ContactTeam: React.FC = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        // Add your form submission logic here
+        setLoading(true);
+        setStatus(null);
+        
+        try {
+            await apiSubmitContact(formData);
+            setStatus({ type: 'success', message: 'Message sent successfully! Our team will contact you soon.' });
+            setFormData({ name: '', email: '', phone: '', message: '' });
+        } catch (error: any) {
+            setStatus({ type: 'error', message: error.message || 'Failed to send message. Please try again later.' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -148,6 +161,29 @@ const ContactTeam: React.FC = () => {
                                     Our friendly team would love to hear from you
                                 </p>
 
+                                {/* Status Message */}
+                                <AnimatePresence>
+                                    {status && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            className={`p-4 rounded-xl mb-6 flex items-center gap-3 ${
+                                                status.type === 'success' 
+                                                ? 'bg-green-50 border border-green-100 text-green-800' 
+                                                : 'bg-red-50 border border-red-100 text-red-800'
+                                            }`}
+                                        >
+                                            {status.type === 'success' ? (
+                                                <CheckCircle2 className="shrink-0 w-5 h-5 text-green-600" />
+                                            ) : (
+                                                <AlertCircle className="shrink-0 w-5 h-5 text-red-600" />
+                                            )}
+                                            <p className="text-sm font-medium">{status.message}</p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 {/* Form */}
                                 <form onSubmit={handleSubmit} className="space-y-5">
 
@@ -164,6 +200,7 @@ const ContactTeam: React.FC = () => {
                                             placeholder="Enter your name"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
                                             required
+                                            disabled={loading}
                                         />
                                     </div>
 
@@ -180,6 +217,7 @@ const ContactTeam: React.FC = () => {
                                             placeholder="Enter your gmail"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
                                             required
+                                            disabled={loading}
                                         />
                                     </div>
 
@@ -196,6 +234,7 @@ const ContactTeam: React.FC = () => {
                                             placeholder="Enter your phone no"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
                                             required
+                                            disabled={loading}
                                         />
                                     </div>
 
@@ -212,15 +251,24 @@ const ContactTeam: React.FC = () => {
                                             rows={4}
                                             className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all resize-none"
                                             required
+                                            disabled={loading}
                                         ></textarea>
                                     </div>
 
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
-                                        className="w-full bg-[#007ebb] text-white py-3 rounded-3xl font-bold text-lg hover:bg-[#006699] transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98] transform"
+                                        disabled={loading}
+                                        className="w-full bg-[#007ebb] text-white py-3 rounded-3xl font-bold text-lg hover:bg-[#006699] transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98] transform flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                                     >
-                                        Send message
+                                        {loading ? (
+                                            <>
+                                                <Loader2 className="animate-spin w-5 h-5" />
+                                                Sending...
+                                            </>
+                                        ) : (
+                                            'Send message'
+                                        )}
                                     </button>
                                 </form>
                             </div>

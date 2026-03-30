@@ -7,22 +7,25 @@ import ScrollToTop from './components/ui/common/ScrollToTop';
 import CartModal from './components/ui/cart/CartModal';
 import WishlistModal from './components/ui/wishlist/WishlistModal';
 import CheckoutModal from './components/ui/checkout/CheckoutModal';
+import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
-      <HighlightProvider>
-        <WishlistProvider>
-          <CartProvider>
-            <AppRoutes />
-            <CartModal />
-            <WishlistModal />
-            <CheckoutModal />
-          </CartProvider>
-        </WishlistProvider>
-      </HighlightProvider>
+      <AuthProvider>
+        <HighlightProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <AppRoutes />
+              <CartModal />
+              <WishlistModal />
+              <CheckoutModal />
+            </CartProvider>
+          </WishlistProvider>
+        </HighlightProvider>
+      </AuthProvider>
     </Router>
   );
 }

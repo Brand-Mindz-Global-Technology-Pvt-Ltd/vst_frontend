@@ -15,6 +15,18 @@ import ProfilePage from '../pages/profile/ProfilePage';
 import PrivacyPolicy from '../pages/policies/PrivacyPolicy';
 import CookiePolicy from '../pages/policies/CookiePolicy';
 import TermsConditions from '../pages/policies/TermsConditions';
+import ShippingPolicy from '../pages/policies/ShippingPolicy';
+import DeliveryPolicy from '../pages/policies/DeliveryPolicy';
+import RefundReturnPolicy from '../pages/policies/RefundReturnPolicy';
+import LoginPage from '../pages/auth/LoginPage';
+import RegisterPage from '../pages/auth/RegisterPage';
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+};
 
 const MainLayout: React.FC = () => {
     return (
@@ -41,10 +53,19 @@ const AppRoutes: React.FC = () => {
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/industry" element={<IndustryPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile" element={
+                    <ProtectedRoute>
+                        <ProfilePage />
+                    </ProtectedRoute>
+                } />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/terms-conditions" element={<TermsConditions />} />
+                <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                <Route path="/delivery-policy" element={<DeliveryPolicy />} />
+                <Route path="/refund-return-policy" element={<RefundReturnPolicy />} />
             </Route>
         </Routes>
     );

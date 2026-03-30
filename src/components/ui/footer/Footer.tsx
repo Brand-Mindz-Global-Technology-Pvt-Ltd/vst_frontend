@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
                         <ul className="flex flex-col gap-4 text-white text-sm md:text-md">
                             <li><a href="/" className="hover:text-[#007ebb] transition-colors">Home</a></li>
                             <li><a href="/about" className="hover:text-[#007ebb] transition-colors">About us</a></li>
-                            <li><a href="/products" className="hover:text-[#007ebb] transition-colors">Products</a></li>
-                            <li><a href="/blog" className="hover:text-[#007ebb] transition-colors">Blogs</a></li>
+                            {/* <li><a href="/products" className="hover:text-[#007ebb] transition-colors">Products</a></li> */}
+                            {/* <li><a href="/blog" className="hover:text-[#007ebb] transition-colors">Blogs</a></li> */}
                             <li><a href="/contact" className="hover:text-[#007ebb] transition-colors">Contact Us</a></li>
                         </ul>
                     </div>
@@ -60,6 +60,9 @@ const Footer: React.FC = () => {
                             <li><a href="/terms-conditions" className="hover:text-[#007ebb] transition-colors">Terms & Conditions</a></li>
                             <li><a href="/cookie-policy" className="hover:text-[#007ebb] transition-colors">Cookie Policy</a></li>
                             <li><a href="/privacy-policy" className="hover:text-[#007ebb] transition-colors">Privacy Policy</a></li>
+                            <li><a href="/shipping-policy" className="hover:text-[#007ebb] transition-colors">Shipping Policy</a></li>
+                            <li><a href="/delivery-policy" className="hover:text-[#007ebb] transition-colors">Delivery Policy</a></li>
+                            <li><a href="/refund-return-policy" className="hover:text-[#007ebb] transition-colors">Refund & Return Policy</a></li>
                         </ul>
                     </div>
 

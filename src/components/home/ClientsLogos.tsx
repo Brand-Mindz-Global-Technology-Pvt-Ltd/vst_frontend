@@ -1,16 +1,18 @@
 import React from 'react';
 
 const clients = [
-    { name: 'Nike', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg' },
-    { name: 'H&M', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg' },
-    { name: 'Levi\'s', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/af/Levi%27s_logo.svg' },
-    { name: 'U.S. Polo Assn.', logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/30/US_Polo_Assn_logo.svg/1200px-US_Polo_Assn_logo.svg.png' },
-    { name: 'Puma', logo: 'https://upload.wikimedia.org/wikipedia/en/6/64/Puma_complete_logo.svg' },
-    { name: 'Adidas', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg' },
-    { name: 'Gucci', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gucci_logo.svg/1200px-Gucci_logo.svg.png' },
-    { name: 'Zara', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Zara_Logo.svg' },
-    { name: 'Uniqlo', logo: 'https://upload.wikimedia.org/wikipedia/commons/9/92/Uniqlo_logo.svg' },
-    { name: 'Fila', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Fila_logo.svg/1200px-Fila_logo.svg.png' },
+    { name: 'Lubi', logo: '/assets/home/logo/logo1.jpeg' },
+    { name: 'Grundfos', logo: '/assets/home/logo/logo2.jpeg' },
+    { name: 'Ekki', logo: '/assets/home/logo/logo3.jpeg' },
+    { name: 'Kirloskar', logo: '/assets/home/logo/logo4.jpeg' },
+    { name: 'UKL Instruments', logo: '/assets/home/logo/logo5.jpeg' },
+    { name: 'Berlington', logo: '/assets/home/logo/logo6.jpeg' },
+    { name: 'Initiative Engineering', logo: '/assets/home/logo/logo7.jpeg' },
+    { name: 'Thermax', logo: '/assets/home/logo/logo8.jpeg' },
+    { name: 'Pentair', logo: '/assets/home/logo/logo9.jpeg' },
+    { name: 'Tata', logo: '/assets/home/logo/logo10.jpeg' },
+    { name: 'Ion Exchange', logo: '/assets/home/logo/logo11.jpeg' },
+    { name: 'Initiative Engineering', logo: '/assets/home/logo/logo12.jpeg' },
 ];
 
 const ClientsLogos: React.FC = () => {

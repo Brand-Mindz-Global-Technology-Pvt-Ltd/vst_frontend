@@ -1,13 +1,13 @@
 import React from 'react';
 import HeroSectionTemplate from '../ui/home/hero-section';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 
 const Hero: React.FC = () => {
-    const navigate = useNavigate();
+    const { toggleCheckout } = useCart();
 
     const handleOrderNow = () => {
-        navigate('/shop');
-        console.log('Redirecting to shop...');
+        toggleCheckout(true);
     };
 
     const SLIDES = [
