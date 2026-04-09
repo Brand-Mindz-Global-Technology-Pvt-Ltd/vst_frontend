@@ -1,34 +1,30 @@
 import React from 'react';
 import RelatedProductCard from '../ui/shop/RelatedProductCard';
+import { useProducts } from '../../hooks/useProducts';
+import { getImageUrl } from '../../config/apiConfig';
 
-const relatedProducts = [
-    {
-        id: 1,
-        name: "Fiji Aqua Pro",
-        image: "/assets/home/aqu-banner.png",
-        discount: "40% OFF"
-    },
-    {
-        id: 2,
-        name: "Fiji Aqua Pro",
-        image: "/assets/home/aqu-banner.png",
-        discount: "40% OFF"
-    },
-    {
-        id: 3,
-        name: "Fiji Aqua Pro",
-        image: "/assets/home/aqu-banner.png",
-        discount: "40% OFF"
-    },
-    {
-        id: 4,
-        name: "Fiji Aqua Pro",
-        image: "/assets/home/aqu-banner.png",
-        discount: "40% OFF"
+interface RelatedProductsSectionProps {
+    category: string;
+    excludeId: string;
+}
+
+const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({ category, excludeId }) => {
+    const { products, loading } = useProducts(1, 5, category);
+
+    const relatedProducts = products.filter(p => p._id !== excludeId).slice(0, 4);
+
+    if (loading) {
+        return (
+            <section className="bg-[#EFEFEF] py-16 px-4 sm:px-10 md:px-20 font-josefin">
+                <div className="flex justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-black"></div>
+                </div>
+            </section>
+        );
     }
-];
 
-const RelatedProductsSection: React.FC = () => {
+    if (relatedProducts.length === 0) return null;
+
     return (
         <section className="bg-[#EFEFEF] py-16 px-4 sm:px-10 md:px-20 font-josefin">
             <div className="max-w-[1440px] mx-auto">
@@ -36,12 +32,12 @@ const RelatedProductsSection: React.FC = () => {
                     Related Products
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                    {relatedProducts.map((product, idx) => (
+                    {relatedProducts.map((product) => (
                         <RelatedProductCard
-                            key={idx}
-                            id={product.id}
+                            key={product._id}
+                            id={product._id as any}
                             name={product.name}
-                            image={product.image}
+                            image={getImageUrl(product.images?.[0])}
                             discount={product.discount}
                         />
                     ))}

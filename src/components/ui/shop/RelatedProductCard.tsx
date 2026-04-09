@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface RelatedProductCardProps {
-    id: number;
+    id: string;
     name: string;
     image: string;
     discount?: string;

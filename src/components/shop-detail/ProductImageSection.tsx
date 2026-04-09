@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import type { Product } from '../../types/product';
+import { getImageUrl } from '../../config/apiConfig';
 
-const ProductImageSection: React.FC = () => {
+interface ProductImageSectionProps {
+    product: Product;
+}
+
+const ProductImageSection: React.FC<ProductImageSectionProps> = ({ product }) => {
+    const [selectedImage, setSelectedImage] = useState(0);
+
     return (
         <div className="h-full flex flex-col">
             {/* Breadcrumbs */}
             <div className="flex items-center mb-5 text-sm text-black font-medium">
                 <span className="hover:underline cursor-pointer">Shop</span>
                 <span className="text-black mx-1">&gt;</span>
-                <span className="text-black">Fiji Aqua Pro</span>
+                <span className="text-black capitalize">{product.category}</span>
+                <span className="text-black mx-1">&gt;</span>
+                <span className="text-black">{product.name}</span>
             </div>
             <div className="bg-[#EAF8FF] rounded-3xl overflow-hidden relative flex items-center justify-center p-6 sm:p-12 min-h-[400px] sm:min-h-[500px]">
                 {/* 99.9% Badge */}
@@ -39,8 +49,8 @@ const ProductImageSection: React.FC = () => {
                 {/* Main Product Image */}
                 <div className="relative w-full h-full mt-10 sm:mt-16 flex items-center justify-center">
                     <img
-                        src="/assets/home/aqu-banner.png"
-                        alt="Fiji Aqua Pro"
+                        src={getImageUrl(product.images?.[selectedImage])}
+                        alt={product.name}
                         className="w-full max-w-[300px] sm:max-w-[450px] aspect-square object-contain relative z-10"
                     />
                     {/* Podium */}
@@ -55,21 +65,35 @@ const ProductImageSection: React.FC = () => {
                 <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-linear-to-t from-white/30 to-transparent pointer-events-none z-20"></div>
 
                 {/* Nav Buttons */}
-                <button className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-all z-30">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                </button>
-                <button className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-all z-30">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-                </button>
+                {product.images && product.images.length > 1 && (
+                    <>
+                        <button
+                            onClick={() => setSelectedImage(prev => prev > 0 ? prev - 1 : product.images.length - 1)}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-all z-30"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        </button>
+                        <button
+                            onClick={() => setSelectedImage(prev => prev < product.images.length - 1 ? prev + 1 : 0)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/50 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-sm hover:bg-white transition-all z-30"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                        </button>
+                    </>
+                )}
             </div>
 
             {/* Thumbnail Navigation */}
             <div className="flex gap-4 mt-6 overflow-x-auto no-scrollbar pb-2">
-                {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="min-w-[80px] sm:min-w-[100px] aspect-square bg-[#000000] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-[#007EBB] transition-all relative">
+                {product.images?.map((image, i) => (
+                    <div
+                        key={i}
+                        onClick={() => setSelectedImage(i)}
+                        className={`min-w-[80px] sm:min-w-[100px] aspect-square bg-[#000000] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-[#007EBB] transition-all relative ${selectedImage === i ? 'ring-2 ring-[#007EBB]' : ''}`}
+                    >
                         <img
-                            src="/assets/home/aqu-banner.png"
-                            alt={`Thumbnail ${i}`}
+                            src={getImageUrl(image)}
+                            alt={`${product.name} ${i + 1}`}
                             className="w-full h-full object-contain p-2 relative z-10"
                         />
                         <img

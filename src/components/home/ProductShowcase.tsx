@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { homeService } from '../../services/home/homeService';
-import { IMAGE_BASE_URL } from '../../config/apiConfig';
+import { IMAGE_BASE_URL, getImageUrl } from '../../config/apiConfig';
 import ProductShowcaseSkeleton from '../ui/skeletons/ProductShowcaseSkeleton';
 
 interface Product {
@@ -52,9 +52,7 @@ const ProductShowcase: React.FC = () => {
                         id: p._id,
                         name: p.name,
                         description: p.description || 'Quality purification system ensuring clean and safe water for your needs.',
-                        image: p.images && p.images.length > 0 
-                            ? (p.images[0].startsWith('http') ? p.images[0] : `${IMAGE_BASE_URL}/${p.images[0]}`)
-                            : '/assets/home/aqu-banner.png',
+                        image: getImageUrl(p.images?.[0]),
                         discount: p.discount ? `${p.discount}% OFF` : undefined,
                         price: p.price ? `₹${p.price}` : undefined,
                         type: p.brand || 'Sony'

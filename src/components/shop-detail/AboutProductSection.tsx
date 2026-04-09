@@ -1,8 +1,13 @@
 import { motion } from 'framer-motion';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
+import type { Product } from '../../types/product';
 
-const AboutProductSection: React.FC = () => {
+interface AboutProductSectionProps {
+    product: Product;
+}
+
+const AboutProductSection: React.FC<AboutProductSectionProps> = ({ product }) => {
     const { setActiveId } = useHighlight();
 
     return (
@@ -32,9 +37,10 @@ const AboutProductSection: React.FC = () => {
                             </FloatingHighlight>
                         </motion.div>
                     </div>
-                    <p className=" text-black text-lg md:text-xl text-justify font-light">
-                        The Aqua Pro RO + UV + UF + TDS Adjuster Water Purifier is engineered for households who demand clean, safe drinking water from multiple water sources (tap, borewell, tanker). With its advanced multi-stage purification process and smart design, it removes harmful contaminants while preserving essential minerals, giving you peace of mind and true purity at every sip. It's ideal for modern families looking for reliable performance, minimal maintenance and health-focused water quality.
-                    </p>
+                    <div 
+                        className="text-black text-lg md:text-xl text-justify font-light"
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
                 </div>
 
                 {/* Cards Grid */}

@@ -26,5 +26,24 @@ export const productService = {
             console.error('Product Service Error:', error);
             throw error;
         }
+    },
+
+    /**
+     * Fetch a single product by ID
+     */
+    getProductById: async (id: string) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/customers/products/${id}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch product');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Product Service Error:', error);
+            throw error;
+        }
     }
 };

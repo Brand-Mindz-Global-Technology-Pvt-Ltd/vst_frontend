@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 import ReviewModal from './ReviewModal';
+import type { Product } from '../../types/product';
 
+interface CustomerReviewsSectionProps {
+    product: Product;
+}
 
-const CustomerReviewsSection: React.FC = () => {
+const CustomerReviewsSection: React.FC<CustomerReviewsSectionProps> = ({ product }) => {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
     const ratings = [
@@ -46,9 +50,18 @@ const CustomerReviewsSection: React.FC = () => {
 
                         <div className="flex flex-col gap-4 mb-8">
                             <div className="flex text-yellow-400 gap-1">
-                                {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={25} fill="currentColor" stroke="none" />)}
+                                {[...Array(5)].map((_, i) => (
+                                    <Star 
+                                        key={i} 
+                                        size={25} 
+                                        fill={i < Math.floor(product.rating) ? "currentColor" : "none"} 
+                                        stroke={i < Math.floor(product.rating) ? "none" : "currentColor"} 
+                                    />
+                                ))}
                             </div>
-                            <span className="text-sm md:text-md text-black font-semibold">Based on 5000 reviews</span>
+                            <span className="text-sm md:text-md text-black font-semibold">
+                                Based on {product.reviewsCount || 0} reviews
+                            </span>
                         </div>
 
                         <div className="flex flex-col gap-3 mb-10">
@@ -101,7 +114,14 @@ const CustomerReviewsSection: React.FC = () => {
                                     </div>
 
                                     <div className="flex text-yellow-400 gap-1 mt-0">
-                                        {[1, 2, 3, 4, 5].map((s) => <Star key={s} size={18} fill="currentColor" stroke="none" />)}
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star 
+                                                key={i} 
+                                                size={18} 
+                                                fill={i < review.stars ? "currentColor" : "none"} 
+                                                stroke={i < review.stars ? "none" : "currentColor"} 
+                                            />
+                                        ))}
                                     </div>
 
                                     <h4 className="text-2xl font-josefin text-black -mt-1">{review.title}</h4>

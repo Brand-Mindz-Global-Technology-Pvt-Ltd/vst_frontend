@@ -2,7 +2,7 @@ import { Heart, Star, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface ShopProductCardProps {
-    id: number;
+    id: string;
     name: string;
     image: string;
     rating: number;

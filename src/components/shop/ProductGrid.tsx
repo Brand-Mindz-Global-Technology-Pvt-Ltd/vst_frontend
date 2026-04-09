@@ -1,7 +1,7 @@
 import React from 'react';
 import ShopProductCard from './ShopProductCard';
 import { useProducts } from '../../hooks/useProducts';
-import { IMAGE_BASE_URL } from '../../config/apiConfig';
+import { getImageUrl } from '../../config/apiConfig';
 
 const ProductGrid: React.FC = () => {
     const { products, loading, error } = useProducts(1, 12); // Fetching first page with 12 items
@@ -36,14 +36,12 @@ const ProductGrid: React.FC = () => {
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {products.map((product) => {
-                    const productImage = product.images && product.images.length > 0
-                        ? `${IMAGE_BASE_URL}${product.images[0]}`
-                        : "/assets/home/aqu-banner.png";
+                    const productImage = getImageUrl(product.images?.[0]);
 
                     return (
                         <ShopProductCard
                             key={product._id}
-                            id={product._id as any}
+                            id={product._id}
                             name={product.name}
                             image={productImage}
                             rating={product.rating || 0}
