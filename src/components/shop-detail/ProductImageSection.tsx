@@ -21,30 +21,34 @@ const ProductImageSection: React.FC<ProductImageSectionProps> = ({ product }) =>
             </div>
             <div className="bg-[#EAF8FF] rounded-3xl overflow-hidden relative flex items-center justify-center p-6 sm:p-12 min-h-[400px] sm:min-h-[500px]">
                 {/* 99.9% Badge */}
-                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 scale-90 sm:scale-100 origin-top-left">
-                    <div className="flex items-start gap-2">
-                        <img src="/assets/shopdetail/icons/guarantee.png" className="w-8 h-8 sm:w-9 sm:h-9" alt="" />
-                        <div className="flex flex-col">
-                            <span className="text-xl sm:text-4xl font-bold font-josefin leading-none">99.9%</span>
-                            <span className="text-[9px] sm:text-[17px] font-semibold font-josefin   text-black px-0 py-0 rounded-sm w-fit">Guarantee pure water</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 10X Badge */}
-                <div className="absolute top-4 right-10 sm:top-6 sm:right-10 z-10 text-left scale-90 sm:scale-100 origin-top-right">
-                    <div className="flex items-start gap-2">
+                {product.badge99 && (
+                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 scale-90 sm:scale-100 origin-top-left">
                         <div className="flex items-start gap-2">
-                            <img src='/assets/shopdetail/icons/watercheck.png' className='w-8 h-8 sm:w-10 sm:h-10 md:mt-0' alt='' />
-                            <div className='flex flex-col'>
-                                <span className='text-xl sm:text-4xl font-bold font-josefin leading-none'>10X</span>
-                                <span className="text-[10px] sm:text-[18px] font-semibold font-josefin leading-tight max-w-[140px] sm:max-w-[200px]">
-                                    more effective at <br className="hidden sm:block" />removing impurities
-                                </span>
+                            <img src="/assets/shopdetail/icons/guarantee.png" className="w-8 h-8 sm:w-9 sm:h-9" alt="" />
+                            <div className="flex flex-col">
+                                <span className="text-xl sm:text-4xl font-bold font-josefin leading-none">99.9%</span>
+                                <span className="text-[9px] sm:text-[17px] font-semibold font-josefin text-black px-0 py-0 rounded-sm w-fit">Guarantee pure water</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
+
+                {/* 10X Badge */}
+                {product.badge10x && (
+                    <div className="absolute top-4 right-10 sm:top-6 sm:right-10 z-10 text-left scale-90 sm:scale-100 origin-top-right">
+                        <div className="flex items-start gap-2">
+                            <div className="flex items-start gap-2">
+                                <img src='/assets/shopdetail/icons/watercheck.png' className='w-8 h-8 sm:w-10 sm:h-10 md:mt-0' alt='' />
+                                <div className='flex flex-col'>
+                                    <span className='text-xl sm:text-4xl font-bold font-josefin leading-none'>10X</span>
+                                    <span className="text-[10px] sm:text-[18px] font-semibold font-josefin leading-tight max-w-[140px] sm:max-w-[200px]">
+                                        more effective at <br className="hidden sm:block" />removing impurities
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Main Product Image */}
                 <div className="relative w-full h-full mt-10 sm:mt-16 flex items-center justify-center">
@@ -84,17 +88,17 @@ const ProductImageSection: React.FC<ProductImageSectionProps> = ({ product }) =>
             </div>
 
             {/* Thumbnail Navigation */}
-            <div className="flex gap-4 mt-6 overflow-x-auto no-scrollbar pb-2">
+            <div className={`flex gap-3 sm:gap-4 mt-6  no-scrollbar pb-2 ${product.images && product.images.length > 0 ? 'justify-center' : ''}`}>
                 {product.images?.map((image, i) => (
                     <div
                         key={i}
                         onClick={() => setSelectedImage(i)}
-                        className={`min-w-[80px] sm:min-w-[100px] aspect-square bg-[#000000] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-[#007EBB] transition-all relative ${selectedImage === i ? 'ring-2 ring-[#007EBB]' : ''}`}
+                        className={`w-14 h-14 sm:w-20 sm:h-20 aspect-square bg-[#000000] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-[#007EBB] transition-all relative shrink-0 ${selectedImage === i ? 'ring-2 ring-[#007EBB]' : ''}`}
                     >
                         <img
                             src={getImageUrl(image)}
                             alt={`${product.name} ${i + 1}`}
-                            className="w-full h-full object-contain p-2 relative z-10"
+                            className="w-full h-full object-contain p-1.5 sm:p-2 relative z-10"
                         />
                         <img
                             src="/assets/home/podium.webp"

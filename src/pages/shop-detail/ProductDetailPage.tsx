@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import Footer from '../../components/ui/footer/Footer';
+// import Footer from '../../components/ui/footer/Footer';
 import ProductImageSection from '../../components/shop-detail/ProductImageSection';
 import ProductInfoSection from '../../components/shop-detail/ProductInfoSection';
 import ProductFeaturesBar from '../../components/shop-detail/ProductFeaturesBar';

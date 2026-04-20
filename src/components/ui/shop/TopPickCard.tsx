@@ -3,7 +3,7 @@ import { Heart, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface TopPickCardProps {
-    id: number;
+    id: string;
     name: string;
     image: string;
     discount?: string;

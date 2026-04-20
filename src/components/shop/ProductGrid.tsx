@@ -3,8 +3,26 @@ import ShopProductCard from './ShopProductCard';
 import { useProducts } from '../../hooks/useProducts';
 import { getImageUrl } from '../../config/apiConfig';
 
-const ProductGrid: React.FC = () => {
-    const { products, loading, error } = useProducts(1, 12); // Fetching first page with 12 items
+interface ProductGridProps {
+    filters: {
+        category: string;
+        minPrice: string;
+        maxPrice: string;
+        rating: string;
+    };
+}
+
+const ProductGrid: React.FC<ProductGridProps> = ({ filters }) => {
+    const { products, loading, error } = useProducts(
+        1, 
+        12, 
+        filters.category, 
+        '', 
+        '', 
+        filters.minPrice, 
+        filters.maxPrice, 
+        filters.rating
+    );
 
     if (loading) {
         return (

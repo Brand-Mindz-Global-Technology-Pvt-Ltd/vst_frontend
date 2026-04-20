@@ -14,6 +14,12 @@ export interface Product {
     rating: number;
     reviewsCount?: number;
     isLimitedTime?: boolean;
+    isTopPick?: boolean;
+    isHotSelling?: boolean;
+    badge99?: boolean;
+    badge10x?: boolean;
+    aboutDescription?: string;
+    aboutPoints?: { title: string; image: string }[];
     createdAt?: string;
     updatedAt?: string;
 }

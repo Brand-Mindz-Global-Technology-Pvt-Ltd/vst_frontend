@@ -23,15 +23,15 @@ const ProductFeaturesBar: React.FC = () => {
                     <div className="hidden lg:block w-1.5 h-1.5 bg-white rounded-full"></div>
 
                     {/* Item 3 - Disabled */}
-                    <div className="flex items-center gap-3 text-[#646464] justify-start lg:justify-center">
+                    <div className="flex items-center gap-3 text-white justify-start lg:justify-center">
                         <ShieldCheck size={35} strokeWidth={1.5} />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Product Warranty</span>
                     </div>
 
-                    <div className="hidden lg:block w-1.5 h-1.5 bg-white rounded-full opacity-20"></div>
+                    <div className="hidden lg:block w-1.5 h-1.5 bg-white rounded-full "></div>
 
                     {/* Item 4 - Disabled */}
-                    <div className="flex items-center gap-3 text-[#646464] justify-start lg:justify-center">
+                    <div className="flex items-center gap-3 text-white justify-start lg:justify-center">
                         <ThumbsUp size={35} strokeWidth={1.5} />
                         <span className="text-sm sm:text-lg font-josefin font-light tracking-wide">Top Rated Products</span>
                     </div>
