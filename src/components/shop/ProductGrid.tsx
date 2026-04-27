@@ -64,9 +64,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({ filters }) => {
                             image={productImage}
                             rating={product.rating || 0}
                             reviews={product.reviewsCount?.toString() || "0"}
-                            currentPrice={product.price?.toLocaleString() || "NA"}
-                            originalPrice={product.oldPrice?.toLocaleString() || "NA"}
+                            currentPrice={product.price || 0}
+                            originalPrice={product.oldPrice || 0}
                             isLimitedTime={product.isLimitedTime}
+                            category={product.category}
                         />
                     );
                 })}

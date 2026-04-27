@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { homeService } from '../../services/home/homeService';
-import { IMAGE_BASE_URL, getImageUrl } from '../../config/apiConfig';
+import { getImageUrl } from '../../config/apiConfig';
 import ProductShowcaseSkeleton from '../ui/skeletons/ProductShowcaseSkeleton';
 
 interface Product {

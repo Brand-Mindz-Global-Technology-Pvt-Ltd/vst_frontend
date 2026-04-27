@@ -15,7 +15,7 @@ const CommercialMain: React.FC = () => {
                         {/* Filter Section Wrapper - White Background */}
                         <div className="w-full bg-white flex justify-end pt-12">
                             <div className="w-full lg:max-w-72 xl:max-w-80 lg:pr-4 px-6 lg:pl-0">
-                                <FilterSidebar />
+                                <FilterSidebar onApply={() => {}} />
                             </div>
                         </div>
 

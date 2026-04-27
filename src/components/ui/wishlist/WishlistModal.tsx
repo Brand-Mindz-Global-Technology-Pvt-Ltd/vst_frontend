@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X, Heart, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWishlist } from '../../../context/WishlistContext';
+import { useCart, type CartItem } from '../../../context/CartContext';
+import toast from 'react-hot-toast';
 
 const WishlistModal: React.FC = () => {
     const {
@@ -9,14 +11,36 @@ const WishlistModal: React.FC = () => {
         toggleWishlist,
         wishlistItems,
         selectedItems,
-        toggleItemSelection
+        toggleItemSelection,
+        removeFromWishlist
     } = useWishlist();
+    const { addToCart, toggleCart } = useCart();
 
-    const [activeFilter, setActiveFilter] = useState<'in' | 'out'>('in');
+    const [activeFilter, setActiveFilter] = useState<'all' | 'in' | 'out'>('all');
 
-    const filteredItems = wishlistItems.filter(item =>
-        activeFilter === 'in' ? item.inStock : !item.inStock
-    );
+    const filteredItems = wishlistItems.filter(item => {
+        if (activeFilter === 'all') return true;
+        return activeFilter === 'in' ? item.inStock : !item.inStock;
+    });
+
+    const handleAddToCart = (item: any) => {
+        const cartItem: CartItem = {
+            id: item.id,
+            name: item.name,
+            description: item.category || 'Product',
+            price: item.price,
+            originalPrice: item.originalPrice,
+            image: item.image,
+            quantity: 1,
+            rating: item.rating,
+            reviewsCount: `${item.reviewsCount} Reviews`
+        };
+        addToCart(cartItem);
+        removeFromWishlist(item.id);
+        toast.success('Added to cart!', { icon: '🛒' });
+        toggleWishlist();
+        toggleCart();
+    };
 
     return (
         <AnimatePresence>
@@ -32,7 +56,7 @@ const WishlistModal: React.FC = () => {
                     />
 
                     {/* Modal Container */}
-                    <div className="fixed inset-0 z-10001 flex items-center justify-center p-4 md:p-6 pointer-events-none font-jost">
+                    <div className="fixed inset-0 z-10001 flex items-center justify-center p-2 sm:p-4 md:p-6 pointer-events-none font-jost">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -41,15 +65,24 @@ const WishlistModal: React.FC = () => {
                             className="w-full max-w-[1000px] max-h-[90vh] bg-white rounded-[28px] shadow-2xl flex flex-col overflow-hidden pointer-events-auto"
                         >
                             {/* Header */}
-                            <div className="bg-[#007ebb] text-white p-4 md:p-5 flex justify-between items-center shrink-0">
-                                <h2 className="text-xl md:text-3xl font-josefin font-medium tracking-tight">Wishlist</h2>
+                            <div className="bg-[#007ebb] text-white p-4 sm:p-5 md:p-6 flex justify-between items-center shrink-0">
+                                <h2 className="text-lg sm:text-2xl md:text-3xl font-josefin font-medium tracking-tight">Wishlist</h2>
                                 <button onClick={toggleWishlist} className="hover:scale-110 transition-transform">
                                     <X size={24} strokeWidth={2.5} />
                                 </button>
                             </div>
 
                             {/* Filters */}
-                            <div className="p-4 md:p-6 flex gap-3 shrink-0 overflow-x-auto no-scrollbar bg-gray-50/30">
+                            <div className="p-3 sm:p-4 md:p-6 flex gap-2 sm:gap-3 shrink-0 overflow-x-auto no-scrollbar bg-gray-50/30">
+                                <button
+                                    onClick={() => setActiveFilter('all')}
+                                    className={`px-6 py-1.5 rounded-lg font-josefin font-medium text-base transition-all shadow-sm ${activeFilter === 'all'
+                                        ? 'bg-[#007ebb] text-white shadow-md'
+                                        : 'bg-white text-[#007ebb] border border-[#007ebb]/20'
+                                        }`}
+                                >
+                                    All
+                                </button>
                                 <button
                                     onClick={() => setActiveFilter('in')}
                                     className={`px-6 py-1.5 rounded-lg font-josefin font-medium text-base transition-all shadow-sm ${activeFilter === 'in'
@@ -71,10 +104,10 @@ const WishlistModal: React.FC = () => {
                             </div>
 
                             {/* Product Grid */}
-                            <div className="grow overflow-y-auto p-4 md:p-6 pt-0 no-scrollbar">
-                                <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-4">
+                            <div className="grow overflow-y-auto p-2 sm:p-4 md:p-6 pt-0 no-scrollbar">
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
                                     {filteredItems.map((item) => (
-                                        <div key={item.id} className="relative group p-2">
+                                        <div key={item.id} className="relative group p-1 sm:p-2">
                                             {/* Checkbox - Positioned outside the card */}
                                             <div className="absolute top-0 left-0 z-30">
                                                 <label className="cursor-pointer">
@@ -105,8 +138,12 @@ const WishlistModal: React.FC = () => {
                                                     </div>
                                                 )}
 
-                                                {/* Wishlist Heart Icon */}
-                                                <button className="absolute top-3 right-3 z-20 text-red-500 hover:scale-110 transition-transform">
+                                                {/* Wishlist Heart Icon - Clicking this removes item */}
+                                                <button 
+                                                    onClick={() => removeFromWishlist(item.id)}
+                                                    className="absolute top-3 right-3 z-20 text-red-500 hover:scale-110 transition-transform"
+                                                    title="Remove from wishlist"
+                                                >
                                                     <Heart size={18} className="fill-current" />
                                                 </button>
 
@@ -121,7 +158,7 @@ const WishlistModal: React.FC = () => {
 
                                                 {/* Info */}
                                                 <div className="flex flex-col grow font-josefin p-3 pt-0">
-                                                    <h3 className="text-[11px] md:text-xs font-josefin font-medium text-dark line-clamp-2 mb-1.5 leading-snug min-h-[2.2rem]">
+                                                    <h3 className="text-[10px] sm:text-xs font-josefin font-medium text-dark line-clamp-2 mb-1.5 leading-snug min-h-[2.2rem]">
                                                         {item.name}
                                                     </h3>
 
@@ -144,12 +181,15 @@ const WishlistModal: React.FC = () => {
                                                     {/* Price and CTA */}
                                                     <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-50">
                                                         <div className="flex flex-col">
-                                                            <span className="text-sm md:text-base font-bold font-imperator text-dark">₹{item.price.toLocaleString()}</span>
+                                                            <span className="text-xs sm:text-base font-bold font-imperator text-dark">₹{item.price.toLocaleString()}</span>
                                                             {item.originalPrice && (
-                                                                <span className="text-[10px] text-gray-400 font-imperator line-through">₹{item.originalPrice.toLocaleString()}</span>
+                                                                <span className="text-[9px] text-gray-400 font-imperator line-through">₹{item.originalPrice.toLocaleString()}</span>
                                                             )}
                                                         </div>
-                                                        <button className="bg-[#24ac11] text-white px-3 py-1 rounded-md text-[10px] font-alata font-bold hover:bg-black transition-colors whitespace-nowrap">
+                                                        <button 
+                                                            onClick={() => handleAddToCart(item)}
+                                                            className="bg-[#24ac11] text-white px-2 sm:px-3 py-1 rounded-md text-[9px] sm:text-[10px] font-alata font-bold hover:bg-black transition-colors whitespace-nowrap"
+                                                        >
                                                             Buy Now
                                                         </button>
                                                     </div>
@@ -160,8 +200,8 @@ const WishlistModal: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="p-4 md:p-6 bg-white border-t border-gray-100 shrink-0 font-alata">
-                                <button className="w-full bg-[#007ebb] text-white py-3 rounded-xl font-bold text-lg hover:bg-black transition-all transform active:scale-95 shadow-md">
+                            <div className="p-3 sm:p-4 md:p-6 bg-white border-t border-gray-100 shrink-0 font-alata">
+                                <button className="w-full bg-[#007ebb] text-white py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-lg hover:bg-black transition-all transform active:scale-95 shadow-md">
                                     Buy now
                                 </button>
                             </div>

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Heart, Share2, Star, ChevronDown } from 'lucide-react';
+import { useCart, type CartItem } from '../../context/CartContext';
+import { getImageUrl } from '../../config/apiConfig';
+import toast from 'react-hot-toast';
 import type { Product } from '../../types/product';
 
 interface ProductInfoSectionProps {
@@ -8,6 +11,33 @@ interface ProductInfoSectionProps {
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useCart();
+
+    const handleAddToCart = () => {
+        const cartItem: CartItem = {
+            id: product._id,
+            name: product.name,
+            description: product.category,
+            price: product.price,
+            originalPrice: product.oldPrice,
+            image: getImageUrl(product.images[0]),
+            quantity: quantity,
+            rating: product.rating,
+            reviewsCount: `${product.reviewsCount || 0} Reviews`,
+            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined
+        };
+
+        addToCart(cartItem);
+        toast.success(`${product.name} added to cart!`, {
+            icon: '🛒',
+            style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+            },
+        });
+        // Optional: toggleCart(); // Uncomment if you want to open cart immediately
+    };
 
     return (
         <div className="flex flex-col gap-6 font-josefin md:pt-12">
@@ -90,7 +120,10 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                         </div>
                     </div>
                     <div className="flex-2 w-full sm:w-auto">
-                        <button className="relative group overflow-hidden w-full px-12 py-3 bg-[#EFEFEF] md:text-[19px] border border-black rounded-xl text-black font-semibold transition-all duration-300">
+                        <button 
+                            onClick={handleAddToCart}
+                            className="relative group overflow-hidden w-full px-12 py-3 bg-[#EFEFEF] md:text-[19px] border border-black rounded-xl text-black font-semibold transition-all duration-300"
+                        >
                             <span className="relative z-10 group-hover:text-white transition-colors duration-300">Add to cart</span>
                             <div className="absolute bottom-0 left-0 w-full h-0 bg-black transition-all duration-500 group-hover:h-full z-0"></div>
                         </button>

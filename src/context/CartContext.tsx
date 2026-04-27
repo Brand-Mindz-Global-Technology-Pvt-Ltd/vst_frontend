@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 export interface CartItem {
     id: string | number;
@@ -44,21 +44,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const [isHeroCheckout, setIsHeroCheckout] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<CartItem | null>(null);
-    // Mock data based on design
-    const [cartItems, setCartItems] = useState<CartItem[]>([
-        {
-            id: 1,
-            name: "ATLANTIS Frosty Plus Hot, Normal & Cold Water Dispenser | Floor Standing | 5L/Hour Cooling & Heating Capacity | Smart Glass Push-Pull Taps | 1 Year Warranty",
-            description: "",
-            price: 7500,
-            originalPrice: 12500,
-            image: "/assets/home/aqu-banner.png",
-            quantity: 1,
-            rating: 4.8,
-            reviewsCount: "2.5K Reviews",
-            discount: "40% OFF"
-        }
-    ]);
+    const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+        const savedCart = localStorage.getItem('vst_cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('vst_cart', JSON.stringify(cartItems));
+    }, [cartItems]);
 
     const toggleCart = () => setIsCartOpen(!isCartOpen);
     const toggleCheckout = (isHero = false, product: CartItem | null = null) => {
