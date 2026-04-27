@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
                             className="h-14 md:h-16 w-auto object-contain"
                         />
                         <p className="text-white text-sm leading-relaxed max-w-[350px]">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            Our journey is built on a simple belief — clean water creates healthier lives. Since our establishment in 2003, we have been dedicated to delivering reliable water purification solutions for homes, businesses, and industries.
                         </p>
                         <div className="flex gap-4 mt-2">
                             <a href="#" className="p-2 transition-transform hover:scale-110">

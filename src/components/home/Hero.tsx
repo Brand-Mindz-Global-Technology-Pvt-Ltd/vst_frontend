@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
             titleStart: "Pure Water",
             titleEnd: "Pure Life",
             familyImage: "/assets/home/family.webp",
-            productImage: "/assets/home/aqu-banner.png",
+            productImage: "/assets/home/purifier.png",
             trustCount: "15K"
         },
         {
@@ -25,13 +25,6 @@ const Hero: React.FC = () => {
             productImage: "/assets/home/commercial.png",
             trustCount: "12K",
             overlayColor: "#6C1E1E"
-        },
-        {
-            titleStart: "Pure Water",
-            titleEnd: "Pure Life",
-            familyImage: "/assets/home/hero.webp",
-            productImage: "/assets/home/aqu-banner.png",
-            trustCount: "18K",
         }
     ];
 

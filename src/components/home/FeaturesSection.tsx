@@ -51,18 +51,18 @@ const imageSets = [
     {
         layout: 'standard',
         images: [
-            'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1542385151-efd9000785a0?q=80&w=1974&auto=format&fit=crop',
+            '/assets/home/feature-1.jpg',
+            '/assets/home/feature-2.jpg',
+            '/assets/home/feature-3.jpg',
         ],
         text: '22 YEARS OF EXPERTISE'
     },
     {
         layout: 'alternate',
         images: [
-            'https://images.unsplash.com/photo-1600880212319-78443973a116?q=80&w=2070&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
-            'https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1974&auto=format&fit=crop',
+            '/assets/home/feature-4.jpg',
+            '/assets/home/feature-5.jpg',
+            '/assets/home/feature-6.jpg',
         ],
         text: ''
     },
@@ -195,6 +195,8 @@ const FeaturesSection: React.FC = () => {
                                                     src={set.images[0]}
                                                     alt="Feature Top"
                                                     className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    decoding="async"
                                                 />
                                             </div>
 
@@ -204,7 +206,10 @@ const FeaturesSection: React.FC = () => {
                                                     <img
                                                         src={set.images[1]}
                                                         alt="Feature Small"
-                                                        className="w-full h-full object-cover" />
+                                                        className="w-full h-full object-cover"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
                                                 </div>
                                             </div>
 
@@ -214,6 +219,8 @@ const FeaturesSection: React.FC = () => {
                                                     src={set.images[2]}
                                                     alt="Feature Square"
                                                     className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    decoding="async"
                                                 />
                                             </div>
                                         </div>
@@ -225,6 +232,8 @@ const FeaturesSection: React.FC = () => {
                                                     src={set.images[0]}
                                                     alt="Feature Rectangle"
                                                     className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    decoding="async"
                                                 />
                                                 <div className="absolute inset-0 bg-black/10"></div>
                                             </div>
@@ -235,13 +244,19 @@ const FeaturesSection: React.FC = () => {
                                                     <img
                                                         src={set.images[1]}
                                                         alt="Feature Square 1"
-                                                        className="w-full h-full object-cover" />
+                                                        className="w-full h-full object-cover"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
                                                 </div>
                                                 <div className="relative rounded-2xl overflow-hidden shadow-md h-[180px] md:h-[calc(50%-8px)]">
                                                     <img
                                                         src={set.images[2]}
                                                         alt="Feature Square 2"
-                                                        className="w-full h-full object-cover" />
+                                                        className="w-full h-full object-cover"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>

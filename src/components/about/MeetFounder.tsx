@@ -79,9 +79,16 @@ const MeetFounder: React.FC = () => {
                             </p>
                         </div>
 
-                        <p className="text-dark font-jost font-normal text-justify text-lg md:text-xl leading-relaxed">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                        </p>
+                        <div className="relative">
+                            <div className="space-y-6">
+                                <p className="text-dark font-jost font-normal text-justify text-lg md:text-xl leading-relaxed relative z-10">
+                                    At VST, we believe that access to pure and safe water is a basic right for everyone. Our journey began with the vision of building trust and providing dependable solutions, not just selling products.
+                                </p>
+                                <p className="text-dark font-jost font-normal text-justify text-lg md:text-xl leading-relaxed relative z-10">
+                                    Over the years, seeing the positive impact on families and businesses has been our greatest motivation. We remain committed to delivering high-quality, reliable systems that customers can depend on every day. Thank you for trusting us.
+                                </p>
+                            </div>
+                        </div>
 
                         <div className="space-y-8 pt-4">
                             <button className="bg-[#007ebb] text-white px-8 py-2 rounded-xl font-jost text-lg font-medium transition-all duration-300 hover:bg-[#006699] hover:shadow-lg active:scale-95">

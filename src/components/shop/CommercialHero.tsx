@@ -11,7 +11,7 @@ const CommercialHero: React.FC = () => {
             titleStart="Commercial"
             titleEnd="Solutions"
             bannerImage="/assets/Images/commercial_banner.png"
-            productImage="/assets/home/aqu-banner.png"
+            productImage="/assets/home/commercial.png"
             trustCount="12K"
             onOrderClick={handleOrderNow}
         />

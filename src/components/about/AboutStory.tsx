@@ -47,16 +47,15 @@ const AboutStory: React.FC = () => {
                     {/* Left Content Area */}
                     <div className="space-y-8">
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-imperator text-dark leading-tight tracking-tight">
-                            Driven by <span className="text-[#007ebb]">Trust</span>,<br />
-                            <span className="text-[#007ebb]">Sustained</span> by Service
+                            Our <span className="text-[#007ebb]">Story</span>
                         </h2>
 
                         <div className="space-y-6 text-gray-700 text-base md:text-lg font-jost leading-relaxed max-w-xl text-justify">
                             <p>
-                                Our journey is not just about products; it's about people. The trust of our customers drives us to innovate and deliver solutions that truly make a difference. With a strong service network and customer-first philosophy, we continue to redefine purity, performance, and peace of mind.
+                                We started VST with a simple mission to provide clean and safe drinking water for everyone. Understanding that water quality differs from place to place, we focus on delivering customized purification solutions that truly meet each need.
                             </p>
                             <p>
-                                Our journey is not just about products; it's about people. The trust of our customers drives us to innovate and deliver solutions that truly make a difference. With a strong service network and customer-first philosophy, we continue to redefine purity, performance, and peace of mind.
+                                From homes to offices and industries, our systems are designed for reliability, performance, and long-term use. With a strong commitment to quality and innovation, we continue to improve everyday lives through better water.
                             </p>
                         </div>
                     </div>

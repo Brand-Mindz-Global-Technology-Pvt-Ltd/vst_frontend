@@ -61,22 +61,37 @@ const ShopHeroTemplate: React.FC<ShopHeroProps> = ({
                     <div className="absolute inset-0 z-0">
                         <img src={bannerImage} alt="Shop Banner" className="w-full h-full object-cover" />
                         {/* Right-to-Left Blue Overlay (#00A7FF) added back per user request */}
-                        <div className="absolute inset-0 bg-linear-to-l from-[#00A7FF] via-[#00A7FF]/40 to-transparent z-10 pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-linear-to-l from-[#00A7FF] via-[#00A7FF]/5 to-transparent z-10 pointer-events-none"></div>
                         <div className="absolute inset-0 bg-black/5"></div>
                     </div>
 
                     {/* 1. Left Side: Product Showcase (Moved to left per user request) */}
-                    <div className="w-full md:w-[35%] relative z-20 flex flex-col items-center justify-center py-12 md:py-20 px-6 md:px-8 mt-auto md:mt-0">
-                        <div className="relative mb-12 sm:mb-20 md:mb-32 flex flex-col items-center w-full group">
-                            <img
+                    <div className="w-full md:w-[45%] relative z-20 flex flex-col items-center justify-end pb-4 md:pb-8 px-4 md:px-8 mt-auto md:mt-0 h-full">
+                        <div className="relative mb-[-15px] md:mb-[-30px] flex flex-col items-center w-full group">
+                            {/* Product Image with Float Animation */}
+                            <motion.img
                                 src={productImage}
                                 alt="Product"
-                                className="w-[140px] sm:w-[180px] md:w-[220px] z-20 drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.03]"
+                                animate={{ y: [0, -8, 0] }}
+                                transition={{
+                                    duration: 4,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                                className="w-[150px] sm:w-[190px] md:w-[260px] lg:w-[320px] z-20 drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)] transition-all duration-700 hover:scale-[1.05]"
                             />
-                            <div className="relative -mt-8 sm:-mt-10 md:-mt-22 w-fit">
-                                <div className="w-[140px] sm:w-[180px] md:w-[340px] h-[35px] sm:h-[50px] md:h-[100px] bg-white rounded-[100%] border-b-4 sm:border-b-8 border-gray-300 shadow-2xl z-10 relative"></div>
-                                <div className="w-[140px] sm:w-[180px] md:w-[340px] h-[45px] sm:h-[65px] md:h-[110px] bg-linear-to-b from-white via-gray-100 to-gray-400 -mt-[20px] sm:-mt-[25px] md:-mt-[50px] rounded-b-[40px] sm:rounded-b-[50px] md:rounded-b-[80px] shadow-inner border-x border-gray-100"></div>
-                            </div>
+                            
+                            {/* Enhanced Podium System */}
+                            {/* Podium system hidden as per best practices */}
+                            {/* <div className="relative -mt-6 sm:-mt-10 md:-mt-24 lg:-mt-28 w-fit flex flex-col items-center">
+                                <div className="w-[180px] sm:w-[220px] md:w-[380px] lg:w-[480px] h-[35px] sm:h-[50px] md:h-[100px] lg:h-[120px] bg-white rounded-[100%] border-b-[3px] sm:border-b-[6px] md:border-b-[8px] border-gray-300 shadow-2xl z-10 relative overflow-hidden">
+                                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8),transparent_70%)] opacity-60"></div>
+                                </div>
+                                <div className="w-[180px] sm:w-[220px] md:w-[380px] lg:w-[480px] h-[45px] sm:h-[65px] md:h-[110px] lg:h-[130px] bg-linear-to-b from-white via-gray-100 to-gray-400 -mt-[18px] sm:-mt-[25px] md:-mt-[50px] lg:-mt-[60px] rounded-b-[40px] sm:rounded-b-[60px] md:rounded-b-[100px] lg:rounded-b-[120px] shadow-inner border-x border-gray-100 flex items-center justify-center">
+                                    <div className="w-[85%] h-[2px] bg-white/30 blur-[1px] mt-auto mb-2 lg:mb-4 rounded-full"></div>
+                                </div>
+                            </div> */}
+                       
                         </div>
 
                         {/* Top-Left Tab (Trust badge) positioned relative to the container but visually aligned */}

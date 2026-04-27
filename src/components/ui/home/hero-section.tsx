@@ -23,7 +23,6 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
     onOrderClick = () => console.log("Order Now clicked"),
 }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
-    const [rotationY, setRotationY] = React.useState(0);
     const { setActiveId } = useHighlight();
 
     // Update highlight context when slide changes
@@ -40,7 +39,6 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
         // 4s interval for auto-sliding
         const scrollTimer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % slides.length);
-            setRotationY((prev) => prev + 180);
         }, 4000);
 
         return () => {
@@ -154,71 +152,22 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                         <div className="relative w-full flex flex-col items-center justify-end scale-75 md:scale-[0.85] lg:scale-100">
 
                             {/* 3D CONTAINER: High perspective makes it look like a label spin */}
-                            <div className="relative z-30 mb-[-60px] lg:mb-[-80px]" style={{ perspective: '2000px' }}>
-                                <motion.div
-                                    key="spinning-product"
-                                    animate={{ rotateY: rotationY }}
-                                    transition={{
-                                        duration: 1.9,
-                                        ease: [0.22, 1, 0.36, 1] // "Quintic" easing for that smooth high-end look
-                                    }}
-                                    style={{
-                                        transformStyle: 'preserve-3d',
-                                        position: 'relative',
-                                        width: '320px',
-                                        height: '450px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                    {/* FRONT FACE: Visible on even rotations (0, 360, 720...) */}
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            backfaceVisibility: 'hidden',
-                                            WebkitBackfaceVisibility: 'hidden',
-                                            transform: 'rotateY(0deg) translateZ(120px)',
-                                            width: '100%',
-                                            height: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
+                            <div className="relative z-30 mb-[-60px] lg:mb-[-80px] h-[450px] w-[320px] flex items-center justify-center">
+                                <AnimatePresence mode="wait">
+                                    <motion.img
+                                        key={currentIndex}
+                                        src={currentSlide.productImage}
+                                        alt="Product"
+                                        initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+                                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                        exit={{ opacity: 0, y: -40, filter: 'blur(10px)' }}
+                                        transition={{
+                                            duration: 0.8,
+                                            ease: [0.22, 1, 0.36, 1]
                                         }}
-                                    >
-                                        <img
-                                            src={((rotationY / 180) % 2 === 0)
-                                                ? slides[currentIndex].productImage
-                                                : slides[(currentIndex + 1) % slides.length].productImage
-                                            }
-                                            alt="Product Front"
-                                            className="max-h-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.2)]"
-                                        />
-                                    </div>
-
-                                    {/* BACK FACE: Visible on odd rotations (180, 540, 900...) */}
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            backfaceVisibility: 'hidden',
-                                            WebkitBackfaceVisibility: 'hidden',
-                                            transform: 'rotateY(180deg) translateZ(150px)',
-                                            width: '100%',
-                                            height: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}
-                                    >
-                                        <img
-                                            src={((rotationY / 180) % 2 !== 0)
-                                                ? slides[currentIndex].productImage
-                                                : slides[(currentIndex + 1) % slides.length].productImage
-                                            }
-                                            alt="Product Back"
-                                            className="max-h-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.2)]"
-                                        />
-                                    </div>
-                                </motion.div>
+                                        className="max-h-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.2)]"
+                                    />
+                                </AnimatePresence>
                             </div>
 
                             {/* Podium Body (Keep this simple so it doesn't distract from the spin) */}
@@ -242,15 +191,16 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                                     <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
 
-                                <button
-                                    onClick={onOrderClick}
+                                <a
+                                    href="/shop"
                                     className="bg-black text-white py-1.5 md:py-3 pl-4 sm:pl-8 pr-1.5 md:pr-2 rounded-full flex items-center gap-3 md:gap-5 text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight transition-all hover:bg-neutral-800 shadow-sm active:scale-95 group"
                                 >
                                     Order Now
                                     <div className="bg-white text-black rounded-full p-1 sm:p-1.5 md:p-4 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
                                         <ArrowRight size={12} className="sm:w-3 sm:h-3 md:w-5 md:h-5 -rotate-45" strokeWidth={3} />
                                     </div>
-                                </button>
+                                </a>
+                           
                             </div>
                         </div>
                     </div>

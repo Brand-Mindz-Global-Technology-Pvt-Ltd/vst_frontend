@@ -11,7 +11,7 @@ const ShopHero: React.FC = () => {
             titleStart="Explore Our"
             titleEnd="Products"
             bannerImage="/assets/Images/shop_banner.png"
-            productImage="/assets/home/aqu-banner.png"
+            productImage="/assets/home/commercial.png"
             trustCount="15K"
             onOrderClick={handleOrderNow}
         />
