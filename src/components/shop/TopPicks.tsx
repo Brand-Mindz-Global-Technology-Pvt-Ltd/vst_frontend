@@ -114,8 +114,8 @@ const TopPicks: React.FC = () => {
                                 discount={product.discount ? `${product.discount}% OFF` : undefined}
                                 categories={[product.category, product.subCategory].filter(Boolean)}
                                 description={product.description}
-                                currentPrice={product.price?.toString()}
-                                originalPrice={product.oldPrice?.toString()}
+                                currentPrice={product.price}
+                                originalPrice={product.oldPrice}
                                 isDetailed={activeCard === product._id}
                                 onToggle={() => setActiveCard(activeCard === product._id ? null : product._id)}
                             />

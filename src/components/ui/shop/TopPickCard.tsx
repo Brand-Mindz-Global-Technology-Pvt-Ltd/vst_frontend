@@ -1,6 +1,7 @@
-import React from 'react';
 import { Heart, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useCart, type CartItem } from '../../../context/CartContext';
+import toast from 'react-hot-toast';
 
 interface TopPickCardProps {
     id: string;
@@ -9,8 +10,8 @@ interface TopPickCardProps {
     discount?: string;
     categories?: string[];
     description?: string;
-    currentPrice?: string;
-    originalPrice?: string;
+    currentPrice?: number; // Changed to number
+    originalPrice?: number; // Changed to number
     isDetailed: boolean;
     onToggle: () => void;
 }
@@ -28,6 +29,28 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
     onToggle
 }) => {
     const navigate = useNavigate();
+    const { addToCart } = useCart();
+
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const cartItem: CartItem = {
+            id,
+            name,
+            description: categories[0] || 'Top Pick',
+            price: currentPrice || 0,
+            originalPrice: originalPrice || 0,
+            image: image,
+            quantity: 1,
+            rating: 5, // Default for top picks if not provided
+            reviewsCount: 'New'
+        };
+
+        addToCart(cartItem);
+        toast.success('Added to cart!', {
+            icon: '🛒',
+            style: { borderRadius: '10px', background: '#333', color: '#fff' }
+        });
+    };
     if (isDetailed) {
         return (
             <div className="relative w-full h-[480px] sm:h-[520px] md:h-[560px] rounded-[15px] overflow-hidden group shadow-xl bg-white flex flex-col border border-gray-100">
@@ -73,7 +96,10 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
                         <h3 className="text-xl sm:text-2xl font-semibold text-black font-josefin leading-tight max-w-[85%]">
                             {name}
                         </h3>
-                        <button className="text-black hover:text-[#007ebb] transition-transform hover:scale-110 active:scale-90 pr-1">
+                        <button 
+                            onClick={handleAddToCart}
+                            className="text-black hover:text-[#007ebb] transition-transform hover:scale-110 active:scale-90 pr-1"
+                        >
                             <ShoppingCart size={20} className="sm:w-6 sm:h-6" />
                         </button>
                     </div>
@@ -100,8 +126,8 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
                         <div className="flex flex-col">
                             <span className="text-[10px] sm:text-[12px] text-gray-500 font-bold uppercase tracking-widest mb-1 font-josefin">PRICE</span>
                             <div className="flex items-center gap-2 sm:gap-3">
-                                <span className="text-xl sm:text-[28px] font-semibold text-black font-josefin leading-none">₹{currentPrice}</span>
-                                <span className="text-[13px] sm:text-[15px] text-[#646464] line-through decoration-[#FF0000] font-josefin leading-none opacity-80 pt-0.5 sm:pt-1">₹{originalPrice}</span>
+                                <span className="text-xl sm:text-[28px] font-semibold text-black font-josefin leading-none">₹{currentPrice?.toLocaleString()}</span>
+                                <span className="text-[13px] sm:text-[15px] text-[#646464] line-through decoration-[#FF0000] font-josefin leading-none opacity-80 pt-0.5 sm:pt-1">₹{originalPrice?.toLocaleString()}</span>
                             </div>
                         </div>
                         <button

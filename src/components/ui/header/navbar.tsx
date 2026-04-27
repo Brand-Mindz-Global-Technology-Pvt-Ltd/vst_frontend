@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { User, Menu, X, Megaphone } from 'lucide-react';
+import { User, Menu, X, Megaphone, ShoppingBag, Heart } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import { useCart } from '../../../context/CartContext';
+import { useWishlist } from '../../../context/WishlistContext';
 import FloatingHighlight from '../framer/FloatingHighlight';
 
 const Navbar: React.FC = () => {
@@ -9,6 +11,8 @@ const Navbar: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation();
     const { user, isAuthenticated } = useAuth();
+    const { cartCount, toggleCart } = useCart();
+    const { wishlistItems, toggleWishlist } = useWishlist();
 
     // Scroll listener for sticky effect
     useEffect(() => {
@@ -85,7 +89,43 @@ const Navbar: React.FC = () => {
                         </div>
 
                         {/* Actions */}
-                        <div className="flex items-center gap-4 md:gap-6">
+                        <div className="flex items-center gap-2 md:gap-4">
+                             {/* Cart Icon */}
+                             <button 
+                                onClick={toggleCart}
+                                className="relative flex items-center justify-center transition-colors" 
+                                aria-label="Open Cart"
+                             >
+                                <FloatingHighlight id="header-cart" boxClassName="rounded-full">
+                                    <div className="p-2 relative">
+                                        <ShoppingBag size={22} strokeWidth={1.5} />
+                                        {cartCount > 0 && (
+                                            <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                                                {cartCount}
+                                            </span>
+                                        )}
+                                    </div>
+                                </FloatingHighlight>
+                            </button>
+
+                            {/* Wishlist Icon */}
+                            <button 
+                                onClick={toggleWishlist}
+                                className="relative flex items-center justify-center transition-colors" 
+                                aria-label="Open Wishlist"
+                             >
+                                <FloatingHighlight id="header-wishlist" boxClassName="rounded-full">
+                                    <div className="p-2 relative">
+                                        <Heart size={22} strokeWidth={1.5} />
+                                        {wishlistItems.length > 0 && (
+                                            <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-in zoom-in duration-300">
+                                                {wishlistItems.length}
+                                            </span>
+                                        )}
+                                    </div>
+                                </FloatingHighlight>
+                            </button>
+
                              <a href="/profile" className="relative flex items-center justify-center transition-colors" aria-label="User Profile">
                                 <FloatingHighlight id="header-icon" boxClassName="rounded-full">
                                     <div className="p-2 flex items-center gap-2">

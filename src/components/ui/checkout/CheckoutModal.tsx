@@ -4,7 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
-import { apiCreateAddress, apiGetAddresses, apiDeleteAddress, apiCreateOrder, apiUpdateAddress } from '../../../services/order/orderService';
+import { 
+    apiCreateAddress, 
+    apiGetAddresses, 
+    apiDeleteAddress, 
+    apiCreateOrder, 
+    apiUpdateAddress,
+    apiInitiatePhonePePayment 
+} from '../../../services/order/orderService';
 
 const CheckoutModal: React.FC = () => {
     const navigate = useNavigate();
@@ -52,8 +59,9 @@ const CheckoutModal: React.FC = () => {
     }, [isCheckoutOpen, isAuthenticated]);
 
     const fetchAddresses = async () => {
+        if (!user?.id) return;
         try {
-            const response = await apiGetAddresses();
+            const response = await apiGetAddresses(user.id);
             if (response.success && response.data.length > 0) {
                 setAddresses(response.data);
                 if (!selectedAddressId) {
@@ -98,9 +106,9 @@ const CheckoutModal: React.FC = () => {
 
             let response;
             if (selectedAddressId) {
-                response = await apiUpdateAddress(selectedAddressId, payload);
+                response = await apiUpdateAddress(user!.id, selectedAddressId, payload);
             } else {
-                response = await apiCreateAddress(payload);
+                response = await apiCreateAddress(user!.id, payload);
             }
 
             if (response.success) {
@@ -123,7 +131,7 @@ const CheckoutModal: React.FC = () => {
         e.stopPropagation();
         if (!window.confirm("Delete this address?")) return;
         try {
-            await apiDeleteAddress(id);
+            await apiDeleteAddress(user!.id, id);
             if (selectedAddressId === id) {
                 setSelectedAddressId(null);
                 setShowAddressForm(true);
@@ -135,40 +143,47 @@ const CheckoutModal: React.FC = () => {
     };
 
     const handleCheckoutAction = async () => {
-        if (!isAuthenticated) {
-            handleClose();
-            navigate('/login');
-            return;
-        }
+    if (!isAuthenticated) {
+        handleClose();
+        navigate('/login');
+        return;
+    }
 
-        if (!selectedAddressId) {
-            setError('Please save or select a delivery address');
-            return;
-        }
+    if (!selectedAddressId) {
+        setError('Please save or select a delivery address');
+        return;
+    }
 
-        setIsLoading(true);
-        setError('');
+    if (!user?.id) {
+        setError('User details not found. Please login again.');
+        return;
+    }
 
-        try {
-            const items = displayItems.map(item => ({
-                productId: item.id === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : item.id,
-                name: item.name,
-                qty: item.quantity || 1,
-                price: item.price
-            }));
+    setIsLoading(true);
+    setError('');
 
+    try {
+        const items = displayItems.map(item => ({
+            productId: item.id === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : item.id,
+            name: item.name,
+            qty: item.quantity || 1,
+            price: item.price
+        }));
+
+        if (selectedPayment === 'cod') {
             const orderResponse = await apiCreateOrder({
                 shippingAddressId: selectedAddressId,
                 items,
                 subtotal: displayTotal,
                 shipping: deliveryFee,
                 totalAmount: finalTotal,
-                paymentMethod: selectedPayment === 'cod' ? 'COD' : 'Online'
+                paymentMethod: 'COD'
             });
 
             if (orderResponse.success) {
                 setIsSuccess(true);
                 clearCart();
+
                 setTimeout(() => {
                     handleClose();
                     navigate('/profile?tab=orders');
@@ -176,17 +191,38 @@ const CheckoutModal: React.FC = () => {
             } else {
                 setError(orderResponse.message || 'Order failed');
             }
-        } catch (err: any) {
-            console.error(err);
-             if (err.message?.includes("No token provided") || err.status === 401) {
-                setError("Unauthorized: Your session has expired. Please logout and login again.");
-            } else {
-                setError(err.message || 'An unexpected error occurred');
-            }
-        } finally {
-            setIsLoading(false);
+
+            return;
         }
-    };
+
+        const phonePeResponse = await apiInitiatePhonePePayment({
+            customerId: user.id,
+            shippingAddressId: selectedAddressId,
+            items,
+            subtotal: displayTotal,
+            shipping: deliveryFee,
+            totalAmount: finalTotal
+        });
+
+        if (phonePeResponse.success && phonePeResponse.data?.paymentUrl) {
+            window.location.href = phonePeResponse.data.paymentUrl;
+            return;
+        }
+
+        setError(phonePeResponse.message || 'PhonePe payment initiation failed');
+
+    } catch (err: any) {
+        console.error(err);
+
+        if (err.message?.includes("No token provided") || err.status === 401) {
+            setError("Unauthorized: Your session has expired. Please logout and login again.");
+        } else {
+            setError(err.message || 'An unexpected error occurred');
+        }
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     const handleClose = () => {
         toggleCheckout(false);
@@ -210,12 +246,13 @@ const CheckoutModal: React.FC = () => {
                         className="fixed inset-0 bg-black/60 z-10000 backdrop-blur-md"
                     />
 
-                    <div className="fixed inset-0 z-10001 flex items-center justify-center p-2 sm:p-4 md:p-6 pointer-events-none font-josefin">
+                    <div className="fixed inset-0 z-10001 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 pointer-events-none font-josefin">
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                            className="w-full max-w-[1100px] h-[92vh] bg-white rounded-[40px] shadow-[0_32px_128px_-16px_rgba(0,126,187,0.2)] flex flex-col overflow-hidden pointer-events-auto border border-blue-50"
+                            initial={{ y: "100%", opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: "100%", opacity: 0 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="w-full max-w-[1100px] h-[95vh] sm:h-[92vh] bg-white rounded-t-[32px] sm:rounded-[40px] shadow-[0_32px_128px_-16px_rgba(0,126,187,0.2)] flex flex-col overflow-hidden pointer-events-auto border border-blue-50"
                         >
                             <AnimatePresence mode="wait">
                                 {isSuccess ? (
@@ -235,16 +272,16 @@ const CheckoutModal: React.FC = () => {
                                 ) : (
                                     <div key="checkout-form" className="flex flex-col h-full">
                                         {/* Header */}
-                                        <div className="p-8 md:px-12 md:py-10 flex justify-between items-center shrink-0 border-b border-gray-100 uppercase tracking-tighter">
-                                            <h2 className="text-3xl font-alata font-medium tracking-tight text-[#007ebb]">Checkout Process</h2>
-                                            <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-full transition-all group active:scale-90">
-                                                <X size={28} className="text-gray-400 group-hover:text-red-500 transition-colors" />
+                                        <div className="p-4 sm:p-6 md:p-10 flex justify-between items-center shrink-0 border-b border-gray-100 uppercase tracking-tighter">
+                                            <h2 className="text-lg sm:text-2xl md:text-3xl font-alata font-medium tracking-tight text-[#007ebb]">Checkout Process</h2>
+                                            <button onClick={handleClose} className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-all group active:scale-90">
+                                                <X size={24} className="text-gray-400 group-hover:text-red-500 transition-colors" />
                                             </button>
                                         </div>
 
                                         {/* Error Alert */}
                                         {error && (
-                                            <div className="mx-12 mt-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center justify-between gap-3 border border-red-100 font-bold text-sm">
+                                            <div className="mx-4 sm:mx-12 mt-4 sm:mt-6 p-4 bg-red-50 text-red-600 rounded-2xl flex items-center justify-between gap-3 border border-red-100 font-bold text-sm">
                                                 <div className="flex items-center gap-3">
                                                     <AlertCircle size={20} />
                                                     <span>{error}</span>
@@ -256,17 +293,17 @@ const CheckoutModal: React.FC = () => {
                                         )}
 
                                         {/* Body Content */}
-                                        <div className="grow overflow-y-auto px-6 sm:px-12 py-10 bg-gray-50/20">
-                                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-[1000px] mx-auto">
+                                        <div className="grow overflow-y-auto px-4 sm:px-8 md:px-12 py-6 md:py-10 bg-gray-50/20 no-scrollbar">
+                                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 max-w-[1000px] mx-auto">
                                                 
                                                 {/* Left Column */}
                                                 <div className="lg:col-span-7 space-y-12">
                                                     
                                                     {/* 2. Delivery Address */}
-                                                    <section className="space-y-8">
+                                                    <section className="space-y-4 sm:space-y-8">
                                                         <div className="flex items-center justify-between">
-                                                            <h3 className="text-xl font-alata font-medium text-dark flex items-center gap-3 uppercase tracking-tighter">
-                                                                <div className="w-1.5 h-7 bg-[#007ebb] rounded-full" /> Delivery Address
+                                                            <h3 className="text-lg sm:text-xl font-alata font-medium text-dark flex items-center gap-3 uppercase tracking-tighter">
+                                                                <div className="w-1.5 h-6 sm:h-7 bg-[#007ebb] rounded-full" /> Delivery Address
                                                             </h3>
                                                             {addresses.length > 0 && (
                                                                 <button 
@@ -288,7 +325,7 @@ const CheckoutModal: React.FC = () => {
                                                                             setSelectedAddressId(addr._id);
                                                                             updateFormFromAddress(addr);
                                                                         }}
-                                                                        className={`p-6 rounded-[28px] border-2 transition-all cursor-pointer relative group ${selectedAddressId === addr._id ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-100 bg-white hover:border-blue-100'}`}
+                                                                        className={`p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] border-2 transition-all cursor-pointer relative group ${selectedAddressId === addr._id ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-100 bg-white hover:border-blue-100'}`}
                                                                     >
                                                                         <div className="flex justify-between items-start">
                                                                             <div>
@@ -318,47 +355,47 @@ const CheckoutModal: React.FC = () => {
 
                                                         {/* Address Form */}
                                                         {showAddressForm && (
-                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in slide-in-from-top-2">
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-8 animate-in fade-in slide-in-from-top-2">
                                                                 <div className="space-y-3">
-                                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Name</label>
+                                                                    <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Name</label>
                                                                     <div className="relative group">
                                                                         <User size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
                                                                         <input 
                                                                             type="text" required placeholder="Full Name"
-                                                                            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
+                                                                            className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
                                                                             value={formData.fullName} onChange={e=>setFormData({...formData, fullName: e.target.value})}
                                                                         />
                                                                     </div>
                                                                 </div>
                                                                 <div className="space-y-3">
-                                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Contact Number</label>
+                                                                    <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Contact Number</label>
                                                                     <div className="relative group">
                                                                         <Phone size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
                                                                         <input 
                                                                             type="text" required placeholder="Phone Number"
-                                                                            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm"
+                                                                            className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm"
                                                                             value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})}
                                                                         />
                                                                     </div>
                                                                 </div>
                                                                 <div className="space-y-3 col-span-2">
-                                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Street / Area / Colony</label>
+                                                                    <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Street / Area / Colony</label>
                                                                     <div className="relative group">
                                                                         <MapPin size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
                                                                         <input 
                                                                             type="text" required placeholder="Road name or landmark"
-                                                                            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
+                                                                            className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
                                                                             value={formData.addressLine1} onChange={e=>setFormData({...formData, addressLine1: e.target.value})}
                                                                         />
                                                                     </div>
                                                                 </div>
                                                                 <div className="space-y-3 col-span-2">
-                                                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">City / State / Pincode</label>
+                                                                    <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">City / State / Pincode</label>
                                                                     <div className="relative group">
                                                                         <Building2 size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
                                                                         <input 
                                                                             type="text" required placeholder="City, State, Zip"
-                                                                            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
+                                                                            className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
                                                                             value={formData.cityState} onChange={e=>setFormData({...formData, cityState: e.target.value})}
                                                                         />
                                                                     </div>
@@ -367,7 +404,7 @@ const CheckoutModal: React.FC = () => {
                                                                     <button 
                                                                         onClick={handleSaveAddress}
                                                                         disabled={isLoading}
-                                                                        className="w-full sm:w-fit bg-[#007ebb] hover:bg-black text-white px-10 py-5 rounded-[22px] font-bold uppercase tracking-[0.2em] transition-all active:scale-[0.98] shadow-xl shadow-blue-500/10 flex items-center justify-center gap-3"
+                                                                        className="w-full sm:w-fit bg-[#007ebb] hover:bg-black text-white px-6 sm:px-10 py-4 sm:py-5 rounded-[18px] sm:rounded-[22px] font-bold uppercase tracking-[0.2em] transition-all active:scale-[0.98] shadow-xl shadow-blue-500/10 flex items-center justify-center gap-3"
                                                                     >
                                                                         {isLoading ? <Loader2 className="animate-spin" /> : <><CheckCircle2 size={22} /> SAVE ADDRESS INFORMATION</>}
                                                                     </button>
@@ -377,20 +414,20 @@ const CheckoutModal: React.FC = () => {
                                                     </section>
 
                                                     {/* 3. Payment Method */}
-                                                    <section className="space-y-8">
-                                                        <h3 className="text-xl font-alata font-medium text-dark flex items-center gap-3 uppercase tracking-tighter">
-                                                            <div className="w-1.5 h-7 bg-[#007ebb] rounded-full" /> SELECT PAYMENT METHOD
+                                                    <section className="space-y-6 sm:space-y-8">
+                                                        <h3 className="text-lg sm:text-xl font-alata font-medium text-dark flex items-center gap-3 uppercase tracking-tighter">
+                                                            <div className="w-1.5 h-6 sm:h-7 bg-[#007ebb] rounded-full" /> SELECT PAYMENT METHOD
                                                         </h3>
                                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                             <button 
                                                                 onClick={() => setSelectedPayment('cod')}
-                                                                className={`p-8 rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'cod' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
+                                                                className={`p-4 sm:p-8 rounded-[24px] sm:rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'cod' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
                                                             >
                                                                 <div className={`p-4 rounded-2xl ${selectedPayment === 'cod' ? 'bg-[#007ebb] text-white' : 'bg-gray-100 text-gray-400'}`}>
                                                                     <Landmark size={28} />
                                                                 </div>
                                                                 <div>
-                                                                    <div className="font-bold text-dark text-xl uppercase tracking-tighter">Cash on Delivery</div>
+                                                                    <div className="font-bold text-dark text-lg sm:text-xl uppercase tracking-tighter">Cash on Delivery</div>
                                                                     <div className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest leading-none">Pay at doorstep</div>
                                                                 </div>
                                                                 <div className="absolute top-8 right-8">
@@ -400,13 +437,13 @@ const CheckoutModal: React.FC = () => {
 
                                                             <button 
                                                                 onClick={() => setSelectedPayment('online')}
-                                                                className={`p-8 rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'online' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
+                                                                className={`p-4 sm:p-8 rounded-[24px] sm:rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'online' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
                                                             >
                                                                 <div className={`p-4 rounded-2xl ${selectedPayment === 'online' ? 'bg-[#007ebb] text-white' : 'bg-gray-100 text-gray-400'}`}>
                                                                     <CreditCard size={28} />
                                                                 </div>
                                                                 <div>
-                                                                    <div className="font-bold text-dark text-xl uppercase tracking-tighter">Online Payment</div>
+                                                                    <div className="font-bold text-dark text-lg sm:text-xl uppercase tracking-tighter">Online Payment</div>
                                                                     <div className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest leading-none">UPI, Cards, Banking</div>
                                                                 </div>
                                                                 <div className="absolute top-8 right-8">
@@ -422,7 +459,7 @@ const CheckoutModal: React.FC = () => {
                                                     <div className="lg:sticky lg:top-0 space-y-8">
                                                         
                                                         {/* Summary Card */}
-                                                        <div className="bg-white rounded-[40px] p-10 border border-gray-100 shadow-2xl shadow-blue-900/10 space-y-10">
+                                                        <div className="bg-white rounded-[32px] sm:rounded-[40px] p-5 sm:p-10 border border-gray-100 shadow-2xl shadow-blue-900/10 space-y-6 sm:space-y-10">
                                                             <div className="space-y-6">
                                                                 <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
                                                                     <span>SUBTOTAL</span>
@@ -435,20 +472,20 @@ const CheckoutModal: React.FC = () => {
                                                                 <div className="h-px bg-gray-100" />
                                                                 <div className="flex justify-between items-center">
                                                                     <span className="text-xl font-bold font-alata uppercase tracking-tighter">TOTAL PRICE</span>
-                                                                    <span className="text-3xl font-bold text-[#007ebb]">₹{finalTotal.toLocaleString()}</span>
+                                                                    <span className="text-2xl sm:text-3xl font-bold text-[#007ebb]">₹{finalTotal.toLocaleString()}</span>
                                                                 </div>
                                                             </div>
-
+                                                            
                                                             <button 
                                                                 onClick={handleCheckoutAction}
                                                                 disabled={isLoading}
-                                                                className="w-full bg-[#007ebb] hover:bg-black text-white py-6 rounded-[24px] font-bold transition-all active:scale-[0.98] shadow-2xl shadow-blue-500/20 disabled:opacity-50 flex items-center justify-between px-10 group"
+                                                                className="w-full bg-[#007ebb] hover:bg-black text-white py-4 sm:py-6 rounded-[20px] sm:rounded-[24px] font-bold transition-all active:scale-[0.98] shadow-2xl shadow-blue-500/20 disabled:opacity-50 flex items-center justify-between px-6 sm:px-10 group"
                                                             >
                                                                 {isLoading ? (
                                                                     <div className="w-full flex justify-center"><Loader2 className="animate-spin" /></div>
                                                                 ) : (
                                                                     <>
-                                                                        <div className="flex flex-col items-start leading-none uppercase tracking-[0.2em] text-lg">
+                                                                        <div className="flex flex-col items-start leading-none uppercase tracking-[0.2em] text-base sm:text-lg">
                                                                             <span>COMPLETE</span>
                                                                             <span className="mt-1">ORDER</span>
                                                                         </div>

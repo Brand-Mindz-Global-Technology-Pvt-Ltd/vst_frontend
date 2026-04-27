@@ -1,28 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Star, Trash2, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
+import { createReview, updateReview, type Review } from '../../services/review/reviewApi';
+import { getImageUrl } from '../../config/apiConfig';
 
 interface ReviewModalProps {
     isOpen: boolean;
     onClose: () => void;
+    productId: string;
+    customerId: string;
+    customerName: string;
+    initialData?: Review; // Pass this when editing
+    onReviewSubmitted: () => Promise<void>;
 }
 
-const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
+const ReviewModal: React.FC<ReviewModalProps> = ({
+    isOpen,
+    onClose,
+    productId,
+    customerId,
+    customerName,
+    initialData,
+    onReviewSubmitted,
+}) => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [title, setTitle] = useState('');
     const [comment, setComment] = useState('');
-    const [images, setImages] = useState<File[]>([]);
+    const [existingImages, setExistingImages] = useState<string[]>([]);
+    const [newImages, setNewImages] = useState<File[]>([]);
+    const [submitting, setSubmitting] = useState(false);
+
+    // Populate form if editing
+    useEffect(() => {
+        if (initialData && isOpen) {
+            setRating(initialData.rating);
+            setTitle(initialData.title || '');
+            setComment(initialData.comment || '');
+            setExistingImages(initialData.images || []);
+            setNewImages([]);
+        } else if (!initialData && isOpen) {
+            resetForm();
+        }
+    }, [initialData, isOpen]);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
-            setImages(prev => [...prev, ...filesArray].slice(0, 3));
+            const totalImages = existingImages.length + newImages.length + filesArray.length;
+            if (totalImages > 3) {
+                toast.error('Max 3 images allowed');
+                return;
+            }
+            setNewImages(prev => [...prev, ...filesArray]);
         }
     };
 
-    const removeImage = (index: number) => {
-        setImages(prev => prev.filter((_, i) => i !== index));
+    const removeNewImage = (index: number) => {
+        setNewImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const removeExistingImage = (index: number) => {
+        setExistingImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const resetForm = () => {
+        setRating(0);
+        setHover(0);
+        setTitle('');
+        setComment('');
+        setNewImages([]);
+        setExistingImages([]);
+    };
+
+    const handleClose = () => {
+        resetForm();
+        onClose();
+    };
+
+    const handleSubmit = async () => {
+        if (rating === 0) {
+            toast.error('Please select a rating');
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const formData = new FormData();
+            formData.append('customerId', customerId);
+            formData.append('productId', productId);
+            formData.append('rating', String(rating));
+            formData.append('title', title.trim());
+            formData.append('comment', comment.trim());
+            formData.append('customerName', customerName);
+            
+            // Append new files
+            newImages.forEach(file => formData.append('images', file));
+
+            if (initialData) {
+                // Update mode
+                await updateReview(initialData._id, formData);
+                toast.success('Review updated! ✨');
+            } else {
+                // Create mode
+                await createReview(formData);
+                toast.success('Review submitted! 🎉');
+            }
+
+            resetForm();
+            onClose();
+            await onReviewSubmitted();
+        } catch (err: any) {
+            const msg = err?.response?.data?.message || 'Something went wrong';
+            toast.error(msg);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (!isOpen) return null;
@@ -31,17 +125,15 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        className="fixed inset-0 bg-black/60 z-999 backdrop-blur-md"
+                        onClick={handleClose}
+                        className="fixed inset-0 bg-black/60 z-[10000] backdrop-blur-md"
                     />
 
-                    {/* Modal Container */}
-                    <div className="fixed inset-0 z-1000 flex items-center justify-center p-4 pointer-events-none">
+                    <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 pointer-events-none">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -52,14 +144,13 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
                             {/* Header */}
                             <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
                                 <div>
-                                    <h2 className="text-2xl md:text-3xl font-josefin font-bold text-dark">Write a Review</h2>
+                                    <h2 className="text-2xl md:text-3xl font-josefin font-bold text-dark">
+                                        {initialData ? 'Edit Review' : 'Write a Review'}
+                                    </h2>
                                     <p className="text-gray-500 text-sm font-josefin">Share your experience with others</p>
                                 </div>
-                                <button
-                                    onClick={onClose}
-                                    className="p-2 hover:bg-gray-100 rounded-full transition-all group active:scale-90"
-                                >
-                                    <X size={24} className="text-gray-400 group-hover:text-red-500 transition-colors" />
+                                <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-full transition-all">
+                                    <X size={24} className="text-gray-400 hover:text-red-500" />
                                 </button>
                             </div>
 
@@ -79,19 +170,17 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
                                             >
                                                 <Star
                                                     size={40}
-                                                    className={`transition-colors ${(hover || rating) >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'
-                                                        }`}
+                                                    className={`transition-colors ${
+                                                        (hover || rating) >= star
+                                                            ? 'text-yellow-400 fill-yellow-400'
+                                                            : 'text-gray-200'
+                                                    }`}
                                                 />
                                             </button>
                                         ))}
                                     </div>
                                     <p className="text-sm font-josefin text-blue-500 font-medium">
-                                        {rating === 5 && "Excellent!"}
-                                        {rating === 4 && "Great!"}
-                                        {rating === 3 && "Good"}
-                                        {rating === 2 && "Fair"}
-                                        {rating === 1 && "Poor"}
-                                        {rating === 0 && "Select a rating"}
+                                        {rating > 0 ? ['Poor', 'Fair', 'Good', 'Great', 'Excellent'][rating - 1] : 'Select a rating'}
                                     </p>
                                 </div>
 
@@ -119,29 +208,41 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
                                         />
                                     </div>
 
-                                    {/* Image Upload */}
+                                    {/* Image Management */}
                                     <div className="space-y-4">
-                                        <label className="text-sm font-josefin font-bold text-dark ml-1 block">Add Photos (Max 3)</label>
+                                        <label className="text-sm font-josefin font-bold text-dark ml-1 block">
+                                            Photos (Max 3)
+                                        </label>
                                         <div className="flex flex-wrap gap-4">
-                                            {images.map((file, idx) => (
-                                                <div key={idx} className="relative w-24 h-24 rounded-2xl overflow-hidden group border border-gray-100">
-                                                    <img
-                                                        src={URL.createObjectURL(file)}
-                                                        alt="preview"
-                                                        className="w-full h-full object-cover"
-                                                    />
+                                            {/* Existing Images */}
+                                            {existingImages.map((img, idx) => (
+                                                <div key={`exist-${idx}`} className="relative w-24 h-24 rounded-2xl overflow-hidden border border-gray-100 group">
+                                                    <img src={getImageUrl(img)} alt="existing" className="w-full h-full object-cover" />
                                                     <button
-                                                        onClick={() => removeImage(idx)}
+                                                        onClick={() => removeExistingImage(idx)}
                                                         className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                                                     >
-                                                        <Trash2 size={14} />
+                                                        <Trash2 size={12} />
                                                     </button>
                                                 </div>
                                             ))}
-                                            {images.length < 3 && (
+                                            {/* New Images */}
+                                            {newImages.map((file, idx) => (
+                                                <div key={`new-${idx}`} className="relative w-24 h-24 rounded-2xl overflow-hidden border border-blue-100 group">
+                                                    <img src={URL.createObjectURL(file)} alt="new" className="w-full h-full object-cover" />
+                                                    <button
+                                                        onClick={() => removeNewImage(idx)}
+                                                        className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    >
+                                                        <Trash2 size={12} />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            {/* Add Button */}
+                                            {existingImages.length + newImages.length < 3 && (
                                                 <label className="w-24 h-24 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all group">
                                                     <Camera size={24} className="text-gray-400 group-hover:text-blue-500" />
-                                                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-blue-500 uppercase tracking-tighter">Add Photo</span>
+                                                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-blue-500">ADD PHOTO</span>
                                                     <input type="file" hidden accept="image/*" onChange={handleImageUpload} multiple />
                                                 </label>
                                             )}
@@ -153,13 +254,11 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
                             {/* Footer */}
                             <div className="p-6 border-t border-gray-100 bg-white sticky bottom-0">
                                 <button
-                                    className="w-full bg-black text-white py-4 rounded-2xl font-josefin font-bold text-lg hover:bg-blue-600 transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
-                                    onClick={() => {
-                                        // Logic for handling submission would go here
-                                        onClose();
-                                    }}
+                                    disabled={submitting}
+                                    onClick={handleSubmit}
+                                    className="w-full bg-black text-white py-4 rounded-2xl font-josefin font-bold text-lg hover:bg-blue-600 transition-all shadow-xl active:scale-[0.98] disabled:opacity-60"
                                 >
-                                    Submit Review
+                                    {submitting ? 'Processing...' : (initialData ? 'Update Review' : 'Submit Review')}
                                 </button>
                             </div>
                         </motion.div>
