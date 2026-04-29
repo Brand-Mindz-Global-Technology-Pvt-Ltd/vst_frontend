@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, User, Phone, MapPin, Building2, Landmark, CheckCircle2, Circle, CreditCard, ChevronRight, AlertCircle, Loader2, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
 import { 
@@ -15,6 +15,7 @@ import {
 
 const CheckoutModal: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { isCheckoutOpen, toggleCheckout, selectedProduct, cartItems, cartTotal, clearCart } = useCart();
     const { user, isAuthenticated, logout } = useAuth();
     
@@ -22,6 +23,7 @@ const CheckoutModal: React.FC = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [isPendingCheckout, setIsPendingCheckout] = useState(false);
 
     // Address State
     const [addresses, setAddresses] = useState<any[]>([]);
@@ -38,7 +40,7 @@ const CheckoutModal: React.FC = () => {
 
     const [selectedPayment, setSelectedPayment] = useState<'cod' | 'online'>('cod');
 
-    const deliveryFee = 500;
+    const deliveryFee = 0;
     const staticHeroProduct = {
         id: 'hero-prod',
         name: "ATLANTIS Frosty Plus Hot, Normal & Cold Water Dispenser",
@@ -57,6 +59,96 @@ const CheckoutModal: React.FC = () => {
             fetchAddresses();
         }
     }, [isCheckoutOpen, isAuthenticated]);
+
+    // Check for pending checkout on mount
+    useEffect(() => {
+        const isPending = localStorage.getItem('vst_pending_checkout');
+        if (isPending === 'true' && isAuthenticated) {
+            localStorage.removeItem('vst_pending_checkout');
+            const savedAddress = localStorage.getItem('vst_pending_address');
+            if (savedAddress) {
+                setFormData(JSON.parse(savedAddress));
+                localStorage.removeItem('vst_pending_address');
+            }
+            if (!isCheckoutOpen) {
+                toggleCheckout();
+            }
+            setIsPendingCheckout(true);
+        }
+    }, [isAuthenticated]);
+
+    // Handle post-auth resume
+    useEffect(() => {
+        if (isAuthenticated && isPendingCheckout) {
+            setIsPendingCheckout(false);
+            const resumeProcess = async () => {
+                setIsLoading(true);
+                try {
+                    // 1. Save the guest-entered address to backend
+                    const cityParts = formData.cityState.split(',');
+                    const payload = {
+                        fullName: formData.fullName,
+                        phone: formData.phone,
+                        addressLine1: formData.addressLine1,
+                        city: cityParts[0]?.trim() || '',
+                        state: cityParts[1]?.trim() || '',
+                        pincode: cityParts[2]?.trim() || '',
+                        type: formData.type
+                    };
+
+                    const response = await apiCreateAddress(user!.id, payload);
+                    if (response.success) {
+                        setAddresses([response.data]);
+                        setSelectedAddressId(response.data._id);
+                        setShowAddressForm(false);
+                        
+                        // 2. Proceed with checkout
+                        // We need to call the actual logic here directly to ensure we have the new ID
+                        const items = displayItems.map(item => ({
+                            productId: item.id === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : item.id,
+                            name: item.name,
+                            qty: item.quantity || 1,
+                            price: item.price
+                        }));
+
+                        const finalPayload = {
+                            shippingAddressId: response.data._id,
+                            items,
+                            subtotal: displayTotal,
+                            shipping: deliveryFee,
+                            totalAmount: finalTotal,
+                            paymentMethod: selectedPayment === 'cod' ? 'COD' : 'ONLINE'
+                        };
+
+                        if (selectedPayment === 'cod') {
+                            const orderRes = await apiCreateOrder(finalPayload);
+                            if (orderRes.success) {
+                                setIsSuccess(true);
+                                clearCart();
+                                setTimeout(() => {
+                                    handleClose();
+                                    navigate('/profile?tab=orders');
+                                }, 3000);
+                            }
+                        } else {
+                            const phonePeRes = await apiInitiatePhonePePayment({
+                                customerId: user!.id,
+                                ...finalPayload
+                            });
+                            if (phonePeRes.success && phonePeRes.data?.paymentUrl) {
+                                window.location.href = phonePeRes.data.paymentUrl;
+                            }
+                        }
+                    }
+                } catch (err: any) {
+                    setError(err.message || "Failed to complete order after login");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            resumeProcess();
+        }
+    }, [isAuthenticated, isPendingCheckout]);
 
     const fetchAddresses = async () => {
         if (!user?.id) return;
@@ -89,7 +181,16 @@ const CheckoutModal: React.FC = () => {
     };
 
     const handleSaveAddress = async () => {
-        if (!isAuthenticated) return;
+        if (!isAuthenticated) {
+            // Validate form
+            if (!formData.fullName || !formData.phone || !formData.addressLine1 || !formData.cityState) {
+                setError('Please fill in all address details');
+                return;
+            }
+            setSelectedAddressId('guest-pending');
+            setShowAddressForm(false);
+            return;
+        }
         setIsLoading(true);
         setError('');
         try {
@@ -144,8 +245,15 @@ const CheckoutModal: React.FC = () => {
 
     const handleCheckoutAction = async () => {
     if (!isAuthenticated) {
-        handleClose();
-        navigate('/login');
+        if (!formData.fullName || !formData.phone || !formData.addressLine1 || !formData.cityState) {
+            setError('Please fill in and save delivery address');
+            return;
+        }
+        setIsPendingCheckout(true);
+        // Save state for resumption after redirect
+        localStorage.setItem('vst_pending_checkout', 'true');
+        localStorage.setItem('vst_pending_address', JSON.stringify(formData));
+        navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
         return;
     }
 
@@ -287,7 +395,7 @@ const CheckoutModal: React.FC = () => {
                                                     <span>{error}</span>
                                                 </div>
                                                 {error.includes("Unauthorized") && (
-                                                    <button onClick={() => { logout(); handleClose(); navigate('/login'); }} className="bg-red-600 text-white px-4 py-2 rounded-xl text-xs uppercase tracking-widest hover:bg-black transition-all">Logout & Login</button>
+                                                    <button onClick={() => { logout(); handleClose(); navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`); }} className="bg-red-600 text-white px-4 py-2 rounded-xl text-xs uppercase tracking-widest hover:bg-black transition-all">Logout & Login</button>
                                                 )}
                                             </div>
                                         )}
@@ -313,7 +421,34 @@ const CheckoutModal: React.FC = () => {
                                                                     {showAddressForm ? "Select Saved Address" : "Add New Address"}
                                                                 </button>
                                                             )}
+                                                            {!isAuthenticated && !showAddressForm && selectedAddressId === 'guest-pending' && (
+                                                                <button 
+                                                                    onClick={() => setShowAddressForm(true)}
+                                                                    className="text-xs font-bold text-[#007ebb] uppercase tracking-widest underline underline-offset-4"
+                                                                >
+                                                                    Edit Address
+                                                                </button>
+                                                            )}
                                                         </div>
+
+                                                        {/* Guest Pending Address Display */}
+                                                        {!showAddressForm && selectedAddressId === 'guest-pending' && !isAuthenticated && (
+                                                            <div className="p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] border-2 border-[#007ebb] bg-blue-50/20 animate-in fade-in slide-in-from-top-2">
+                                                                <div className="flex justify-between items-start">
+                                                                    <div>
+                                                                        <div className="flex items-center gap-2 mb-1">
+                                                                            <span className="font-bold text-dark">{formData.fullName}</span>
+                                                                            <span className="text-[10px] bg-blue-100 text-[#007ebb] px-2 py-0.5 rounded-full font-bold uppercase">Ready for Checkout</span>
+                                                                        </div>
+                                                                        <p className="text-sm text-gray-500 font-medium">
+                                                                            {formData.addressLine1}, {formData.cityState}
+                                                                            <br /> {formData.phone}
+                                                                        </p>
+                                                                    </div>
+                                                                    <CheckCircle2 className="text-[#007ebb]" size={22} />
+                                                                </div>
+                                                            </div>
+                                                        )}
 
                                                         {/* Address Selection List */}
                                                         {!showAddressForm && addresses.length > 0 && (
@@ -465,14 +600,16 @@ const CheckoutModal: React.FC = () => {
                                                                     <span>SUBTOTAL</span>
                                                                     <span className="text-dark">₹{displayTotal.toLocaleString()}</span>
                                                                 </div>
-                                                                <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
-                                                                    <span>DELIVERY</span>
-                                                                    <span className="text-dark">₹{deliveryFee.toLocaleString()}</span>
-                                                                </div>
+                                                                {deliveryFee > 0 && (
+                                                                    <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
+                                                                        <span>DELIVERY</span>
+                                                                        <span className="text-dark">₹{deliveryFee.toLocaleString()}</span>
+                                                                    </div>
+                                                                )}
                                                                 <div className="h-px bg-gray-100" />
                                                                 <div className="flex justify-between items-center">
-                                                                    <span className="text-xl font-bold font-alata uppercase tracking-tighter">TOTAL PRICE</span>
-                                                                    <span className="text-2xl sm:text-3xl font-bold text-[#007ebb]">₹{finalTotal.toLocaleString()}</span>
+                                                                    <span className="text-xl font-bold font-alata uppercase tracking-tighter">TOTAL AMOUNT</span>
+                                                                    <span className="text-3xl sm:text-4xl font-bold text-[#007ebb] font-imperator tracking-tighter">₹{finalTotal.toLocaleString()}</span>
                                                                 </div>
                                                             </div>
                                                             

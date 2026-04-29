@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { apiLogin } from '../../services/auth/authService';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const redirectPath = queryParams.get('redirect') || '/';
     const { login } = useAuth();
     
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -33,7 +36,7 @@ const LoginPage: React.FC = () => {
                 login(userData);
                 setStatus('success');
                 setMessage('Login successful! Redirecting...');
-                setTimeout(() => navigate('/'), 1500);
+                setTimeout(() => navigate(redirectPath), 1500);
             } else {
                 setStatus('error');
                 setMessage(response.message || 'Invalid credentials');
@@ -141,7 +144,7 @@ const LoginPage: React.FC = () => {
                     <div className="mt-10 pt-8 border-t border-gray-50 flex flex-col gap-4">
                         <p className="text-gray-500">
                             Don't have an account? {' '}
-                            <Link to="/register" className="text-[#007ebb] font-bold hover:underline underline-offset-4">Create Account</Link>
+                            <Link to={`/register?redirect=${encodeURIComponent(redirectPath)}`} className="text-[#007ebb] font-bold hover:underline underline-offset-4">Create Account</Link>
                         </p>
                     </div>
                 </div>

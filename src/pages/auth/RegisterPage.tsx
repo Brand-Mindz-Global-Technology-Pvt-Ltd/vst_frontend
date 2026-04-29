@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { apiRegister } from '../../services/auth/authService';
 import { useAuth } from '../../context/AuthContext';
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const redirectPath = queryParams.get('redirect') || '/';
     const { login } = useAuth();
     
     const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
@@ -49,9 +52,9 @@ const RegisterPage: React.FC = () => {
                         token: response.data.token
                     };
                     login(userData);
-                    setTimeout(() => navigate('/'), 1500);
+                    setTimeout(() => navigate(redirectPath), 1500);
                 } else {
-                    setTimeout(() => navigate('/login'), 2000);
+                    setTimeout(() => navigate(`/login?redirect=${encodeURIComponent(redirectPath)}`), 2000);
                 }
             } else {
                 setStatus('error');
@@ -196,7 +199,7 @@ const RegisterPage: React.FC = () => {
                     <div className="mt-8 text-center border-t border-gray-50 pt-8">
                         <p className="text-gray-500 font-josefin">
                             Already have an account? {' '}
-                            <Link to="/login" className="text-[#007ebb] font-bold hover:underline underline-offset-4">Sign In</Link>
+                            <Link to={`/login?redirect=${encodeURIComponent(redirectPath)}`} className="text-[#007ebb] font-bold hover:underline underline-offset-4">Sign In</Link>
                         </p>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import Home from '../pages/home';
 import About from '../pages/about';
 import Shop from '../pages/shop/shop';
@@ -25,7 +25,8 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { isAuthenticated } = useAuth();
-    return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+    const location = useLocation();
+    return isAuthenticated ? <>{children}</> : <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
 };
 
 const MainLayout: React.FC = () => {

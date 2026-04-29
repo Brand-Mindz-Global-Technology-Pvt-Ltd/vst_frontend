@@ -6,6 +6,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import ScrollToTop from './components/ui/common/ScrollToTop';
 import CartModal from './components/ui/cart/CartModal';
 import WishlistModal from './components/ui/wishlist/WishlistModal';
+// import CheckoutModal from './components/ui/checkout/CheckoutModal';
 import CheckoutModal from './components/ui/checkout/CheckoutModal';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
