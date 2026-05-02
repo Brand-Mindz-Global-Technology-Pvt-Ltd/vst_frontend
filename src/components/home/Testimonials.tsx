@@ -20,62 +20,86 @@ interface TestimonialData {
 const testimonialsData: TestimonialData[] = [
     {
         id: 1,
-        name: "Ram Kumar",
-        designation: "Home Owner",
-        location: "Thirunelveli",
-        title: "The best water purifer",
-        description: "Nam exercitationem commodi et ducimus quia in dolore animi sit mollitia amet id quod eligendi. Et labore harum non nobis ipsum eum molestias et corporis praesentium a laudantium internos. Nam exercitationem commodi et ducimus quia in dolore animi sit mollitia amet id quod eligendi. Et labore harum non nobis ipsum eum molestias.",
+        name: "Anitha R.",
+        designation: "Residential Customer",
+        location: "Chennai",
+        title: "Taste & Quality Focus",
+        description: "After installing the RO system, the water quality improved immediately. It tastes fresh, clean, and completely odor-free. My family feels much safer drinking this water every day.",
         rating: 5,
-        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop",
+        avatar: "",
+        videoThumbnail: "",
         videoId: "EngW7tLk6R8"
     },
     {
         id: 2,
-        name: "Priya S.",
-        designation: "Interior Designer",
-        location: "Chennai",
-        title: "Premium Quality & Support",
-        description: "Excellent service and product quality. The installation was seamless, and the water tastes amazing. Highly recommend to everyone looking for a reliable water purifier. The customer support team is also very responsive and helpful with any queries.",
+        name: "Rajesh Kumar",
+        designation: "Home Owner",
+        location: "Madurai",
+        title: "Health & Safety",
+        description: "We were worried about water contamination in our area. This purifier gave us complete peace of mind—especially for our kids. The difference in water clarity and taste is amazing.",
         rating: 5,
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?q=80&w=1727&auto=format&fit=crop",
+        avatar: "",
+        videoThumbnail: "",
         videoId: "EngW7tLk6R8"
     },
     {
         id: 3,
-        name: "Arun V.",
-        designation: "Business Owner",
-        location: "Madurai",
-        title: "Worth Every Penny",
-        description: "We have been using this for 6 months now. Zero issues. The water quality is tested and it is perfectly safe. The design of the unit also adds a modern look to our kitchen. Very happy with the purchase and the periodic maintenance alerts.",
-        rating: 4,
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop",
+        name: "Sneha V.",
+        designation: "Home Maker",
+        location: "Coimbatore",
+        title: "Convenience",
+        description: "No more buying bottled water! This purifier has saved us money and made our daily life much easier.",
+        rating: 5,
+        avatar: "",
+        videoThumbnail: "",
         videoId: "EngW7tLk6R8"
     },
     {
         id: 4,
-        name: "Deepa R.",
-        designation: "Bank Manager",
-        location: "Coimbatore",
-        title: "Excellent Service!",
-        description: "The team was very professional. They explained everything clearly and ensured the setup was correct. The water purifier itself is top-notch. I especially like the compact design and the smart features that notify us about filter life.",
+        name: "Vikram Seth",
+        designation: "Office Manager",
+        location: "Bangalore",
+        title: "Office Use",
+        description: "We installed this system in our office, and the staff noticed the difference instantly. Clean drinking water has improved employee satisfaction and reduced dependency on cans.",
         rating: 5,
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1976&auto=format&fit=crop",
+        avatar: "",
+        videoThumbnail: "",
         videoId: "EngW7tLk6R8"
     },
     {
         id: 5,
-        name: "Suresh M.",
-        designation: "Chef",
-        location: "Kochi",
-        title: "Great Product",
-        description: "I use this water for my restaurant too. Consistent quality is what I need and that's what I get. The high flow rate is a big plus for busy kitchen hours. Service is prompt and technical team is knowledgeable.",
+        name: "Karthik S.",
+        designation: "Business Owner",
+        location: "Trichy",
+        title: "Maintenance & Service",
+        description: "The installation was quick and professional. Their service team is very responsive and always available when needed.",
         rating: 5,
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop",
-        videoThumbnail: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?q=80&w=1974&auto=format&fit=crop",
+        avatar: "",
+        videoThumbnail: "",
+        videoId: "EngW7tLk6R8"
+    },
+    {
+        id: 6,
+        name: "Manoj P.",
+        designation: "Factory Manager",
+        location: "Hosur",
+        title: "Industrial Client",
+        description: "We implemented their water treatment system in our factory, and the performance has been excellent. It consistently delivers high-quality treated water with minimal maintenance.",
+        rating: 5,
+        avatar: "",
+        videoThumbnail: "",
+        videoId: "EngW7tLk6R8"
+    },
+    {
+        id: 7,
+        name: "Dr. Kavita",
+        designation: "Technical Lead",
+        location: "Pune",
+        title: "Custom Solution",
+        description: "They analyzed our raw water quality and designed a customized solution. The results exceeded our expectations.",
+        rating: 5,
+        avatar: "",
+        videoThumbnail: "",
         videoId: "EngW7tLk6R8"
     }
 ];
@@ -140,12 +164,20 @@ const Testimonials: React.FC = () => {
                                 </div>
                             ) : (
                                 <div className="w-full h-full relative cursor-pointer" onClick={(e) => isActive && handleVideoClick(e, data.id)}>
-                                    <img
-                                        src={data.videoThumbnail}
-                                        alt="Video Thumbnail"
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-black/20"></div>
+                                    {data.videoThumbnail ? (
+                                        <img
+                                            src={data.videoThumbnail}
+                                            alt="Video Thumbnail"
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-linear-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                            <div className="w-24 h-24 bg-[#007ebb]/10 rounded-full flex items-center justify-center">
+                                                <Play size={40} className="text-[#007ebb]/20" fill="currentColor" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className="absolute inset-0 bg-black/10"></div>
                                     {/* Play Button Integration */}
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full border border-white/40 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -168,11 +200,19 @@ const Testimonials: React.FC = () => {
                             <div className="relative z-10 flex flex-col h-full">
                                 {/* User Profile (Top) */}
                                 <div className="flex items-center gap-4 mb-2">
-                                    <img
-                                        src={data.avatar}
-                                        alt={data.name}
-                                        className="w-14 h-14 md:w-24 md:h-24 rounded-full object-cover shadow-lg"
-                                    />
+                                    <div className="w-14 h-14 md:w-24 md:h-24 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shadow-lg flex items-center justify-center shrink-0">
+                                        {data.avatar ? (
+                                            <img
+                                                src={data.avatar}
+                                                alt={data.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <span className="text-xl md:text-3xl font-bold text-[#007ebb]/40 font-josfins">
+                                                {data.name.charAt(0)}
+                                            </span>
+                                        )}
+                                    </div>
                                     <div>
                                         <h4 className="text-lg md:text-2xl font-semibold text-dark mb-0.5 font-josfins">
                                             {data.name}
@@ -258,11 +298,19 @@ const Testimonials: React.FC = () => {
                                     ? 'border-2 border-[#007ebb]'
                                     : 'border-2 border-transparent'
                                     }`}>
-                                    <img
-                                        src={t.avatar}
-                                        alt={t.name}
-                                        className="w-12 h-12 md:w-20 md:h-20 rounded-full object-cover shadow-xl"
-                                    />
+                                    <div className="w-12 h-12 md:w-20 md:h-20 rounded-full overflow-hidden bg-gray-50 border border-gray-100 shadow-md flex items-center justify-center">
+                                        {t.avatar ? (
+                                            <img
+                                                src={t.avatar}
+                                                alt={t.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <span className="text-sm md:text-lg font-bold text-[#007ebb]/30">
+                                                {t.name.charAt(0)}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             </button>
                         );
