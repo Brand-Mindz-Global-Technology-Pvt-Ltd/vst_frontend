@@ -29,11 +29,11 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
     category = 'Product'
 }) => {
     const navigate = useNavigate();
-    const { addToCart } = useCart();
+    const { addToCart, toggleCart } = useCart();
     const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
-    
+
     const isInWishlist = wishlistItems.some(item => item.id === id);
-    
+
     const handleNavigation = () => navigate(`/shop/${id}`);
 
     const handleAddToCart = (e: React.MouseEvent) => {
@@ -51,6 +51,7 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
         };
 
         addToCart(cartItem);
+        toggleCart(); // Open cart modal after adding
         toast.success('Added to cart!', {
             icon: '🛒',
             style: { borderRadius: '10px', background: '#333', color: '#fff' }
@@ -102,16 +103,16 @@ const ShopProductCard: React.FC<ShopProductCardProps> = ({
 
                 {/* Overlay Actions */}
                 <div className="absolute top-1 right-0 z-20 flex flex-col gap-7">
-                    <button 
+                    <button
                         onClick={handleToggleWishlist}
                         className="text-black hover:text-red-500 transition-colors p-1 group/wishlist"
                     >
-                        <Heart 
-                            size={24} 
-                            className={`transition-all duration-300 ${isInWishlist ? "fill-red-500 text-red-500 scale-110" : "group-hover/wishlist:scale-110"}`} 
+                        <Heart
+                            size={24}
+                            className={`transition-all duration-300 ${isInWishlist ? "fill-red-500 text-red-500 scale-110" : "group-hover/wishlist:scale-110"}`}
                         />
                     </button>
-                    <button 
+                    <button
                         onClick={handleAddToCart}
                         className="text-black hover:text-[#007EBB] transition-colors p-1 group/cart"
                     >

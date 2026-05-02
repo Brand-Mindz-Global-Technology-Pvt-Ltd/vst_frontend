@@ -11,7 +11,7 @@ interface ProductInfoSectionProps {
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
-    const { addToCart } = useCart();
+    const { addToCart, toggleCart, toggleCheckout } = useCart();
 
     const handleAddToCart = () => {
         const cartItem: CartItem = {
@@ -36,7 +36,24 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                 color: '#fff',
             },
         });
-        // Optional: toggleCart(); // Uncomment if you want to open cart immediately
+        toggleCart(); // Open cart immediately
+    };
+
+    const handleBuyNow = () => {
+        const cartItem: CartItem = {
+            id: product._id,
+            name: product.name,
+            description: product.category,
+            price: product.price,
+            originalPrice: product.oldPrice,
+            image: getImageUrl(product.images[0]),
+            quantity: quantity,
+            rating: product.rating,
+            reviewsCount: `${product.reviewsCount || 0} Reviews`,
+            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined
+        };
+
+        toggleCheckout(false, cartItem);
     };
 
     return (
@@ -129,7 +146,10 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                         </button>
                     </div>
                 </div>
-                <button className="w-full py-3 bg-[#0077B6] text-white rounded-lg font-normal md:text-xl hover:bg-[#006ca1] transition-all shadow-lg">
+                <button 
+                    onClick={handleBuyNow}
+                    className="w-full py-3 bg-[#0077B6] text-white rounded-lg font-normal md:text-xl hover:bg-[#006ca1] transition-all shadow-lg"
+                >
                     Buy Now
                 </button>
             </div>

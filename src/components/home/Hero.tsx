@@ -1,12 +1,20 @@
 import React from 'react';
 import HeroSectionTemplate from '../ui/home/hero-section';
-// import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { toggleCheckout } = useCart();
+    const { isAuthenticated } = useAuth();
 
     const handleOrderNow = () => {
+        if (!isAuthenticated) {
+            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+            return;
+        }
         toggleCheckout(true);
     };
 

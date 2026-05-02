@@ -29,7 +29,7 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
     onToggle
 }) => {
     const navigate = useNavigate();
-    const { addToCart } = useCart();
+    const { addToCart, toggleCart } = useCart();
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -46,6 +46,7 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
         };
 
         addToCart(cartItem);
+        toggleCart(); // Open cart modal after adding
         toast.success('Added to cart!', {
             icon: '🛒',
             style: { borderRadius: '10px', background: '#333', color: '#fff' }
@@ -96,7 +97,7 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
                         <h3 className="text-xl sm:text-2xl font-semibold text-black font-josefin leading-tight max-w-[85%]">
                             {name}
                         </h3>
-                        <button 
+                        <button
                             onClick={handleAddToCart}
                             className="text-black hover:text-[#007ebb] transition-transform hover:scale-110 active:scale-90 pr-1"
                         >

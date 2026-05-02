@@ -249,10 +249,9 @@ const CheckoutModal: React.FC = () => {
             setError('Please fill in and save delivery address');
             return;
         }
-        setIsPendingCheckout(true);
-        // Save state for resumption after redirect
         localStorage.setItem('vst_pending_checkout', 'true');
         localStorage.setItem('vst_pending_address', JSON.stringify(formData));
+        handleClose();
         navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
         return;
     }
@@ -280,6 +279,7 @@ const CheckoutModal: React.FC = () => {
 
         if (selectedPayment === 'cod') {
             const orderResponse = await apiCreateOrder({
+                customerId: user!.id,
                 shippingAddressId: selectedAddressId,
                 items,
                 subtotal: displayTotal,
