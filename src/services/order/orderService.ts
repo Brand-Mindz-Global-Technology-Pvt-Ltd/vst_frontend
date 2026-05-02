@@ -62,3 +62,12 @@ export const apiInitiatePhonePePayment = async (orderData: any) => {
         throw error.response?.data || { message: 'PhonePe initiation failed' };
     }
 };
+
+export const apiVerifyPhonePePayment = async (orderId: string) => {
+    try {
+        const response = await api.get(`/customers/orders/phonepe/verify/${orderId}`);
+        return response.data;
+    } catch (error: any) {
+        throw error.response?.data || { message: 'PhonePe verification failed' };
+    }
+};

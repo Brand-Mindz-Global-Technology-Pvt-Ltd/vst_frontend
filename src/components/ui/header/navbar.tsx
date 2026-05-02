@@ -17,7 +17,12 @@ const Navbar: React.FC = () => {
     // Scroll listener for sticky effect
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
+            const currentScroll = window.scrollY;
+            if (currentScroll > 120) {
+                setIsScrolled(true);
+            } else if (currentScroll < 50) {
+                setIsScrolled(false);
+            }
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -33,20 +38,20 @@ const Navbar: React.FC = () => {
     ];
 
     return (
-        <header className="w-full font-josefin z-9999 sticky top-0 transition-all duration-500">
+        <header className="w-full font-josefin z-[9999] sticky top-0 transform-gpu">
             {/* Announcement Bar */}
-            <div className={`bg-dark text-white transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-center gap-4 text-[13px] md:text-sm tracking-wide ${isScrolled ? 'h-0 opacity-0' : 'h-auto py-3 px-4'}`}>
+            <div className={`bg-dark text-white transition-all duration-500 ease-in-out overflow-hidden flex items-center justify-center gap-4 text-[13px] md:text-sm tracking-wide ${isScrolled ? 'max-h-0 opacity-0' : 'max-h-20 py-3 px-4'}`}>
                 <Megaphone size={16} className="shrink-0" />
                 <p className="text-center font-medium">
                     Exclusive Deal : Order now and save additional 10% · Limited time only!
                 </p>
             </div>
 
-            {/* Main Navbar */}
-            <div className={`transition-all duration-500 ease-in-out ${isScrolled ? 'py-4 px-4 md:px-12' : 'py-0 px-0'}`}>
-                <nav className={`transition-all duration-500 ease-in-out ${isScrolled
-                    ? 'bg-white/40 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl border border-white/40 max-w-[1400px] mx-auto'
-                    : 'bg-[#EFEFEF] backdrop-blur-md w-full'
+            {/* Main Navbar Container */}
+            <div className={`transition-all duration-700 ease-in-out ${isScrolled ? 'py-3 px-4 md:px-12' : 'py-0 px-0'}`}>
+                <nav className={`transition-all duration-700 ease-in-out ${isScrolled
+                    ? 'bg-white/60 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-3xl border border-white/40 max-w-[1400px] mx-auto'
+                    : 'bg-[#EFEFEF] w-full'
                     }`}>
                     <div className="max-w-[1500px] mx-auto px-4 md:px-8">
                         <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-16 md:h-18' : 'h-20 md:h-24'}`}>

@@ -2,11 +2,21 @@ import React from 'react';
 import { X, Star, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../../context/CartContext';
+import { useAuth } from '../../../context/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const CartModal: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { isCartOpen, toggleCart, cartItems, removeFromCart, updateQuantity, cartTotal, toggleCheckout } = useCart();
+    const { isAuthenticated } = useAuth();
 
     const handleCheckout = () => {
+        if (!isAuthenticated) {
+            toggleCart();
+            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+            return;
+        }
         toggleCart();
         toggleCheckout();
     };
@@ -130,7 +140,7 @@ const CartModal: React.FC = () => {
                                                                         onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                                                                         className="appearance-none bg-transparent pr-6 focus:outline-none cursor-pointer font-bold text-dark text-sm z-10"
                                                                     >
-                                                                        {[1, 2, 3, 4, 5].map(nu => (
+                                                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(nu => (
                                                                             <option key={nu} value={nu}>{nu}</option>
                                                                         ))}
                                                                     </select>
@@ -173,7 +183,7 @@ const CartModal: React.FC = () => {
                                         className="w-full bg-[#007ebb] hover:bg-black text-white py-5 rounded-[22px] font-bold text-lg uppercase tracking-[0.2em] transition-all transform active:scale-[0.98] shadow-2xl shadow-blue-500/20 disabled:opacity-50 disabled:grayscale">
                                         Proceed to Checkout
                                     </button>
-                                    
+
                                     <p className="text-[10px] text-gray-400 text-center font-medium uppercase tracking-widest">Secure checkout powered by PhonePe</p>
                                 </div>
                             </div>
