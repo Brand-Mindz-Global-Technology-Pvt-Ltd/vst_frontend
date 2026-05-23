@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, Share2, Star, ChevronDown } from 'lucide-react';
 import { useCart, type CartItem } from '../../context/CartContext';
+import { useWishlist, type WishlistItem } from '../../context/WishlistContext';
 import { getImageUrl } from '../../config/apiConfig';
 import toast from 'react-hot-toast';
 import type { Product } from '../../types/product';
@@ -11,11 +12,80 @@ interface ProductInfoSectionProps {
 
 const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
+    const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
+    const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || '');
     const { addToCart, toggleCart, toggleCheckout } = useCart();
+    const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+
+    const isInWishlist = wishlistItems.some(item => item.id === product._id);
+
+    const handleToggleWishlist = () => {
+        if (isInWishlist) {
+            removeFromWishlist(product._id);
+            toast.error('Removed from wishlist', {
+                style: { borderRadius: '10px', background: '#333', color: '#fff' }
+            });
+        } else {
+            const wishlistItem: WishlistItem = {
+                id: product._id,
+                name: product.name,
+                price: product.price,
+                originalPrice: product.oldPrice,
+                image: getImageUrl(product.images[0]),
+                rating: product.rating,
+                reviewsCount: product.reviewsCount || 0,
+                inStock: product.stock > 0,
+                discount: product.discount || (product.isLimitedTime ? 'Limited time deal' : undefined)
+            };
+            addToWishlist(wishlistItem);
+            toast.success('Added to wishlist!', {
+                icon: '❤️',
+                style: { borderRadius: '10px', background: '#333', color: '#fff' }
+            });
+        }
+    };
+
+    const handleShare = async () => {
+        const shareData = {
+            title: product.name,
+            text: `Check out this product: ${product.name}`,
+            url: window.location.href,
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+                toast.success('Shared successfully!', {
+                    style: { borderRadius: '10px', background: '#333', color: '#fff' }
+                });
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                toast.success('Link copied to clipboard!', {
+                    style: { borderRadius: '10px', background: '#333', color: '#fff' }
+                });
+            }
+        } catch (error) {
+            if ((error as Error).name !== 'AbortError') {
+                console.error('Error sharing:', error);
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    toast.success('Link copied to clipboard!', {
+                        style: { borderRadius: '10px', background: '#333', color: '#fff' }
+                    });
+                } catch (clipErr) {
+                    toast.error('Could not share or copy link.');
+                }
+            }
+        }
+    };
+
+    const isOutOfStock = product.stock === 0;
 
     const handleAddToCart = () => {
+        if (isOutOfStock) return;
+        
         const cartItem: CartItem = {
-            id: product._id,
+            id: `${product._id}-${selectedColor}-${selectedSize}`,
             name: product.name,
             description: product.category,
             price: product.price,
@@ -24,7 +94,9 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
             quantity: quantity,
             rating: product.rating,
             reviewsCount: `${product.reviewsCount || 0} Reviews`,
-            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined
+            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined,
+            color: selectedColor,
+            size: selectedSize
         };
 
         addToCart(cartItem);
@@ -40,8 +112,10 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
     };
 
     const handleBuyNow = () => {
+        if (isOutOfStock) return;
+
         const cartItem: CartItem = {
-            id: product._id,
+            id: `${product._id}-${selectedColor}-${selectedSize}`,
             name: product.name,
             description: product.category,
             price: product.price,
@@ -50,7 +124,9 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
             quantity: quantity,
             rating: product.rating,
             reviewsCount: `${product.reviewsCount || 0} Reviews`,
-            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined
+            discount: product.oldPrice ? `${Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}% OFF` : undefined,
+            color: selectedColor,
+            size: selectedSize
         };
 
         toggleCheckout(false, cartItem);
@@ -71,11 +147,26 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                         </h1>
                     </div>
                     <div className="flex gap-2">
-                        <button className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all">
-                            <Heart size={25} className="text-black" />
+                        <button 
+                            onClick={handleToggleWishlist}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                                isInWishlist ? 'bg-red-50 text-red-500 shadow-sm border border-red-100' : 'hover:bg-gray-100 text-black'
+                            }`}
+                            title={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                        >
+                            <Heart 
+                                size={25} 
+                                className={`transition-all duration-300 ${
+                                    isInWishlist ? 'fill-red-500 text-red-500 scale-110' : 'hover:scale-110'
+                                }`} 
+                            />
                         </button>
-                        <button className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all">
-                            <Share2 size={25} className="text-black" />
+                        <button 
+                            onClick={handleShare}
+                            className="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50 transition-all text-black hover:text-[#007ebb] hover:border-[#007ebb]"
+                            title="Share product"
+                        >
+                            <Share2 size={23} className="hover:scale-110 transition-transform" />
                         </button>
                     </div>
                 </div>
@@ -111,6 +202,53 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                 )}
             </div>
 
+            {/* Variants */}
+            {(product.colors && product.colors.length > 0) || (product.sizes && product.sizes.length > 0) ? (
+                <div className="flex flex-col gap-6 py-2 border-y border-gray-100">
+                    {product.colors && product.colors.length > 0 && (
+                        <div className="flex flex-col gap-3">
+                            <span className="text-sm font-bold uppercase tracking-widest text-gray-400">Select Color</span>
+                            <div className="flex flex-wrap gap-3">
+                                {product.colors.map((color) => (
+                                    <button
+                                        key={color}
+                                        onClick={() => setSelectedColor(color)}
+                                        className={`px-6 py-2 rounded-xl text-sm font-bold transition-all border-2 ${
+                                            selectedColor === color 
+                                                ? 'border-[#007ebb] bg-blue-50 text-[#007ebb]' 
+                                                : 'border-gray-100 bg-white text-gray-400 hover:border-gray-200'
+                                        }`}
+                                    >
+                                        {color}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {product.sizes && product.sizes.length > 0 && (
+                        <div className="flex flex-col gap-3">
+                            <span className="text-sm font-bold uppercase tracking-widest text-gray-400">Select Size</span>
+                            <div className="flex flex-wrap gap-3">
+                                {product.sizes.map((size) => (
+                                    <button
+                                        key={size}
+                                        onClick={() => setSelectedSize(size)}
+                                        className={`px-6 py-2 rounded-xl text-sm font-bold transition-all border-2 ${
+                                            selectedSize === size 
+                                                ? 'border-[#007ebb] bg-blue-50 text-[#007ebb]' 
+                                                : 'border-gray-100 bg-white text-gray-400 hover:border-gray-200'
+                                        }`}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ) : null}
+
             {/* Short Description */}
             <div 
                 className="text-black text-md md:text-lg text-justify md:-mt-1 font-light"
@@ -125,7 +263,8 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                             <select 
                                 value={quantity}
                                 onChange={(e) => setQuantity(Number(e.target.value))}
-                                className="w-full appearance-none flex items-center md:text-[19px] justify-between px-4 py-3 bg-[#EFEFEF] border border-black rounded-xl text-black font-semibold cursor-pointer outline-none"
+                                disabled={isOutOfStock}
+                                className="w-full appearance-none flex items-center md:text-[19px] justify-between px-4 py-3 bg-[#EFEFEF] border border-black rounded-xl text-black font-semibold cursor-pointer outline-none disabled:opacity-50"
                             >
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                                     <option key={n} value={n}>Quantity : {n}</option>
@@ -139,18 +278,22 @@ const ProductInfoSection: React.FC<ProductInfoSectionProps> = ({ product }) => {
                     <div className="flex-2 w-full sm:w-auto">
                         <button 
                             onClick={handleAddToCart}
-                            className="relative group overflow-hidden w-full px-12 py-3 bg-[#EFEFEF] md:text-[19px] border border-black rounded-xl text-black font-semibold transition-all duration-300"
+                            disabled={isOutOfStock}
+                            className={`relative group overflow-hidden w-full px-12 py-3 bg-[#EFEFEF] md:text-[19px] border border-black rounded-xl text-black font-semibold transition-all duration-300 ${isOutOfStock ? 'opacity-50 grayscale cursor-not-allowed' : ''}`}
                         >
-                            <span className="relative z-10 group-hover:text-white transition-colors duration-300">Add to cart</span>
-                            <div className="absolute bottom-0 left-0 w-full h-0 bg-black transition-all duration-500 group-hover:h-full z-0"></div>
+                            <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+                                {isOutOfStock ? 'Out of Stock' : 'Add to cart'}
+                            </span>
+                            {!isOutOfStock && <div className="absolute bottom-0 left-0 w-full h-0 bg-black transition-all duration-500 group-hover:h-full z-0"></div>}
                         </button>
                     </div>
                 </div>
                 <button 
                     onClick={handleBuyNow}
-                    className="w-full py-3 bg-[#0077B6] text-white rounded-lg font-normal md:text-xl hover:bg-[#006ca1] transition-all shadow-lg"
+                    disabled={isOutOfStock}
+                    className={`w-full py-3 bg-[#0077B6] text-white rounded-lg font-normal md:text-xl transition-all shadow-lg ${isOutOfStock ? 'opacity-50 grayscale cursor-not-allowed bg-gray-400' : 'hover:bg-[#006ca1]'}`}
                 >
-                    Buy Now
+                    {isOutOfStock ? 'Currently Unavailable' : 'Buy Now'}
                 </button>
             </div>
 

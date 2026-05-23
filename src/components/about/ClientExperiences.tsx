@@ -14,33 +14,45 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
     {
         id: 1,
-        name: "Ram Kumar",
-        text: "Lorem Nam id Nam exercitationem commodi et ducimus quia in dolore animi sit ducimus quia in dolore animi sit ",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?bg=format&fit=crop&q=80&w=200"
+        name: "Anitha R.",
+        text: "After installing the RO system, the water quality improved immediately. It tastes fresh, clean, and completely odor-free. My family feels much safer drinking this water every day.",
+        image: ""
     },
     {
         id: 2,
-        name: "Arun",
-        text: "Lorem Nam id Nam exercitationem commodi et ducimus quia in dolore animi sit ducimus quia in dolore animi sit ",
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200"
+        name: "Rajesh Kumar",
+        text: "We were worried about water contamination in our area. This purifier gave us complete peace of mind—especially for our kids. The difference in water clarity and taste is amazing.",
+        image: ""
     },
     {
         id: 3,
-        name: "Jothi",
-        text: "Lorem Nam id Nam exercitationem commodi et ducimus quia in dolore animi sit ducimus quia in dolore animi sit ",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200"
+        name: "Sneha V.",
+        text: "No more buying bottled water! This purifier has saved us money and made our daily life much easier.",
+        image: ""
     },
     {
         id: 4,
-        name: "Suresh",
-        text: "VST products have transformed our daily water usage. The quality is exceptional and the service is always on point. Very satisfied.",
-        image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=200"
+        name: "Vikram Seth",
+        text: "We installed this system in our office, and the staff noticed the difference instantly. Clean drinking water has improved employee satisfaction and reduced dependency on cans.",
+        image: ""
     },
     {
         id: 5,
-        name: "Anitha",
-        text: "Exceptional water purification solutions. The installation was seamless and the team was professional. Definitely value for money.",
-        image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200"
+        name: "Karthik S.",
+        text: "The installation was quick and professional. Their service team is very responsive and always available when needed.",
+        image: ""
+    },
+    {
+        id: 6,
+        name: "Manoj P.",
+        text: "We implemented their water treatment system in our factory, and the performance has been excellent. It consistently delivers high-quality treated water with minimal maintenance.",
+        image: ""
+    },
+    {
+        id: 7,
+        name: "Dr. Kavita",
+        text: "They analyzed our raw water quality and designed a customized solution. The results exceeded our expectations.",
+        image: ""
     }
 ];
 
@@ -216,11 +228,19 @@ const ClientExperiences: React.FC = () => {
                                                         `}>
 
                                                         <div className="relative shrink-0">
-                                                            <img
-                                                                src={testimonial.image}
-                                                                alt={testimonial.name}
-                                                                className="w-16 h-16 md:w-20 md:h-20 lg:w-32 lg:h-32 rounded-full object-cover border-2 border-gray-100 shadow-sm"
-                                                            />
+                                                            <div className="w-16 h-16 md:w-20 md:h-20 lg:w-32 lg:h-32 rounded-full overflow-hidden bg-gray-50 border-2 border-gray-100 shadow-sm flex items-center justify-center">
+                                                                {testimonial.image ? (
+                                                                    <img
+                                                                        src={testimonial.image}
+                                                                        alt={testimonial.name}
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                ) : (
+                                                                    <span className="text-xl md:text-2xl lg:text-5xl font-imperator text-[#007ebb]/30">
+                                                                        {testimonial.name.charAt(0)}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                         <div className="flex-1 space-y-2 relative w-full text-center sm:text-left">
                                                             {/* Quote Icon - Desktop position as per image */}

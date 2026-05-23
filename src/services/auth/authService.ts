@@ -1,4 +1,4 @@
-import api from '../api';
+ import api from '../api';
 
 export const apiRegister = async (userData: any) => {
     try {
@@ -42,5 +42,14 @@ export const apiResetPassword = async (token: string, data: any) => {
         return response.data;
     } catch (error: any) {
         throw error.response?.data || { message: 'Password reset failed' };
+    }
+};
+
+export const apiVerifyEmail = async (token: string) => {
+    try {
+        const response = await api.get(`/customers/verify-email/${token}`);
+        return response.data;
+    } catch (error: any) {
+        throw error.response?.data || { message: 'Email verification failed' };
     }
 };

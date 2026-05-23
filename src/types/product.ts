@@ -18,6 +18,8 @@ export interface Product {
     isHotSelling?: boolean;
     badge99?: boolean;
     badge10x?: boolean;
+    colors?: string[];
+    sizes?: string[];
     aboutDescription?: string;
     aboutPoints?: { title: string; image: string }[];
     createdAt?: string;

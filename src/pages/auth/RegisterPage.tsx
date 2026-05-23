@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { 
+    User, Mail, Lock, ArrowRight, Loader2, AlertCircle, 
+    CheckCircle2, Eye, EyeOff, X, Check 
+} from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { apiRegister } from '../../services/auth/authService';
-import { useAuth } from '../../context/AuthContext';
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const redirectPath = queryParams.get('redirect') || '/';
-    const { login } = useAuth();
     
     const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
     const [showPassword, setShowPassword] = useState(false);
@@ -18,12 +19,35 @@ const RegisterPage: React.FC = () => {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
 
+    const passwordRequirements = [
+        { label: 'At least 8 characters', test: (p: string) => p.length >= 8 },
+        { label: 'At least one uppercase letter', test: (p: string) => /[A-Z]/.test(p) },
+        { label: 'At least one lowercase letter', test: (p: string) => /[a-z]/.test(p) },
+        { label: 'At least one number', test: (p: string) => /\d/.test(p) },
+        { label: 'At least one special character (@$!%*?&)', test: (p: string) => /[@$!%*?&]/.test(p) },
+    ];
+
+    const getStrength = (p: string) => {
+        if (!p) return 0;
+        return passwordRequirements.filter(req => req.test(p)).length;
+    };
+
+    const strength = getStrength(formData.password);
+    const passwordsMatch = formData.password && formData.confirmPassword ? formData.password === formData.confirmPassword : null;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
         if (formData.password !== formData.confirmPassword) {
             setStatus('error');
             setMessage('Passwords do not match');
+            return;
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(formData.email)) {
+            setStatus('error');
+            setMessage('Please enter a valid email address');
             return;
         }
 
@@ -40,22 +64,14 @@ const RegisterPage: React.FC = () => {
             
             if (response.success) {
                 setStatus('success');
-                setMessage('Account created! Redirecting...');
+                setMessage('Registration successful! Please check your email to verify and activate your account.');
                 
-                // Auto-login using the token and user data from response
-                if (response.data && response.data.token) {
-                    const userData = {
-                        id: response.data.id,
-                        customerId: response.data.customerId,
-                        name: response.data.name,
-                        email: response.data.email,
-                        token: response.data.token
-                    };
-                    login(userData);
-                    setTimeout(() => navigate(redirectPath), 1500);
-                } else {
-                    setTimeout(() => navigate(`/login?redirect=${encodeURIComponent(redirectPath)}`), 2000);
-                }
+                // Don't auto-login because account is Inactive until verified
+                // Just clear the form
+                setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+                
+                // Optionally redirect to a "Registration Successful" page or just keep them here to see the message
+                setTimeout(() => navigate('/login'), 5000);
             } else {
                 setStatus('error');
                 setMessage(response.message || 'Registration failed');
@@ -134,7 +150,6 @@ const RegisterPage: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Password</label>
                                 <div className="relative group">
@@ -155,6 +170,28 @@ const RegisterPage: React.FC = () => {
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
                                 </div>
+                                {/* Strength Meter */}
+                                {formData.password && (
+                                    <div className="mt-2 space-y-2">
+                                        <div className="flex gap-1 h-1">
+                                            {[1, 2, 3, 4, 5].map((level) => (
+                                                <div 
+                                                    key={level}
+                                                    className={`flex-1 rounded-full transition-all duration-500 ${
+                                                        strength >= level 
+                                                            ? strength <= 2 ? 'bg-red-400' : strength <= 4 ? 'bg-yellow-400' : 'bg-green-500'
+                                                            : 'bg-gray-100'
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <p className={`text-[10px] font-bold uppercase tracking-wider ${
+                                            strength <= 2 ? 'text-red-500' : strength <= 4 ? 'text-yellow-600' : 'text-green-600'
+                                        }`}>
+                                            {strength <= 2 ? 'Weak' : strength <= 4 ? 'Medium' : 'Strong'} Password
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Confirm</label>
@@ -164,10 +201,16 @@ const RegisterPage: React.FC = () => {
                                         type={showConfirmPassword ? "text" : "password"}
                                         required
                                         placeholder="••••••••"
-                                        className="w-full pl-12 pr-12 py-3.5 bg-gray-50/50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all text-dark font-medium placeholder:text-gray-300 shadow-sm"
+                                        className={`w-full pl-12 pr-12 py-3.5 bg-gray-50/50 border rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all text-dark font-medium placeholder:text-gray-300 shadow-sm ${
+                                            passwordsMatch === true ? 'border-green-200' : passwordsMatch === false ? 'border-red-200' : 'border-gray-100'
+                                        }`}
                                         value={formData.confirmPassword}
                                         onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                                     />
+                                    <div className="absolute right-12 top-1/2 -translate-y-1/2 flex items-center">
+                                        {passwordsMatch === true && <Check size={16} className="text-green-500" />}
+                                        {passwordsMatch === false && <X size={16} className="text-red-500" />}
+                                    </div>
                                     <button 
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -177,7 +220,29 @@ const RegisterPage: React.FC = () => {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+
+                        {/* Password Requirements Checklist */}
+                        {formData.password && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-gray-50/50 rounded-2xl p-4 border border-gray-100 space-y-2"
+                            >
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Security Requirements</p>
+                                <div className="grid grid-cols-1 gap-1.5">
+                                    {passwordRequirements.map((req, index) => (
+                                        <div key={index} className="flex items-center gap-2">
+                                            <div className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${req.test(formData.password) ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                                                {req.test(formData.password) ? <Check size={10} strokeWidth={3} /> : <div className="w-1 h-1 bg-current rounded-full" />}
+                                            </div>
+                                            <span className={`text-[11px] font-medium ${req.test(formData.password) ? 'text-gray-700' : 'text-gray-400'}`}>
+                                                {req.label}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
 
                         <button 
                             type="submit" 
@@ -193,7 +258,7 @@ const RegisterPage: React.FC = () => {
                     </form>
 
                     <div className="mt-8 text-center text-xs text-gray-400 leading-relaxed">
-                        By signing up, you agree to our <Link to="/terms" className="text-[#007ebb] underline">Terms</Link> and <Link to="/privacy" className="text-[#007ebb] underline">Privacy Policy</Link>
+                        By signing up, you agree to our <Link to="/terms-conditions" className="text-[#007ebb] underline">Terms</Link> and <Link to="/privacy-policy" className="text-[#007ebb] underline">Privacy Policy</Link>
                     </div>
 
                     <div className="mt-8 text-center border-t border-gray-50 pt-8">

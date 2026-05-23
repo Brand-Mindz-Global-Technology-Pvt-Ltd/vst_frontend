@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff, ShieldCheck } from 'lucide-react';
+import { 
+    Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, 
+    Eye, EyeOff, ShieldCheck, X, Check 
+} from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiResetPassword } from '../../services/auth/authService';
 
@@ -13,6 +16,22 @@ const ResetPasswordPage: React.FC = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
+
+    const passwordRequirements = [
+        { label: 'At least 8 characters', test: (p: string) => p.length >= 8 },
+        { label: 'At least one uppercase letter', test: (p: string) => /[A-Z]/.test(p) },
+        { label: 'At least one lowercase letter', test: (p: string) => /[a-z]/.test(p) },
+        { label: 'At least one number', test: (p: string) => /\d/.test(p) },
+        { label: 'At least one special character (@$!%*?&)', test: (p: string) => /[@$!%*?&]/.test(p) },
+    ];
+
+    const getStrength = (p: string) => {
+        if (!p) return 0;
+        return passwordRequirements.filter(req => req.test(p)).length;
+    };
+
+    const strength = getStrength(formData.password);
+    const passwordsMatch = formData.password && formData.confirmPassword ? formData.password === formData.confirmPassword : null;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -98,6 +117,30 @@ const ResetPasswordPage: React.FC = () => {
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
                                 </div>
+                                {/* Strength Meter */}
+                                {formData.password && (
+                                    <div className="mt-2 space-y-2">
+                                        <div className="flex gap-1 h-1">
+                                            {[1, 2, 3, 4, 5].map((level) => (
+                                                <div 
+                                                    key={level}
+                                                    className={`flex-1 rounded-full transition-all duration-500 ${
+                                                        strength >= level 
+                                                            ? strength <= 2 ? 'bg-red-400' : strength <= 4 ? 'bg-yellow-400' : 'bg-green-500'
+                                                            : 'bg-gray-100'
+                                                    }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <p className={`text-[10px] font-bold uppercase tracking-wider ${
+                                                strength <= 2 ? 'text-red-500' : strength <= 4 ? 'text-yellow-600' : 'text-green-600'
+                                            }`}>
+                                                {strength <= 2 ? 'Weak' : strength <= 4 ? 'Medium' : 'Strong'} Password
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="space-y-2 text-left">
@@ -108,10 +151,16 @@ const ResetPasswordPage: React.FC = () => {
                                         type={showConfirmPassword ? "text" : "password"} 
                                         required
                                         placeholder="••••••••"
-                                        className="w-full pl-12 pr-12 py-4 bg-gray-50/50 border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all text-dark font-medium placeholder:text-gray-300 shadow-sm"
+                                        className={`w-full pl-12 pr-12 py-4 bg-gray-50/50 border rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all text-dark font-medium placeholder:text-gray-300 shadow-sm ${
+                                            passwordsMatch === true ? 'border-green-200' : passwordsMatch === false ? 'border-red-200' : 'border-gray-100'
+                                        }`}
                                         value={formData.confirmPassword}
                                         onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                                     />
+                                    <div className="absolute right-12 top-1/2 -translate-y-1/2 flex items-center">
+                                        {passwordsMatch === true && <Check size={16} className="text-green-500" />}
+                                        {passwordsMatch === false && <X size={16} className="text-red-500" />}
+                                    </div>
                                     <button 
                                         type="button"
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -121,6 +170,29 @@ const ResetPasswordPage: React.FC = () => {
                                     </button>
                                 </div>
                             </div>
+
+                            {/* Password Requirements Checklist */}
+                            {formData.password && (
+                                <motion.div 
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="bg-gray-50/50 rounded-2xl p-4 border border-gray-100 space-y-2 text-left"
+                                >
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Security Requirements</p>
+                                    <div className="grid grid-cols-1 gap-1.5">
+                                        {passwordRequirements.map((req, index) => (
+                                            <div key={index} className="flex items-center gap-2">
+                                                <div className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${req.test(formData.password) ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                                                    {req.test(formData.password) ? <Check size={10} strokeWidth={3} /> : <div className="w-1 h-1 bg-current rounded-full" />}
+                                                </div>
+                                                <span className={`text-[11px] font-medium ${req.test(formData.password) ? 'text-gray-700' : 'text-gray-400'}`}>
+                                                    {req.label}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            )}
 
                             <button 
                                 type="submit" 

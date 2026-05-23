@@ -5,6 +5,8 @@ interface User {
     customerId: string;
     name: string;
     email: string;
+    phone?: string;
+    profilePicture?: string;
     token: string;
 }
 
@@ -12,6 +14,7 @@ interface AuthContextType {
     user: User | null;
     login: (userData: User) => void;
     logout: () => void;
+    updateUser: (updatedFields: Partial<User>) => void;
     isAuthenticated: boolean;
     isAuthModalOpen: boolean;
     toggleAuthModal: () => void;
@@ -49,6 +52,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('vst_user');
     };
 
+    const updateUser = (updatedFields: Partial<User>) => {
+        setUser(prev => {
+            if (!prev) return null;
+            const updated = { ...prev, ...updatedFields };
+            localStorage.setItem('vst_user', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
     const isAuthenticated = !!user && !!user.token;
 
     if (loading) {
@@ -56,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAuthModalOpen, toggleAuthModal }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, isAuthenticated, isAuthModalOpen, toggleAuthModal }}>
             {children}
         </AuthContext.Provider>
     );

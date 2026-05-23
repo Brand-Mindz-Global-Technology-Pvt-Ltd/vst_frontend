@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 // import Footer from '../../components/ui/footer/Footer';
 import ProductImageSection from '../../components/shop-detail/ProductImageSection';
 import ProductInfoSection from '../../components/shop-detail/ProductInfoSection';
@@ -12,6 +13,7 @@ import { useProduct } from '../../hooks/useProduct';
 const ProductDetailPage: React.FC = () => {
     const { pathname } = useLocation();
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const { product, loading, error } = useProduct(id);
 
     useEffect(() => {
@@ -41,6 +43,15 @@ const ProductDetailPage: React.FC = () => {
         <div className="min-h-screen flex flex-col bg-[#EFEFEF]">
             <main className="grow">
                 <div className="max-w-[1440px] mx-auto px-4 sm:px-10 md:px-20 py-10">
+                    {/* Back Button */}
+                    <button 
+                        onClick={() => navigate(-1)}
+                        className="flex items-center gap-2 text-gray-500 hover:text-dark mb-6 transition-colors font-medium text-sm group w-fit"
+                    >
+                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                        Back to Shop
+                    </button>
+
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-10 items-start">
                         {/* Left Sticky Section */}
                         <div className="w-full lg:sticky lg:top-[100px]">
