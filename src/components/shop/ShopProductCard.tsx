@@ -15,6 +15,7 @@ interface ShopProductCardProps {
     originalPrice: number; // Changed to number
     isLimitedTime?: boolean;
     category?: string;
+    inStock?: boolean;
 }
 
 const ShopProductCard: React.FC<ShopProductCardProps> = ({

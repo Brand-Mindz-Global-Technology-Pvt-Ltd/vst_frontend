@@ -5,6 +5,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useCart } from '../../../context/CartContext';
 import { useWishlist } from '../../../context/WishlistContext';
 import FloatingHighlight from '../framer/FloatingHighlight';
+import SearchAutocomplete from './SearchAutocomplete';
 
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -93,6 +94,11 @@ const Navbar: React.FC = () => {
                                 </div>
                             </div>
 
+                            {/* Search Bar (Desktop) */}
+                            <div className="hidden lg:flex flex-1 max-w-[400px] mx-8">
+                                <SearchAutocomplete />
+                            </div>
+
                             {/* Actions */}
                             <div className="flex items-center gap-2 md:gap-4">
                                 {/* Cart Icon */}
@@ -157,6 +163,10 @@ const Navbar: React.FC = () => {
                     {/* Mobile Navigation */}
                     {isMenuOpen && (
                         <div className="md:hidden bg-white border-t border-gray-100 animate-in slide-in-from-top duration-300">
+                            {/* Mobile Search */}
+                            <div className="px-4 py-4 border-b border-gray-50">
+                                <SearchAutocomplete />
+                            </div>
                             <div className="px-4 pt-2 pb-6 space-y-1">
                                 {navLinks.map((link) => {
                                     const isActive = link.href === '/'

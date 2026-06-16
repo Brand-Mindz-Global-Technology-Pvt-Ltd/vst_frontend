@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import type { Product } from '../../types/product';
 import { getImageUrl } from '../../config/apiConfig';
+import { Link } from 'react-router-dom';
 
 interface ProductImageSectionProps {
     product: Product;
@@ -8,26 +9,38 @@ interface ProductImageSectionProps {
 
 const ProductImageSection: React.FC<ProductImageSectionProps> = ({ product }) => {
     const [selectedImage, setSelectedImage] = useState(0);
+    const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
+    const [isZooming, setIsZooming] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!containerRef.current) return;
+        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+        const x = ((e.clientX - left) / width) * 100;
+        const y = ((e.clientY - top) / height) * 100;
+        setZoomPos({ x, y });
+    };
 
     return (
         <div className="h-full flex flex-col">
             {/* Breadcrumbs */}
-            <div className="flex items-center mb-5 text-sm text-black font-medium">
-                <span className="hover:underline cursor-pointer">Shop</span>
-                <span className="text-black mx-1">&gt;</span>
-                <span className="text-black capitalize">{product.category}</span>
-                <span className="text-black mx-1">&gt;</span>
-                <span className="text-black">{product.name}</span>
+            <div className="flex items-center mb-5 text-sm text-gray-500 font-medium font-josefin tracking-wide">
+                <Link to="/shop" className="hover:text-[#007ebb] transition-colors">Shop</Link>
+                <span className="mx-2 text-gray-300">/</span>
+                <Link to={`/shop?category=${encodeURIComponent(product.category)}`} className="capitalize hover:text-[#007ebb] transition-colors">{product.category}</Link>
+                <span className="mx-2 text-gray-300">/</span>
+                <span className="text-dark font-bold truncate max-w-[150px] sm:max-w-none">{product.name}</span>
             </div>
-            <div className="bg-[#EAF8FF] rounded-3xl overflow-hidden relative flex items-center justify-center p-6 sm:p-12 min-h-[400px] sm:min-h-[500px]">
+
+            <div className="bg-[#EAF8FF] rounded-[40px] overflow-hidden relative flex items-center justify-center p-6 sm:p-12 min-h-[400px] sm:min-h-[500px] border border-white/60 shadow-inner">
                 {/* 99.9% Badge */}
                 {product.badge99 && (
-                    <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 scale-90 sm:scale-100 origin-top-left">
+                    <div className="absolute top-4 left-4 sm:top-8 sm:left-8 z-10 scale-90 sm:scale-100 origin-top-left">
                         <div className="flex items-start gap-2">
-                            <img src="/assets/shopdetail/icons/guarantee.png" className="w-8 h-8 sm:w-9 sm:h-9" alt="" />
+                            <img src="/assets/shopdetail/icons/guarantee.png" className="w-8 h-8 sm:w-10 sm:h-10" alt="" />
                             <div className="flex flex-col">
-                                <span className="text-xl sm:text-4xl font-bold font-josefin leading-none">99.9%</span>
-                                <span className="text-[9px] sm:text-[17px] font-semibold font-josefin text-black px-0 py-0 rounded-sm w-fit">Guarantee pure water</span>
+                                <span className="text-xl sm:text-4xl font-black font-josefin leading-none text-dark">99.9%</span>
+                                <span className="text-[9px] sm:text-[14px] font-bold font-josefin text-gray-500 uppercase tracking-tighter">Guarantee pure water</span>
                             </div>
                         </div>
                     </div>
@@ -35,33 +48,43 @@ const ProductImageSection: React.FC<ProductImageSectionProps> = ({ product }) =>
 
                 {/* 10X Badge */}
                 {product.badge10x && (
-                    <div className="absolute top-4 right-10 sm:top-6 sm:right-10 z-10 text-left scale-90 sm:scale-100 origin-top-right">
+                    <div className="absolute top-4 right-10 sm:top-8 sm:right-10 z-10 text-left scale-90 sm:scale-100 origin-top-right">
                         <div className="flex items-start gap-2">
-                            <div className="flex items-start gap-2">
-                                <img src='/assets/shopdetail/icons/watercheck.png' className='w-8 h-8 sm:w-10 sm:h-10 md:mt-0' alt='' />
-                                <div className='flex flex-col'>
-                                    <span className='text-xl sm:text-4xl font-bold font-josefin leading-none'>10X</span>
-                                    <span className="text-[10px] sm:text-[18px] font-semibold font-josefin leading-tight max-w-[140px] sm:max-w-[200px]">
-                                        more effective at <br className="hidden sm:block" />removing impurities
-                                    </span>
-                                </div>
+                            <img src='/assets/shopdetail/icons/watercheck.png' className='w-8 h-8 sm:w-11 sm:h-11' alt='' />
+                            <div className='flex flex-col'>
+                                <span className='text-xl sm:text-4xl font-black font-josefin leading-none text-dark'>10X</span>
+                                <span className="text-[10px] sm:text-[14px] font-bold font-josefin text-gray-500 leading-tight uppercase tracking-tighter">
+                                    More effective <br className="hidden sm:block" />impurities removal
+                                </span>
                             </div>
                         </div>
                     </div>
                 )}
 
-                {/* Main Product Image */}
-                <div className="relative w-full h-full mt-10 sm:mt-16 flex items-center justify-center">
-                    <img
-                        src={getImageUrl(product.images?.[selectedImage])}
-                        alt={product.name}
-                        className="w-full max-w-[300px] sm:max-w-[450px] aspect-square object-contain relative z-10"
-                    />
+                {/* Main Product Image with Zoom */}
+                <div 
+                    ref={containerRef}
+                    onMouseMove={handleMouseMove}
+                    onMouseEnter={() => setIsZooming(true)}
+                    onMouseLeave={() => setIsZooming(false)}
+                    className="relative w-full h-full mt-10 sm:mt-16 flex items-center justify-center cursor-zoom-in group"
+                >
+                    <div className="relative z-10 w-full max-w-[300px] sm:max-w-[450px] aspect-square overflow-hidden rounded-2xl transition-transform duration-500 group-hover:shadow-2xl">
+                        <img
+                            src={getImageUrl(product.images?.[selectedImage])}
+                            alt={product.name}
+                            style={{
+                                transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                                transform: isZooming ? 'scale(2)' : 'scale(1)',
+                            }}
+                            className="w-full h-full object-contain transition-transform duration-200 ease-out"
+                        />
+                    </div>
                     {/* Podium */}
                     <img
                         src="/assets/home/podium.webp"
                         alt="podium"
-                        className="absolute bottom-[-20%] left-1/2 -translate-x-1/2 w-[110%] opacity-40 z-0"
+                        className="absolute bottom-[-15%] left-1/2 -translate-x-1/2 w-[110%] opacity-30 z-0 pointer-events-none transition-opacity group-hover:opacity-10"
                     />
                 </div>
 

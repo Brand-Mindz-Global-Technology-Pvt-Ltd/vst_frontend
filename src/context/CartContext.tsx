@@ -11,6 +11,8 @@ export interface CartItem {
     rating: number;
     reviewsCount: string;
     discount?: string;
+    color?: string;
+    size?: string;
 }
 
 interface CartContextType {

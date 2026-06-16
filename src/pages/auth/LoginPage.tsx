@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+
 import { motion } from 'framer-motion';
-import { Mail, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Loader2, AlertCircle, CheckCircle2, Eye, EyeOff, ShieldAlert } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { apiLogin } from '../../services/auth/authService';
@@ -10,6 +11,7 @@ const LoginPage: React.FC = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const redirectPath = queryParams.get('redirect') || '/';
+    const sessionExpired = queryParams.get('reason') === 'session_expired';
     const { login } = useAuth();
     
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -71,6 +73,18 @@ const LoginPage: React.FC = () => {
                         <h1 className="text-3xl font-bold text-dark mb-2 tracking-tight uppercase">Welcome Back</h1>
                         <p className="text-gray-500">Secure access to your VST account</p>
                     </div>
+
+                    {/* Session Expired Banner */}
+                    {sessionExpired && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            className="mb-6 p-4 rounded-2xl flex items-center gap-3 text-left bg-amber-50 text-amber-700 border border-amber-100"
+                        >
+                            <ShieldAlert size={20} className="shrink-0" />
+                            <span className="text-sm font-bold">Your session has expired. Please sign in again to continue.</span>
+                        </motion.div>
+                    )}
 
                     {/* Status Message */}
                     {message && (

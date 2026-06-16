@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { productService } from '../services/shop/productService';
 import type { Product, ProductListResponse } from '../types/product';
 
-export const useProducts = (page = 1, limit = 8, category = '', subCategory = '', search = '', minPrice = '', maxPrice = '', rating = '') => {
+export const useProducts = (page = 1, limit = 8, category = '', subCategory = '', search = '', minPrice = '', maxPrice = '', rating = '', sort = 'newest') => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -20,7 +20,8 @@ export const useProducts = (page = 1, limit = 8, category = '', subCategory = ''
                     search,
                     minPrice,
                     maxPrice,
-                    rating
+                    rating,
+                    sort
                 );
                 if (data.success) {
                     setProducts(data.data);
@@ -36,7 +37,7 @@ export const useProducts = (page = 1, limit = 8, category = '', subCategory = ''
         };
 
         fetchProducts();
-    }, [page, limit, category, subCategory, search, minPrice, maxPrice, rating]);
+    }, [page, limit, category, subCategory, search, minPrice, maxPrice, rating, sort]);
 
     return { products, loading, error, pagination };
 };

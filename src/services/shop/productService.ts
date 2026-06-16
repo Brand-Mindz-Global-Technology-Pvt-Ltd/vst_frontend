@@ -4,7 +4,7 @@ export const productService = {
     /**
      * Fetch products for the shop page
      */
-    getPublicProducts: async (page = 1, limit = 8, category = '', subCategory = '', search = '', minPrice = '', maxPrice = '', rating = '') => {
+    getPublicProducts: async (page = 1, limit = 8, category = '', subCategory = '', search = '', minPrice = '', maxPrice = '', rating = '', sort = 'newest') => {
         try {
             const queryParams = new URLSearchParams({
                 page: page.toString(),
@@ -14,7 +14,8 @@ export const productService = {
                 search: search || '',
                 minPrice: minPrice?.toString() || '',
                 maxPrice: maxPrice?.toString() || '',
-                rating: rating?.toString() || ''
+                rating: rating?.toString() || '',
+                sort: sort || 'newest'
             });
 
             const response = await fetch(`${API_BASE_URL}/customers/products?${queryParams}`);
@@ -63,6 +64,23 @@ export const productService = {
             return await response.json();
         } catch (error) {
             console.error('Product Service Error:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Search products (for autocomplete)
+     */
+    searchProducts: async (query: string) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/customers/products/search?q=${encodeURIComponent(query)}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Search failed');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Search Service Error:', error);
             throw error;
         }
     }

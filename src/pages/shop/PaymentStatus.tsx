@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { CheckCircle2, XCircle, Loader2, ChevronRight, Home, ShoppingBag, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,12 +8,17 @@ const PaymentStatus: React.FC = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const orderId = searchParams.get('orderId');
+    const hasVerified = useRef(false);
 
     const [status, setStatus] = useState<'loading' | 'success' | 'failed' | 'error'>('loading');
     const [message, setMessage] = useState('Verifying your payment...');
     const [orderDetails, setOrderDetails] = useState<any>(null);
 
     useEffect(() => {
+        // Guard: only ever run once, even in React StrictMode double-invoke
+        if (hasVerified.current) return;
+        hasVerified.current = true;
+
         if (!orderId) {
             setStatus('error');
             setMessage('Invalid Request: Order ID missing.');
@@ -33,7 +38,12 @@ const PaymentStatus: React.FC = () => {
                     setOrderDetails(response.data);
                 } else {
                     setStatus('failed');
-                    setMessage(response.message || 'Payment failed or was cancelled.');
+                    // Check if it was a manual cancellation
+                    if (response.message?.toLowerCase().includes('cancel') || response.data?.code === 'PAYMENT_CANCELLED') {
+                        setMessage('You cancelled the payment. Your cart items are still saved.');
+                    } else {
+                        setMessage(response.message || 'Payment failed or was cancelled.');
+                    }
                 }
             } catch (err: any) {
                 console.error('Verification Error:', err);
@@ -142,13 +152,13 @@ const PaymentStatus: React.FC = () => {
                                         className="bg-white border-2 border-gray-100 hover:border-dark text-dark px-8 py-5 rounded-[22px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-3"
                                     >
                                         <Home size={20} />
-                                        Back to Shop
+                                        Home
                                     </button>
                                     <button 
-                                        onClick={() => navigate('/shop')} // Usually users want to go back to shop/cart to try again
+                                        onClick={() => navigate('/shop')} 
                                         className="bg-[#007ebb] hover:bg-black text-white px-8 py-5 rounded-[22px] font-bold uppercase tracking-widest transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 group"
                                     >
-                                        Try Again
+                                        Retry Checkout
                                         <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                                     </button>
                                 </div>

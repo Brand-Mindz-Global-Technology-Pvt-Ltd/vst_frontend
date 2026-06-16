@@ -5,6 +5,8 @@ interface User {
     customerId: string;
     name: string;
     email: string;
+    phone?: string;
+    profilePicture?: string;
     token: string;
 }
 
@@ -12,6 +14,7 @@ interface AuthContextType {
     user: User | null;
     login: (userData: User) => void;
     logout: () => void;
+    updateUser: (updatedFields: Partial<User>) => void;
     isAuthenticated: boolean;
     isAuthModalOpen: boolean;
     toggleAuthModal: (open?: boolean) => void;
@@ -21,6 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -36,6 +40,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         setLoading(false);
     }, []);
+
+    const toggleAuthModal = () => setIsAuthModalOpen(!isAuthModalOpen);
 
     const login = (userData: User) => {
         setUser(userData);

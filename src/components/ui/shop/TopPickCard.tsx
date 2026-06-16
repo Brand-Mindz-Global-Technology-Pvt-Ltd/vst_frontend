@@ -1,6 +1,7 @@
 import { Heart, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart, type CartItem } from '../../../context/CartContext';
+import { useWishlist, type WishlistItem } from '../../../context/WishlistContext';
 import toast from 'react-hot-toast';
 
 interface TopPickCardProps {
@@ -30,6 +31,36 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
 }) => {
     const navigate = useNavigate();
     const { addToCart, toggleCart } = useCart();
+    const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlist();
+
+    const isInWishlist = wishlistItems.some(item => item.id === id);
+
+    const handleToggleWishlist = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isInWishlist) {
+            removeFromWishlist(id);
+            toast.error('Removed from wishlist', {
+                style: { borderRadius: '10px', background: '#333', color: '#fff' }
+            });
+        } else {
+            const wishlistItem: WishlistItem = {
+                id,
+                name,
+                price: currentPrice || 0,
+                originalPrice: originalPrice || 0,
+                image: image,
+                rating: 5, // Default for top picks if not provided
+                reviewsCount: 0,
+                inStock: true,
+                discount: discount
+            };
+            addToWishlist(wishlistItem);
+            toast.success('Added to wishlist!', {
+                icon: '❤️',
+                style: { borderRadius: '10px', background: '#333', color: '#fff' }
+            });
+        }
+    };
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -77,9 +108,19 @@ const TopPickCard: React.FC<TopPickCardProps> = ({
 
                     {/* Wishlist Icon - Top Right */}
                     <button
-                        className="absolute top-4 right-4 w-10 h-10 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-red-500 transition-all z-20"
+                        onClick={handleToggleWishlist}
+                        className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition-all z-20 ${
+                            isInWishlist 
+                                ? 'bg-white text-red-500 shadow-md' 
+                                : 'bg-white/40 text-white hover:bg-white hover:text-red-500'
+                        }`}
                     >
-                        <Heart size={20} className="hover:scale-110 transition-transform" />
+                        <Heart 
+                            size={20} 
+                            className={`transition-all duration-300 ${
+                                isInWishlist ? 'fill-red-500 text-red-500 scale-110' : 'hover:scale-110'
+                            }`} 
+                        />
                     </button>
 
                     {/* Podium Layer - Behind Product */}

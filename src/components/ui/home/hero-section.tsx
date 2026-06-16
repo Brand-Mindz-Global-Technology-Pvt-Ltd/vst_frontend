@@ -20,7 +20,7 @@ interface HeroProps {
 
 const HeroSectionTemplate: React.FC<HeroProps> = ({
     slides,
-    onOrderClick = () => console.log("Order Now clicked"),
+    onOrderClick,
 }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const { setActiveId } = useHighlight();
@@ -200,7 +200,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                                     <div className="bg-white text-black rounded-full p-1 sm:p-1.5 md:p-4 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
                                         <ArrowRight size={12} className="sm:w-3 sm:h-3 md:w-5 md:h-5 -rotate-45" strokeWidth={3} />
                                     </div>
-                                </a>
+                                </button>
                            
                             </div>
                         </div>

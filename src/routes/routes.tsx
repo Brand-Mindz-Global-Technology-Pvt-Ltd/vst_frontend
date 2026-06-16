@@ -11,6 +11,7 @@ import Navbar from '../components/ui/header/navbar';
 import ContactPage from '../pages/contact/ContactPage';
 import IndustryPage from '../pages/industry';
 import PaymentStatus from '../pages/shop/PaymentStatus';
+import TrackOrder from '../pages/shop/TrackOrder';
 import Footer from '../components/ui/footer/Footer';
 import ProfilePage from '../pages/profile/ProfilePage';
 import PrivacyPolicy from '../pages/policies/PrivacyPolicy';
@@ -23,6 +24,7 @@ import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import ForgotPasswordPage from '../pages/auth/ForgotPassword';
 import ResetPasswordPage from '../pages/auth/ResetPassword';
+import VerifyEmail from '../pages/auth/VerifyEmail';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 
@@ -58,6 +60,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/blog/:id" element={<BlogDetail />} />
                 <Route path="/industry" element={<IndustryPage />} />
                 <Route path="/payment-status" element={<PaymentStatus />} />
+                <Route path="/track-order" element={<TrackOrder />} />
                 <Route path="/profile" element={
                     <ProtectedRoute>
                         <ProfilePage />
@@ -67,6 +70,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                <Route path="/verify-email/:token" element={<VerifyEmail />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
                 <Route path="/terms-conditions" element={<TermsConditions />} />

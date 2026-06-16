@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Star, ChevronDown } from 'lucide-react';
+import { X, Star, Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -93,12 +93,28 @@ const CartModal: React.FC = () => {
                                                 <div className="grow flex flex-col justify-between py-2">
                                                     <div className="space-y-3">
                                                         <div className="flex justify-between items-start gap-4">
-                                                            <h3 className="text-sm sm:text-base font-alata font-medium text-dark leading-tight line-clamp-2 uppercase tracking-tighter">
-                                                                {item.name}
-                                                            </h3>
+                                                            <div>
+                                                                <h3 className="text-sm sm:text-base font-alata font-medium text-dark leading-tight line-clamp-2 uppercase tracking-tighter">
+                                                                    {item.name}
+                                                                </h3>
+                                                                {(item.color || item.size) && (
+                                                                    <div className="flex gap-2 mt-2">
+                                                                        {item.color && (
+                                                                            <span className="text-[10px] bg-blue-50 text-[#007ebb] px-2 py-0.5 rounded-lg font-bold uppercase tracking-wider">
+                                                                                {item.color}
+                                                                            </span>
+                                                                        )}
+                                                                        {item.size && (
+                                                                            <span className="text-[10px] bg-gray-50 text-gray-500 px-2 py-0.5 rounded-lg font-bold uppercase tracking-wider">
+                                                                                {item.size}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                             <button
                                                                 onClick={() => removeFromCart(item.id)}
-                                                                className="text-gray-300 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full"
+                                                                className="text-gray-300 hover:text-red-500 transition-colors p-2 hover:bg-red-50 rounded-full shrink-0"
                                                             >
                                                                 <X size={20} />
                                                             </button>
@@ -131,21 +147,26 @@ const CartModal: React.FC = () => {
                                                         </div>
 
                                                         <div className="flex items-center gap-4">
-                                                            {/* Quantity Selector */}
-                                                            <div className="flex items-center gap-3 bg-gray-50 rounded-2xl px-4 py-2 border border-transparent hover:border-blue-100 transition-all">
-                                                                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Qty</span>
-                                                                <div className="relative flex items-center">
-                                                                    <select
-                                                                        value={item.quantity}
-                                                                        onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                                                                        className="appearance-none bg-transparent pr-6 focus:outline-none cursor-pointer font-bold text-dark text-sm z-10"
-                                                                    >
-                                                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(nu => (
-                                                                            <option key={nu} value={nu}>{nu}</option>
-                                                                        ))}
-                                                                    </select>
-                                                                    <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[#007ebb]" />
-                                                                </div>
+                                                            {/* Quantity Selector (+/-) */}
+                                                            <div className="flex items-center gap-3 bg-gray-50 rounded-2xl px-2 py-1.5 border border-transparent hover:border-blue-100 transition-all">
+                                                                <button 
+                                                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                                                    disabled={item.quantity <= 1}
+                                                                    className="p-2 hover:bg-white hover:shadow-sm rounded-xl text-gray-400 hover:text-[#007ebb] disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+                                                                >
+                                                                    <Minus size={14} />
+                                                                </button>
+                                                                
+                                                                <span className="min-w-[20px] text-center font-bold text-dark text-sm">
+                                                                    {item.quantity}
+                                                                </span>
+
+                                                                <button 
+                                                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                                                    className="p-2 hover:bg-white hover:shadow-sm rounded-xl text-gray-400 hover:text-[#007ebb] transition-all"
+                                                                >
+                                                                    <Plus size={14} />
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -158,22 +179,22 @@ const CartModal: React.FC = () => {
 
                             {/* Order Summary Footer */}
                             <div className="p-6 sm:p-10 bg-white border-t border-gray-50 shrink-0">
-                                <div className="max-w-[500px] ml-auto space-y-6">
+                                <div className="w-full space-y-6">
                                     <div className="space-y-4">
-                                        <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">
+                                        <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
                                             <span>Subtotal</span>
                                             <span className="text-dark">₹{cartTotal.toLocaleString()}</span>
                                         </div>
                                         {deliveryFee > 0 && (
-                                            <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-[0.2em]">
+                                            <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
                                                 <span>Delivery</span>
                                                 <span className="text-dark">₹{deliveryFee.toLocaleString()}</span>
                                             </div>
                                         )}
                                         <div className="h-px bg-gray-100" />
                                         <div className="flex justify-between items-center">
-                                            <span className="text-xl font-bold font-alata uppercase tracking-tighter">Total Amount</span>
-                                            <span className="text-3xl font-bold font-imperator text-[#007ebb] tracking-tighter">₹{finalTotal.toLocaleString()}</span>
+                                            <span className="text-base font-bold font-alata uppercase tracking-tighter">Total Amount</span>
+                                            <span className="text-2xl font-bold font-imperator text-[#007ebb] tracking-tighter">₹{finalTotal.toLocaleString()}</span>
                                         </div>
                                     </div>
 

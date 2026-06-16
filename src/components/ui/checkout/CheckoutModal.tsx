@@ -4,13 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
 import { useAuth } from '../../../context/AuthContext';
-import { 
-    apiCreateAddress, 
-    apiGetAddresses, 
-    apiDeleteAddress, 
-    apiCreateOrder, 
+import {
+    apiCreateAddress,
+    apiGetAddresses,
+    apiDeleteAddress,
+    apiCreateOrder,
     apiUpdateAddress,
-    apiInitiatePhonePePayment 
+    apiInitiatePhonePePayment
 } from '../../../services/order/orderService';
 
 const CheckoutModal: React.FC = () => {
@@ -18,7 +18,7 @@ const CheckoutModal: React.FC = () => {
     const location = useLocation();
     const { isCheckoutOpen, toggleCheckout, selectedProduct, cartItems, cartTotal, clearCart } = useCart();
     const { user, isAuthenticated, logout } = useAuth();
-    
+
     // UI State
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +29,7 @@ const CheckoutModal: React.FC = () => {
     const [addresses, setAddresses] = useState<any[]>([]);
     const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
     const [showAddressForm, setShowAddressForm] = useState(true);
-    
+
     const [formData, setFormData] = useState({
         fullName: user?.name || '',
         phone: '',
@@ -101,15 +101,19 @@ const CheckoutModal: React.FC = () => {
                         setAddresses([response.data]);
                         setSelectedAddressId(response.data._id);
                         setShowAddressForm(false);
-                        
+
                         // 2. Proceed with checkout
                         // We need to call the actual logic here directly to ensure we have the new ID
-                        const items = displayItems.map(item => ({
-                            productId: item.id === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : item.id,
-                            name: item.name,
-                            qty: item.quantity || 1,
-                            price: item.price
-                        }));
+                        const items = displayItems.map(item => {
+                            const rawId = String(item.id);
+                            const cleanId = rawId === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : rawId.split('-')[0];
+                            return {
+                                productId: cleanId,
+                                name: item.name,
+                                qty: item.quantity || 1,
+                                price: item.price
+                            };
+                        });
 
                         const finalPayload = {
                             shippingAddressId: response.data._id,
@@ -244,93 +248,97 @@ const CheckoutModal: React.FC = () => {
     };
 
     const handleCheckoutAction = async () => {
-    if (!isAuthenticated) {
-        if (!formData.fullName || !formData.phone || !formData.addressLine1 || !formData.cityState) {
-            setError('Please fill in and save delivery address');
+        if (!isAuthenticated) {
+            if (!formData.fullName || !formData.phone || !formData.addressLine1 || !formData.cityState) {
+                setError('Please fill in and save delivery address');
+                return;
+            }
+            localStorage.setItem('vst_pending_checkout', 'true');
+            localStorage.setItem('vst_pending_address', JSON.stringify(formData));
+            handleClose();
+            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
             return;
         }
-        localStorage.setItem('vst_pending_checkout', 'true');
-        localStorage.setItem('vst_pending_address', JSON.stringify(formData));
-        handleClose();
-        navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
-        return;
-    }
 
-    if (!selectedAddressId) {
-        setError('Please save or select a delivery address');
-        return;
-    }
+        if (!selectedAddressId) {
+            setError('Please save or select a delivery address');
+            return;
+        }
 
-    if (!user?.id) {
-        setError('User details not found. Please login again.');
-        return;
-    }
+        if (!user?.id) {
+            setError('User details not found. Please login again.');
+            return;
+        }
 
-    setIsLoading(true);
-    setError('');
+        setIsLoading(true);
+        setError('');
 
-    try {
-        const items = displayItems.map(item => ({
-            productId: item.id === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : item.id,
-            name: item.name,
-            qty: item.quantity || 1,
-            price: item.price
-        }));
+        try {
+            const items = displayItems.map(item => {
+                const rawId = String(item.id);
+                const cleanId = rawId === 'hero-prod' ? '67ba9e3f9479e0a0ce9e8c37' : rawId.split('-')[0];
+                return {
+                    productId: cleanId,
+                    name: item.name,
+                    qty: item.quantity || 1,
+                    price: item.price
+                };
+            });
 
-        if (selectedPayment === 'cod') {
-            const orderResponse = await apiCreateOrder({
-                customerId: user!.id,
+            if (selectedPayment === 'cod') {
+                const orderResponse = await apiCreateOrder({
+                    customerId: user!.id,
+                    shippingAddressId: selectedAddressId,
+                    items,
+                    subtotal: displayTotal,
+                    shipping: deliveryFee,
+                    totalAmount: finalTotal,
+                    paymentMethod: 'COD'
+                });
+
+                if (orderResponse.success) {
+                    setIsSuccess(true);
+                    clearCart();
+
+                    setTimeout(() => {
+                        handleClose();
+                        navigate('/profile?tab=orders');
+                    }, 3000);
+                } else {
+                    setError(orderResponse.message || 'Order failed');
+                }
+
+                return;
+            }
+
+            const phonePeResponse = await apiInitiatePhonePePayment({
+                customerId: user.id,
                 shippingAddressId: selectedAddressId,
                 items,
                 subtotal: displayTotal,
                 shipping: deliveryFee,
-                totalAmount: finalTotal,
-                paymentMethod: 'COD'
+                totalAmount: finalTotal
             });
 
-            if (orderResponse.success) {
-                setIsSuccess(true);
-                clearCart();
-
-                setTimeout(() => {
-                    handleClose();
-                    navigate('/profile?tab=orders');
-                }, 3000);
-            } else {
-                setError(orderResponse.message || 'Order failed');
+            if (phonePeResponse.success && phonePeResponse.data?.paymentUrl) {
+                window.location.href = phonePeResponse.data.paymentUrl;
+                return;
             }
 
-            return;
+            setError(phonePeResponse.message || 'PhonePe payment initiation failed');
+
+        } catch (err: any) {
+            console.error(err);
+
+            if (err.message?.includes("No token provided") || err.status === 401) {
+                setError("Unauthorized: Your session has expired. Please logout and login again.");
+            } else {
+                setError(err.message || 'An unexpected error occurred');
+            }
+        } finally {
+            setIsLoading(false);
         }
-
-        const phonePeResponse = await apiInitiatePhonePePayment({
-            customerId: user.id,
-            shippingAddressId: selectedAddressId,
-            items,
-            subtotal: displayTotal,
-            shipping: deliveryFee,
-            totalAmount: finalTotal
-        });
-
-        if (phonePeResponse.success && phonePeResponse.data?.paymentUrl) {
-            window.location.href = phonePeResponse.data.paymentUrl;
-            return;
-        }
-
-        setError(phonePeResponse.message || 'PhonePe payment initiation failed');
-
-    } catch (err: any) {
-        console.error(err);
-
-        if (err.message?.includes("No token provided") || err.status === 401) {
-            setError("Unauthorized: Your session has expired. Please logout and login again.");
-        } else {
-            setError(err.message || 'An unexpected error occurred');
-        }
-    } finally {
-        setIsLoading(false);
-    }
-};
+    };
 
     const handleClose = () => {
         toggleCheckout(false);
@@ -403,10 +411,10 @@ const CheckoutModal: React.FC = () => {
                                         {/* Body Content */}
                                         <div className="grow overflow-y-auto px-4 sm:px-8 md:px-12 py-6 md:py-10 bg-gray-50/20 no-scrollbar">
                                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 max-w-[1000px] mx-auto">
-                                                
+
                                                 {/* Left Column */}
                                                 <div className="lg:col-span-7 space-y-12">
-                                                    
+
                                                     {/* 2. Delivery Address */}
                                                     <section className="space-y-4 sm:space-y-8">
                                                         <div className="flex items-center justify-between">
@@ -414,7 +422,7 @@ const CheckoutModal: React.FC = () => {
                                                                 <div className="w-1.5 h-6 sm:h-7 bg-[#007ebb] rounded-full" /> Delivery Address
                                                             </h3>
                                                             {addresses.length > 0 && (
-                                                                <button 
+                                                                <button
                                                                     onClick={() => setShowAddressForm(!showAddressForm)}
                                                                     className="text-xs font-bold text-[#007ebb] uppercase tracking-widest underline underline-offset-4"
                                                                 >
@@ -422,7 +430,7 @@ const CheckoutModal: React.FC = () => {
                                                                 </button>
                                                             )}
                                                             {!isAuthenticated && !showAddressForm && selectedAddressId === 'guest-pending' && (
-                                                                <button 
+                                                                <button
                                                                     onClick={() => setShowAddressForm(true)}
                                                                     className="text-xs font-bold text-[#007ebb] uppercase tracking-widest underline underline-offset-4"
                                                                 >
@@ -454,7 +462,7 @@ const CheckoutModal: React.FC = () => {
                                                         {!showAddressForm && addresses.length > 0 && (
                                                             <div className="grid grid-cols-1 gap-4 animate-in fade-in slide-in-from-top-2">
                                                                 {addresses.map(addr => (
-                                                                    <div 
+                                                                    <div
                                                                         key={addr._id}
                                                                         onClick={() => {
                                                                             setSelectedAddressId(addr._id);
@@ -475,7 +483,7 @@ const CheckoutModal: React.FC = () => {
                                                                             </div>
                                                                             <div className="flex flex-col items-end gap-3">
                                                                                 {selectedAddressId === addr._id ? <CheckCircle2 className="text-[#007ebb]" size={22} /> : <Circle className="text-gray-200" size={22} />}
-                                                                                <button 
+                                                                                <button
                                                                                     onClick={(e) => handleDeleteAddress(addr._id, e)}
                                                                                     className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-full opacity-0 group-hover:opacity-100 transition-all"
                                                                                 >
@@ -495,10 +503,10 @@ const CheckoutModal: React.FC = () => {
                                                                     <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Name</label>
                                                                     <div className="relative group">
                                                                         <User size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
-                                                                        <input 
+                                                                        <input
                                                                             type="text" required placeholder="Full Name"
                                                                             className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
-                                                                            value={formData.fullName} onChange={e=>setFormData({...formData, fullName: e.target.value})}
+                                                                            value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                                                                         />
                                                                     </div>
                                                                 </div>
@@ -506,10 +514,10 @@ const CheckoutModal: React.FC = () => {
                                                                     <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Contact Number</label>
                                                                     <div className="relative group">
                                                                         <Phone size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
-                                                                        <input 
+                                                                        <input
                                                                             type="text" required placeholder="Phone Number"
                                                                             className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm"
-                                                                            value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})}
+                                                                            value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })}
                                                                         />
                                                                     </div>
                                                                 </div>
@@ -517,10 +525,10 @@ const CheckoutModal: React.FC = () => {
                                                                     <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">Street / Area / Colony</label>
                                                                     <div className="relative group">
                                                                         <MapPin size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
-                                                                        <input 
+                                                                        <input
                                                                             type="text" required placeholder="Road name or landmark"
                                                                             className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
-                                                                            value={formData.addressLine1} onChange={e=>setFormData({...formData, addressLine1: e.target.value})}
+                                                                            value={formData.addressLine1} onChange={e => setFormData({ ...formData, addressLine1: e.target.value })}
                                                                         />
                                                                     </div>
                                                                 </div>
@@ -528,15 +536,15 @@ const CheckoutModal: React.FC = () => {
                                                                     <label className="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-2">City / State / Pincode</label>
                                                                     <div className="relative group">
                                                                         <Building2 size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
-                                                                        <input 
+                                                                        <input
                                                                             type="text" required placeholder="City, State, Zip"
                                                                             className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm uppercase"
-                                                                            value={formData.cityState} onChange={e=>setFormData({...formData, cityState: e.target.value})}
+                                                                            value={formData.cityState} onChange={e => setFormData({ ...formData, cityState: e.target.value })}
                                                                         />
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-span-2 pt-2">
-                                                                    <button 
+                                                                    <button
                                                                         onClick={handleSaveAddress}
                                                                         disabled={isLoading}
                                                                         className="w-full sm:w-fit bg-[#007ebb] hover:bg-black text-white px-6 sm:px-10 py-4 sm:py-5 rounded-[18px] sm:rounded-[22px] font-bold uppercase tracking-[0.2em] transition-all active:scale-[0.98] shadow-xl shadow-blue-500/10 flex items-center justify-center gap-3"
@@ -554,7 +562,7 @@ const CheckoutModal: React.FC = () => {
                                                             <div className="w-1.5 h-6 sm:h-7 bg-[#007ebb] rounded-full" /> SELECT PAYMENT METHOD
                                                         </h3>
                                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                                            <button 
+                                                            <button
                                                                 onClick={() => setSelectedPayment('cod')}
                                                                 className={`p-4 sm:p-8 rounded-[24px] sm:rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'cod' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
                                                             >
@@ -570,7 +578,7 @@ const CheckoutModal: React.FC = () => {
                                                                 </div>
                                                             </button>
 
-                                                            <button 
+                                                            <button
                                                                 onClick={() => setSelectedPayment('online')}
                                                                 className={`p-4 sm:p-8 rounded-[24px] sm:rounded-[40px] border-2 flex flex-col items-start gap-4 transition-all relative group ${selectedPayment === 'online' ? 'border-[#007ebb] bg-blue-50/20' : 'border-gray-50 bg-white hover:border-gray-200'}`}
                                                             >
@@ -592,41 +600,68 @@ const CheckoutModal: React.FC = () => {
                                                 {/* Right Column / Sidebar */}
                                                 <div className="lg:col-span-5 relative">
                                                     <div className="lg:sticky lg:top-0 space-y-8">
-                                                        
                                                         {/* Summary Card */}
-                                                        <div className="bg-white rounded-[32px] sm:rounded-[40px] p-5 sm:p-10 border border-gray-100 shadow-2xl shadow-blue-900/10 space-y-6 sm:space-y-10">
-                                                            <div className="space-y-6">
+                                                        <div className="bg-white rounded-[24px] sm:rounded-[32px] p-4 sm:p-5 border border-gray-100 shadow-2xl shadow-blue-900/10 space-y-4">
+                                                            <div className="space-y-3">
+                                                                {/* Items in Order */}
+                                                                <div className="space-y-3">
+                                                                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] ml-1">Items in Order</h4>
+                                                                    <div className="max-h-[160px] overflow-y-auto space-y-2 pr-1 no-scrollbar">
+                                                                        {displayItems.map((item, idx) => (
+                                                                            <div key={item.id || idx} className="flex items-center gap-3 bg-gray-50/50 p-2.5 rounded-2xl border border-gray-100 hover:border-blue-100/50 transition-all">
+                                                                                <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 bg-white rounded-xl overflow-hidden p-1.5 flex items-center justify-center border border-gray-100">
+                                                                                    <img
+                                                                                        src={item.image}
+                                                                                        alt={item.name}
+                                                                                        className="w-full h-full object-contain"
+                                                                                    />
+                                                                                </div>
+                                                                                <div className="flex-grow min-w-0">
+                                                                                    <h5 className="text-sm font-bold text-dark truncate uppercase tracking-tight" title={item.name}>
+                                                                                        {item.name}
+                                                                                    </h5>
+                                                                                    <div className="flex justify-between items-center mt-1">
+                                                                                        <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Qty: {item.quantity || 1}</span>
+                                                                                        <span className="text-sm font-bold text-[#007ebb]">₹{((item.price) * (item.quantity || 1)).toLocaleString()}</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="h-px bg-gray-100" />
+
                                                                 <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
                                                                     <span>SUBTOTAL</span>
                                                                     <span className="text-dark">₹{displayTotal.toLocaleString()}</span>
                                                                 </div>
                                                                 {deliveryFee > 0 && (
-                                                                    <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
+                                                                    <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-widest">
                                                                         <span>DELIVERY</span>
                                                                         <span className="text-dark">₹{deliveryFee.toLocaleString()}</span>
                                                                     </div>
                                                                 )}
+
+
                                                                 <div className="h-px bg-gray-100" />
                                                                 <div className="flex justify-between items-center">
-                                                                    <span className="text-xl font-bold font-alata uppercase tracking-tighter">TOTAL AMOUNT</span>
-                                                                    <span className="text-3xl sm:text-4xl font-bold text-[#007ebb] font-imperator tracking-tighter">₹{finalTotal.toLocaleString()}</span>
+                                                                    <span className="text-lg font-bold font-alata uppercase tracking-tighter">TOTAL AMOUNT</span>
+                                                                    <span className="text-2xl sm:text-3xl font-bold text-[#007ebb] font-imperator tracking-tighter">₹{finalTotal.toLocaleString()}</span>
                                                                 </div>
                                                             </div>
-                                                            
-                                                            <button 
+
+                                                            <button
                                                                 onClick={handleCheckoutAction}
                                                                 disabled={isLoading}
-                                                                className="w-full bg-[#007ebb] hover:bg-black text-white py-4 sm:py-6 rounded-[20px] sm:rounded-[24px] font-bold transition-all active:scale-[0.98] shadow-2xl shadow-blue-500/20 disabled:opacity-50 flex items-center justify-between px-6 sm:px-10 group"
+                                                                className="w-full bg-[#007ebb] hover:bg-black text-white rounded-2xl font-bold transition-all active:scale-[0.98] shadow-xl shadow-blue-500/10 disabled:opacity-50 flex items-center justify-between px-6 sm:px-8 group h-[60px]"
                                                             >
                                                                 {isLoading ? (
                                                                     <div className="w-full flex justify-center"><Loader2 className="animate-spin" /></div>
                                                                 ) : (
                                                                     <>
-                                                                        <div className="flex flex-col items-start leading-none uppercase tracking-[0.2em] text-base sm:text-lg">
-                                                                            <span>COMPLETE</span>
-                                                                            <span className="mt-1">ORDER</span>
-                                                                        </div>
-                                                                        <ChevronRight size={28} className="group-hover:translate-x-2 transition-transform" />
+                                                                        <span className="uppercase tracking-[0.2em] text-sm font-bold">COMPLETE ORDER</span>
+                                                                        <ChevronRight size={24} className="group-hover:translate-x-2 transition-transform" />
                                                                     </>
                                                                 )}
                                                             </button>
