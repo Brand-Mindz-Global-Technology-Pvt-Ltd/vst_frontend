@@ -13,6 +13,8 @@ interface AuthContextType {
     login: (userData: User) => void;
     logout: () => void;
     isAuthenticated: boolean;
+    isAuthModalOpen: boolean;
+    toggleAuthModal: (open?: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('vst_user');
@@ -44,6 +47,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('vst_user');
     };
 
+    const toggleAuthModal = (open?: boolean) => {
+        setIsAuthModalOpen(prev => open !== undefined ? open : !prev);
+    };
+
     const isAuthenticated = !!user && !!user.token;
 
     if (loading) {
@@ -51,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAuthModalOpen, toggleAuthModal }}>
             {children}
         </AuthContext.Provider>
     );

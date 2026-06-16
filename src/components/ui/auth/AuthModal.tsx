@@ -100,7 +100,7 @@ const AuthModal: React.FC = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={toggleAuthModal}
+                        onClick={() => toggleAuthModal()}
                         className="fixed inset-0 bg-black/60 z-10000 backdrop-blur-md"
                     />
 
@@ -114,7 +114,7 @@ const AuthModal: React.FC = () => {
                         >
                             {/* Close Button */}
                             <button 
-                                onClick={toggleAuthModal}
+                                onClick={() => toggleAuthModal()}
                                 className="absolute right-6 top-6 p-2 hover:bg-gray-100 rounded-full transition-all z-10"
                             >
                                 <X size={24} className="text-gray-400" />

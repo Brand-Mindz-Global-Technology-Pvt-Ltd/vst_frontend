@@ -193,6 +193,7 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
 
                                 <a
                                     href="/shop"
+                                    onClick={onOrderClick}
                                     className="bg-black text-white py-1.5 md:py-3 pl-4 sm:pl-8 pr-1.5 md:pr-2 rounded-full flex items-center gap-3 md:gap-5 text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight transition-all hover:bg-neutral-800 shadow-sm active:scale-95 group"
                                 >
                                     Order Now
