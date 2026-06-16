@@ -200,8 +200,8 @@ const HeroSectionTemplate: React.FC<HeroProps> = ({
                                     <div className="bg-white text-black rounded-full p-1 sm:p-1.5 md:p-4 transition-all duration-300 group-hover:bg-[#00a8e8] group-hover:text-white">
                                         <ArrowRight size={12} className="sm:w-3 sm:h-3 md:w-5 md:h-5 -rotate-45" strokeWidth={3} />
                                     </div>
-                                </button>
-                           
+                                </a>
+                   
                             </div>
                         </div>
                     </div>

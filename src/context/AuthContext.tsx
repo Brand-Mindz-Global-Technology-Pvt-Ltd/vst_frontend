@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('vst_user');
@@ -41,8 +40,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
     }, []);
 
-    const toggleAuthModal = () => setIsAuthModalOpen(!isAuthModalOpen);
-
     const login = (userData: User) => {
         setUser(userData);
         localStorage.setItem('vst_user', JSON.stringify(userData));
@@ -51,6 +48,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const logout = () => {
         setUser(null);
         localStorage.removeItem('vst_user');
+    };
+
+    const updateUser = (updatedFields: Partial<User>) => {
+        setUser(prev => {
+            if (!prev) return null;
+            const updated = { ...prev, ...updatedFields };
+            localStorage.setItem('vst_user', JSON.stringify(updated));
+            return updated;
+        });
     };
 
     const toggleAuthModal = (open?: boolean) => {
@@ -64,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isAuthModalOpen, toggleAuthModal }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, isAuthenticated, isAuthModalOpen, toggleAuthModal }}>
             {children}
         </AuthContext.Provider>
     );
