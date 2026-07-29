@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
                     {/* Brand Section */}
                     <div className="w-full lg:w-[32%] flex flex-col gap-6 items-start">
                         <img
-                            src="/assets/footer/footer-logo.png"
+                            src="/assets/home/VST-logo.png"
                             alt="VST Marketing"
                             className="h-14 md:h-16 w-auto object-contain"
                         />
@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
                         <ul className="flex flex-col gap-4 text-white text-sm md:text-md">
                             <li><a href="/" className="hover:text-[#007ebb] transition-colors">Home</a></li>
                             <li><a href="/about" className="hover:text-[#007ebb] transition-colors">About us</a></li>
-                            {/* <li><a href="/products" className="hover:text-[#007ebb] transition-colors">Products</a></li> */}
-                            {/* <li><a href="/blog" className="hover:text-[#007ebb] transition-colors">Blogs</a></li> */}
+                            <li><a href="/shop" className="hover:text-[#007ebb] transition-colors">Shop</a></li>
+                            <li><a href="/blog" className="hover:text-[#007ebb] transition-colors">Blogs</a></li>
                             <li><a href="/contact" className="hover:text-[#007ebb] transition-colors">Contact Us</a></li>
                         </ul>
                     </div>
@@ -65,6 +65,7 @@ const Footer: React.FC = () => {
                             <li><a href="/refund-return-policy" className="hover:text-[#007ebb] transition-colors">Refund & Return Policy</a></li>
                         </ul>
                     </div>
+               
 
                     {/* Contact Us */}
                     <div className="w-full lg:w-[22%] flex flex-col gap-6">
@@ -78,13 +79,19 @@ const Footer: React.FC = () => {
                             </li>
                             <li className="flex gap-3 items-center">
                                 <Phone className="w-5 h-5 text-white" />
-                                <span>+91 98432 32131</span>
+                                <span>
+                                    <a href="tel:9047722131" className="hover:text-[#007ebb] transition-colors">90477 22131</a>
+                                    {", "}
+                                    <a href="tel:04563231045" className="hover:text-[#007ebb] transition-colors">04563 231045</a>
+                                </span>
+                           
                             </li>
                             <li className="flex gap-3 items-center">
                                 <Mail className="w-5 h-5 text-white" />
-                                <span>vstpurifier@gmail.com</span>
+                                <a href="mailto:vstmaarketing@gmail.com" className="hover:text-[#007ebb] transition-colors">vstmaarketing@gmail.com</a>
                             </li>
                         </ul>
+                   
                     </div>
                 </div>
             </div>

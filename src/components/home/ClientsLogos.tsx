@@ -39,7 +39,7 @@ const ClientsLogos: React.FC = () => {
                     {scrollingClients.map((client, index) => (
                         <div
                             key={`${client.name}-${index}`}
-                            className="flex items-center justify-center grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-300 transform hover:scale-110 shrink-0"
+                            className="flex items-center justify-center transition-all duration-300 transform hover:scale-110 shrink-0"
                         >
                             <img src={client.logo} alt={client.name} className="h-8 md:h-12 w-auto object-contain max-w-[130px]" />
                         </div>
