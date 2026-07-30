@@ -1,54 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { productService } from '../../services/shop/productService';
+import { getImageUrl } from '../../config/apiConfig';
+import type { Product } from '../../types/product';
+import type { ProductFilters } from './FilterSidebar';
 
 interface ProductData {
-    id: number;
+    id: string;
     name: string;
     image: string;
     rating: number;
     reviews: string;
-    currentPrice: string;
-    originalPrice: string;
+    currentPrice: number;
+    originalPrice: number;
     isLimitedTime?: boolean;
     discount?: string;
 }
 
-const commercialProducts: ProductData[] = [
-    {
-        id: 1,
-        name: "ATLANTIS Frosty Plus Hot, Normal & Cold Water Dispenser | Floor Standing | 5L/Hour Cooling & Heating Capacity | Smart Glass Push-Pull Taps | 1 Year Warranty",
-        image: "/assets/commercial/com-product.png",
-        rating: 4.6,
-        reviews: "3K",
-        currentPrice: "4,000",
-        originalPrice: "8,000",
-        isLimitedTime: true,
-        discount: "40% OFF"
-    },
-    {
-        id: 2,
-        name: "Industrial RO Water Purifier | Heavy Duty 50 LPH | Stainless Steel Body | Advanced Multi-Stage Purification",
-        image: "/assets/commercial/com-product.png",
-        rating: 4.8,
-        reviews: "500",
-        currentPrice: "12,000",
-        originalPrice: "18,000",
-        isLimitedTime: true,
-        discount: "30% OFF"
-    },
-    {
-        id: 3,
-        name: "Commercial Water Cooler | 80 Liters Storage | High Efficiency Compressor | Eco-Friendly Refrigerant",
-        image: "/assets/commercial/com-product.png",
-        rating: 4.5,
-        reviews: "1.2K",
-        currentPrice: "25,000",
-        originalPrice: "35,000",
-        isLimitedTime: false,
-        discount: "20% OFF"
-    }
-];
+const toCommercialProduct = (product: Product): ProductData => {
+    const calculatedDiscount = product.oldPrice && product.oldPrice > product.price
+        ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+        : 0;
+    const discount = Number(product.discount) || calculatedDiscount;
+
+    return {
+        id: product._id,
+        name: product.name,
+        image: getImageUrl(product.images?.[0]),
+        rating: product.rating || 0,
+        reviews: String(product.reviewsCount || 0),
+        currentPrice: product.price || 0,
+        originalPrice: product.oldPrice || 0,
+        isLimitedTime: product.isLimitedTime,
+        discount: discount > 0 ? `${discount}% OFF` : undefined
+    };
+};
 
 const CommercialProductCard: React.FC<ProductData> = ({
     id,
@@ -124,8 +111,10 @@ const CommercialProductCard: React.FC<ProductData> = ({
                 {/* Bottom Row: Price and Action */}
                 <div className="flex items-center justify-between mt-3 md:mt-2">
                     <div className="flex items-center gap-3">
-                        <span className="text-xl md:text-4xl text-black font-josefin font-semibold leading-tight">₹{currentPrice}</span>
-                        <span className="text-[12px] md:text-[18px] text-[#646464ee] line-through decoration-[#FF0000] font-josefin font-semibold mt-1 md:mt-0 px-1">₹{originalPrice}</span>
+                        <span className="text-xl md:text-4xl text-black font-josefin font-semibold leading-tight">₹{currentPrice.toLocaleString()}</span>
+                        {originalPrice > 0 && (
+                            <span className="text-[12px] md:text-[18px] text-[#646464ee] line-through decoration-[#FF0000] font-josefin font-semibold mt-1 md:mt-0 px-1">₹{originalPrice.toLocaleString()}</span>
+                        )}
                     </div>
                     <button className="bg-black text-white px-6 md:px-8 py-2 md:py-2.5 rounded-full flex items-center gap-2.5 transition-all shadow-sm hover:bg-dark transform active:scale-95 group/btn">
                         <span className="text-xs md:text-base font-josefin font-medium whitespace-nowrap">Enquiry Now</span>
@@ -139,7 +128,47 @@ const CommercialProductCard: React.FC<ProductData> = ({
     );
 };
 
-const CommercialProductGrid: React.FC = () => {
+interface CommercialProductGridProps {
+    filters: ProductFilters;
+}
+
+const CommercialProductGrid: React.FC<CommercialProductGridProps> = ({ filters }) => {
+    const [commercialProducts, setCommercialProducts] = useState<ProductData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchCommercialProducts = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const products = await productService.getAllProductsByCategory('commercial', {
+                    subCategory: filters.subCategory,
+                    minPrice: filters.minPrice,
+                    maxPrice: filters.maxPrice,
+                    rating: filters.rating
+                });
+                if (isMounted) {
+                    setCommercialProducts(products.map(toCommercialProduct));
+                }
+            } catch (err) {
+                if (isMounted) {
+                    setError(err instanceof Error ? err.message : 'Failed to load products');
+                }
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+
+        fetchCommercialProducts();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [filters]);
+
     return (
         <div className="flex flex-col grow bg-[#EFEFEF] p-4 md:px-0">
             {/* Heading */}
@@ -151,7 +180,16 @@ const CommercialProductGrid: React.FC = () => {
 
             {/* Grid - Horizontal Layout */}
             <div className="flex flex-col gap-4 md:gap-5 md:pr-7">
-                {commercialProducts.map((product) => (
+                {loading && (
+                    <p className="py-10 text-center text-gray-500 font-josefin">Loading products...</p>
+                )}
+                {!loading && error && (
+                    <p className="py-10 text-center text-red-500 font-josefin">{error}</p>
+                )}
+                {!loading && !error && commercialProducts.length === 0 && (
+                    <p className="py-10 text-center text-gray-500 font-josefin">No commercial products found.</p>
+                )}
+                {!loading && !error && commercialProducts.map((product) => (
                     <div key={product.id} className="w-full">
                         <CommercialProductCard {...product} />
                     </div>

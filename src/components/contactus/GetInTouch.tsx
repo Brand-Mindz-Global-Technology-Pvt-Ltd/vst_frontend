@@ -8,7 +8,7 @@ const GetInTouch: React.FC = () => {
     const { setActiveId } = useHighlight();
     // Redirection and content data
     const data = {
-        image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=2070&auto=format&fit=crop",
+        image: "/assets/contact/get-intouch.webp",
         description: "Our journey is not just about products; it's about people. The trust of our customers drives us to innovate and deliver solutions that truly make a difference.",
         socials: [
             {

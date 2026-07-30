@@ -66,7 +66,7 @@ const AboutStory: React.FC = () => {
                             {/* Main Image Container */}
                             <div className="relative rounded-[25px] overflow-hidden border-4 md:border-10 border-white shadow-2xl">
                                 <img
-                                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80"
+                                    src="/assets/about/our-story.webp"
                                     alt="Our Story Team"
                                     className="w-full h-full object-cover"
                                 />

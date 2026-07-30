@@ -5,19 +5,29 @@ interface Category {
     _id: string;
     name: string;
     slug: string;
-    subCategories?: any[];
+    subCategories?: Category[];
+}
+
+export interface ProductFilters {
+    category: string;
+    subCategory?: string;
+    minPrice: string;
+    maxPrice: string;
+    rating: string;
 }
 
 interface FilterSidebarProps {
-    onApply: (filters: { category: string; minPrice: string; maxPrice: string; rating: string }) => void;
+    onApply: (filters: ProductFilters) => void;
+    fixedCategory?: string;
 }
 
-const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
+const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply, fixedCategory }) => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [priceRange, setPriceRange] = useState(20000);
     const [selectedRating, setSelectedRating] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
+    const [maximumPrice, setMaximumPrice] = useState(20000);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -26,6 +36,14 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
                 if (response.success) {
                     setCategories(response.data);
                 }
+
+                if (fixedCategory) {
+                    const products = await productService.getAllProductsByCategory(fixedCategory);
+                    const highestPrice = Math.max(0, ...products.map(product => product.price || 0));
+                    const roundedMaximum = Math.max(500, Math.ceil(highestPrice / 500) * 500);
+                    setMaximumPrice(roundedMaximum);
+                    setPriceRange(roundedMaximum);
+                }
             } catch (error) {
                 console.error("Error fetching categories:", error);
             } finally {
@@ -33,7 +51,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
             }
         };
         fetchCategories();
-    }, []);
+    }, [fixedCategory]);
 
     const handleToggleCategory = (categoryName: string) => {
         if (categoryName === "All") {
@@ -52,12 +70,23 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
 
     const handleApply = () => {
         onApply({
-            category: selectedCategories.join(','),
+            category: fixedCategory || selectedCategories.join(','),
+            subCategory: fixedCategory ? selectedCategories.join(',') : '',
             minPrice: '0',
             maxPrice: priceRange.toString(),
             rating: selectedRating?.toString() || ''
         });
     };
+
+    const fixedParentCategory = fixedCategory
+        ? categories.find(category =>
+            category.slug.toLowerCase() === fixedCategory.toLowerCase()
+            || category.name.toLowerCase() === fixedCategory.toLowerCase()
+        )
+        : undefined;
+    const filterOptions = fixedCategory
+        ? fixedParentCategory?.subCategories || []
+        : categories;
 
     return (
         <aside className="w-full flex flex-col gap-8 pb-20 no-scrollbar">
@@ -100,7 +129,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
                             </span>
                         </label>
 
-                        {categories.map((cat) => (
+                        {filterOptions.length === 0 && fixedCategory && (
+                            <p className="text-md font-josefin font-semibold text-black capitalize">
+                                {fixedParentCategory?.name || fixedCategory}
+                            </p>
+                        )}
+
+                        {filterOptions.map((cat) => (
                             <label
                                 key={cat._id}
                                 className="flex items-center gap-3 cursor-pointer group"
@@ -138,12 +173,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
                     <div className="relative h-2 bg-gray-200 rounded-full mb-8">
                         <div
                             className="absolute h-full bg-[#0077B6] rounded-full"
-                            style={{ width: `${((priceRange - 0) / 20000) * 100}%` }}
+                            style={{ width: `${(priceRange / maximumPrice) * 100}%` }}
                         ></div>
                         <input
                             type="range"
                             min="0"
-                            max="20000"
+                            max={maximumPrice}
                             step="500"
                             value={priceRange}
                             onChange={(e) => setPriceRange(parseInt(e.target.value))}
@@ -151,7 +186,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onApply }) => {
                         />
                         <div
                             className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-[#0077B6] border-2 border-white rounded-full shadow-md pointer-events-none"
-                            style={{ left: `calc(${((priceRange - 0) / 20000) * 100}% - 10px)` }}
+                            style={{ left: `calc(${(priceRange / maximumPrice) * 100}% - 10px)` }}
                         ></div>
                     </div>
                     <div className="flex justify-between gap-10">

@@ -8,7 +8,7 @@ const WhatWeOffer: React.FC = () => {
             id: 1,
             title: "Installation",
             description: "Expert installation for domestic and industrial water systems with safe setup.",
-            image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070&auto=format&fit=crop",
+            image: "/assets/home/installation.webp",
             icon: <Wrench size={28} className="md:w-8 md:h-8" />,
             ctaText: "Enquiry Now"
         },
@@ -16,7 +16,7 @@ const WhatWeOffer: React.FC = () => {
             id: 2,
             title: "Repair",
             description: "Quick repair for all RO systems using genuine parts to restore performance.",
-            image: "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?q=80&w=2070&auto=format&fit=crop",
+            image: "/assets/home/repair.webp",
             icon: <Settings size={28} className="md:w-8 md:h-8" />,
             ctaText: "Enquiry Now"
         },

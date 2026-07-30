@@ -33,6 +33,14 @@ const Hero: React.FC = () => {
             productImage: "/assets/home/commercial.png",
             trustCount: "12K",
             overlayColor: "#6C1E1E"
+        },
+        {
+            titleStart: "Banner Promo",
+            titleEnd: "Limited Offer",
+            familyImage: "/assets/home/Hospital.webp", // banner image
+            productImage: "/assets/home/purifier.png", // dummy product image
+            trustCount: "N/A",
+            overlayColor: "#6C1E1E"
         }
     ];
 

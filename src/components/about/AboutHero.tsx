@@ -8,7 +8,7 @@ const AboutHero: React.FC = () => {
             logoText1="Legacy of"
             logoText2="Purity"
             highlightId="about-hero"
-            image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80"
+            image="assets/about/about-us.webp"
             avatars={[
                 "https://i.pravatar.cc/150?u=1",
                 "https://i.pravatar.cc/150?u=2",

@@ -11,7 +11,7 @@ interface IndustryHeroProps {
 }
 
 const IndustryHero: React.FC<IndustryHeroProps> = ({
-    image = "/assets/home/water-droplet.webp", // Replace with appropriate image if available, else placeholder
+    image = "/assets/industrial/industrial.webp",
     logoText1 = "Pure Water",
     logoText2 = "Pure Life",
     logoIcon = "/assets/home/water-droplet.webp",
@@ -53,7 +53,12 @@ const IndustryHero: React.FC<IndustryHeroProps> = ({
                         {/* Banner Image */}
                         <img
                             src={image}
-                            alt="Industry Banner"
+                            alt="Industrial water treatment plant with filtration and reverse-osmosis equipment"
+                            width={1396}
+                            height={286}
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="async"
                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                         />
 

@@ -7,8 +7,9 @@ const categoriesData = [
         id: 'ro-plant',
         title: 'Industrial RO Plant',
         icon: <Droplet size={20} />,
-        image: 'public/assets/about/subtract.png',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet.',
+        image: '/assets/industrial/endtoend-1.webp',
+        description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet.',
         benefits: [
             'High Efficiency Filtration',
             'Pure Water, Peak Productivity'
@@ -18,8 +19,9 @@ const categoriesData = [
         id: 'effluent-plant',
         title: 'Effluent Treatment Plant',
         icon: <RefreshCw size={20} />,
-        image: 'public/assets/about/subtract.png',
-        description: 'Advanced effluent treatment solutions designed to handle complex industrial wastewater, ensuring compliance with environmental regulations while recovering usable water.',
+        image: '/assets/industrial/endtoend-2.webp',
+        description:
+            'Advanced effluent treatment solutions designed to handle complex industrial wastewater, ensuring compliance with environmental regulations while recovering usable water.',
         benefits: [
             'Eco-friendly Processing',
             'Cost-effective Waste Management'
@@ -29,8 +31,9 @@ const categoriesData = [
         id: 'sewage-plant',
         title: 'Sewage Treatment Plant',
         icon: <Zap size={20} />,
-        image: 'public/assets/about/subtract.png',
-        description: 'Robust sewage treatment systems for residential and commercial spaces. Our STPs are compact, odorless, and highly efficient in treating wastewater for secondary uses.',
+        image: '/assets/industrial/endtoend-3.webp',
+        description:
+            'Robust sewage treatment systems for residential and commercial spaces. Our STPs are compact, odorless, and highly efficient in treating wastewater for secondary uses.',
         benefits: [
             'Odorless Operation',
             'Compact Footprint'
@@ -40,8 +43,9 @@ const categoriesData = [
         id: 'water-plant',
         title: 'Water Treatment Plant',
         icon: <Droplet size={20} />,
-        image: 'public/assets/about/subtract.png',
-        description: 'Comprehensive water treatment plants providing safe, potable water from various sources. We customize solutions based on raw water quality and precise requirements.',
+        image: '/assets/industrial/endtoend-4.webp',
+        description:
+            'Comprehensive water treatment plants providing safe, potable water from various sources. We customize solutions based on raw water quality and precise requirements.',
         benefits: [
             'Safe Drinking Water',
             'Customized Filtration Media'
@@ -51,8 +55,9 @@ const categoriesData = [
         id: 'custom-solution',
         title: 'Custom Solution',
         icon: <Search size={20} />,
-        image: 'public/assets/about/subtract.png',
-        description: 'Tailor-made water management systems engineered for specific industry needs. Describe your challenge, and our experts will design the perfect purification process for you.',
+        image: '/assets/industrial/endtoend-5.webp',
+        description:
+            'Tailor-made water management systems engineered for specific industry needs. Describe your challenge, and our experts will design the perfect purification process for you.',
         benefits: [
             'Industry-Specific Design',
             'Expert Consultation'

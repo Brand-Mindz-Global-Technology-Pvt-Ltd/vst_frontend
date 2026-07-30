@@ -32,16 +32,12 @@ const MissionVision: React.FC = () => {
                     {/* Background Image Container with Inner Shadows */}
                     <div className="absolute inset-0 z-0">
                         <img
-                            src="https://images.unsplash.com/photo-1590611380053-da6447021fbb?auto=format&fit=crop&q=80"
+                            src="/assets/about/mission-vision.webp"
                             alt="Family drinking pure water"
                             className="w-full h-full object-cover"
                         />
-                        {/* Inner Shadows for depth */}
-                        <div className="absolute top-0 right-0 w-1/3 h-1/2 bg-linear-to-r from-transparent to-black opacity-60" />
-                        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-linear-to-l from-transparent to-black opacity-60" />
-
                         {/* General dark overlay for text contrast */}
-                        <div className="absolute inset-0 bg-black/30 z-0" />
+                        <div className="absolute inset-0 bg-black/50 z-0" />
                     </div>
 
                     {/* Content Layer - Single responsive container */}

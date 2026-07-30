@@ -9,7 +9,7 @@ const IndustryPage: React.FC = () => {
     return (
         <div className="w-full bg-[#EFEFEF] min-h-screen">
             <IndustryHero
-                image="/assets/home/water-droplet.webp"
+                image="/assets/industrial/industrial.webp"
             />
             <ScrollingTicker />
             <IndustryCategories />

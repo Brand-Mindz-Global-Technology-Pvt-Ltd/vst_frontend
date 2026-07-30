@@ -5,7 +5,7 @@ const ContactBanner: React.FC = () => {
     // These values can be easily edited here
     const bannerData = {
         title: "Contact Us",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop",
+        image: "/assets/contact/contact.webp",
         logoText1: "Pure Water",
         logoText2: "Pure Life",
         phoneRedirection: "tel:+919843232131",

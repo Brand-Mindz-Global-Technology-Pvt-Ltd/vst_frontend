@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../../config/apiConfig';
+import type { Product, ProductListResponse } from '../../types/product';
 
 export const productService = {
     /**
@@ -30,6 +31,58 @@ export const productService = {
             console.error('Product Service Error:', error);
             throw error;
         }
+    },
+
+    /**
+     * Fetch every product in a category by following the API pagination.
+     */
+    getAllProductsByCategory: async (
+        category: string,
+        filters: { subCategory?: string; minPrice?: string; maxPrice?: string; rating?: string } = {}
+    ): Promise<Product[]> => {
+        const pageSize = 100;
+        const firstPage = await productService.getPublicProducts(
+            1,
+            pageSize,
+            category,
+            filters.subCategory || '',
+            '',
+            filters.minPrice || '',
+            filters.maxPrice || '',
+            filters.rating || ''
+        ) as ProductListResponse;
+
+        if (!firstPage.success) {
+            throw new Error(`Failed to load ${category} products`);
+        }
+
+        const totalPages = firstPage.pagination?.totalPages ?? 1;
+        if (totalPages <= 1) return firstPage.data;
+
+        const remainingPages = await Promise.all(
+            Array.from({ length: totalPages - 1 }, (_, index) =>
+                productService.getPublicProducts(
+                    index + 2,
+                    pageSize,
+                    category,
+                    filters.subCategory || '',
+                    '',
+                    filters.minPrice || '',
+                    filters.maxPrice || '',
+                    filters.rating || ''
+                ) as Promise<ProductListResponse>
+            )
+        );
+
+        return [
+            ...firstPage.data,
+            ...remainingPages.flatMap((response) => {
+                if (!response.success) {
+                    throw new Error(`Failed to load ${category} products`);
+                }
+                return response.data;
+            })
+        ];
     },
 
     /**

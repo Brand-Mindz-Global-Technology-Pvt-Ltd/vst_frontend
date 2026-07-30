@@ -1,9 +1,17 @@
-import React from 'react';
-import FilterSidebar from './FilterSidebar';
+import React, { useState } from 'react';
+import FilterSidebar, { type ProductFilters } from './FilterSidebar';
 import HotSellingBanner from './HotSellingBanner';
 import CommercialProductGrid from './CommercialProductGrid';
 
 const CommercialMain: React.FC = () => {
+    const [filters, setFilters] = useState<ProductFilters>({
+        category: 'commercial',
+        subCategory: '',
+        minPrice: '',
+        maxPrice: '',
+        rating: ''
+    });
+
     return (
         <section className="w-full flex justify-center">
             {/* Split Background Container */}
@@ -15,7 +23,10 @@ const CommercialMain: React.FC = () => {
                         {/* Filter Section Wrapper - White Background */}
                         <div className="w-full bg-white flex justify-end pt-12">
                             <div className="w-full lg:max-w-72 xl:max-w-80 lg:pr-4 px-6 lg:pl-0">
-                                <FilterSidebar onApply={() => {}} />
+                                <FilterSidebar
+                                    fixedCategory="commercial"
+                                    onApply={setFilters}
+                                />
                             </div>
                         </div>
 
@@ -31,7 +42,7 @@ const CommercialMain: React.FC = () => {
                 {/* Right Section - Product Grid (Grey Background) */}
                 <div className="flex-1 bg-[#efefef] py-12 px-4 md:px-8 lg:px-12 xl:px-20">
                     <div className="max-w-[1200px]">
-                        <CommercialProductGrid />
+                        <CommercialProductGrid filters={filters} />
                     </div>
                 </div>
             </div>

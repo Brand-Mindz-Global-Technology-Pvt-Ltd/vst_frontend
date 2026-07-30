@@ -10,7 +10,7 @@ const CommercialHero: React.FC = () => {
         <ShopHeroTemplate
             titleStart="Commercial"
             titleEnd="Solutions"
-            bannerImage="/assets/Images/commercial_banner.png"
+            bannerImage="/assets/commercial/commercial.webp"
             productImage="/assets/home/commercial.png"
             trustCount="12K"
             onOrderClick={handleOrderNow}
