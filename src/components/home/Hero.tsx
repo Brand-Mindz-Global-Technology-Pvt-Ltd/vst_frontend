@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
         {
             titleStart: "Banner Promo",
             titleEnd: "Limited Offer",
-            familyImage: "/assets/home/Hospital.webp", // banner image
+            familyImage: "/assets/home/hospital.webp", // banner image
             productImage: "/assets/home/purifier.png", // dummy product image
             trustCount: "N/A",
             overlayColor: "#6C1E1E"

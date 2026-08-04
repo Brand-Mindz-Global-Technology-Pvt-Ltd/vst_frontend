@@ -7,7 +7,7 @@ const servicesData = [
         id: 1,
         title: "Process Water Treatment",
         description: "High-purity water solutions for manufacturing, pharmaceuticals, and food production processes.",
-        image: "/assets/about/subtract.png",
+        image: "/assets/industrial/pwt.webp",
         icon: <Search className="text-white" size={24} />,
         ctaText: "Enquiry Now",
         onCtaClick: () => console.log("Service 1 Clicked")
@@ -16,7 +16,7 @@ const servicesData = [
         id: 2,
         title: "Wastewater Recycling",
         description: "Advanced recycling systems to minimize discharge and promote sustainable water management.",
-        image: "/assets/about/subtract.png",
+        image: "/assets/industrial/wt.webp",
         icon: <Zap className="text-white" size={24} />,
         ctaText: "Enquiry Now",
         onCtaClick: () => console.log("Service 2 Clicked")

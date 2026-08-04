@@ -24,7 +24,7 @@ const WhatWeOffer: React.FC = () => {
             id: 3,
             title: "AMC (Annual Maintenance Contract)",
             description: "Hassle-free AMC plans for regular servicing and year-round maintenance support.",
-            image: "https://images.unsplash.com/photo-1581094481221-111adb2e429b?q=80&w=2070&auto=format&fit=crop",
+            image: "/assets/home/amc.webp",
             icon: <ShieldCheck size={28} className="md:w-8 md:h-8" />,
             ctaText: "Enquiry Now"
         },
@@ -32,7 +32,7 @@ const WhatWeOffer: React.FC = () => {
             id: 4,
             title: "O&M (Operation & Maintenance)",
             description: "Complete plant operation and maintenance for consistent system reliability.",
-            image: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070&auto=format&fit=crop",
+            image: "/assets/home/om.webp",
             icon: <Activity size={28} className="md:w-8 md:h-8" />,
             ctaText: "Enquiry Now"
         }
