@@ -47,12 +47,6 @@ const AquaTalksTemplate: React.FC<AquaTalksTemplateProps> = ({ blogs }) => {
                         </h2>
                     </motion.div>
 
-                    <button
-                        onClick={() => navigate('/blog')}
-                        className="md:absolute md:right-4 bg-[#007ebb] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#006699] transition-all flex items-center justify-center text-lg md:text-xl shadow-md active:scale-95"
-                    >
-                        See More
-                    </button>
                 </div>
 
                 {/* Cards Container - For Auto Scroll */}
