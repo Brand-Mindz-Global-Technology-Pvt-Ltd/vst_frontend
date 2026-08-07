@@ -185,6 +185,11 @@ const CheckoutModal: React.FC = () => {
     };
 
     const handleSaveAddress = async () => {
+        if (!/^\d{10}$/.test(formData.phone)) {
+            setError('Contact number must contain exactly 10 digits');
+            return;
+        }
+
         if (!isAuthenticated) {
             // Validate form
             if (!formData.fullName || !formData.phone || !formData.addressLine1 || !formData.cityState) {
@@ -515,9 +520,14 @@ const CheckoutModal: React.FC = () => {
                                                                     <div className="relative group">
                                                                         <Phone size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-[#007ebb] group-focus-within:scale-110 transition-all" />
                                                                         <input
-                                                                            type="text" required placeholder="Phone Number"
+                                                                            type="tel" required placeholder="Phone Number"
+                                                                            inputMode="numeric"
+                                                                            pattern="[0-9]{10}"
+                                                                            maxLength={10}
+                                                                            title="Enter exactly 10 digits"
                                                                             className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 bg-white border border-gray-100 rounded-2xl focus:outline-none focus:border-[#007ebb] focus:ring-4 focus:ring-blue-50 transition-all font-bold text-dark shadow-sm"
-                                                                            value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                                                            value={formData.phone}
+                                                                            onChange={e => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                                                                         />
                                                                     </div>
                                                                 </div>

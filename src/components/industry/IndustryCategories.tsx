@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, Droplet, RefreshCw, Zap, Search } from 'lucide-react';
+import { openEnquiryForm } from '../contactus/ContactForm';
 
 // Data for the categories
 const categoriesData = [
@@ -171,8 +172,9 @@ const IndustryCategories: React.FC = () => {
 
                                     {/* Enquiry Button */}
                                     <div className="lg:pl-5">
-                                        <a
-                                            href="/contact"
+                                        <button
+                                            type="button"
+                                            onClick={openEnquiryForm}
                                             className="inline-flex items-center gap-3 bg-black rounded-full py-2.5 px-6 hover:bg-[#007ebb] transition-colors duration-300 group/btn shadow-md"
                                         >
                                             <span className="text-white text-sm md:text-[15px] font-semibold whitespace-nowrap">
@@ -181,7 +183,7 @@ const IndustryCategories: React.FC = () => {
                                             <div className="bg-white rounded-full p-1.5 flex items-center justify-center transition-colors duration-300">
                                                 <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 text-black group-hover/btn:text-[#007ebb]" />
                                             </div>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

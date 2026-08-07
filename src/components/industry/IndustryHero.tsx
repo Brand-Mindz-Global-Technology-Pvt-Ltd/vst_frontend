@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { openEnquiryForm } from '../contactus/ContactForm';
 
 interface IndustryHeroProps {
     title?: string;
@@ -120,8 +121,9 @@ const IndustryHero: React.FC<IndustryHeroProps> = ({
                                     <div className="w-full h-full rounded-br-[20px] sm:rounded-br-[30px] shadow-[10px_10px_0_0_#EFEFEF]"></div>
                                 </div>
 
-                                <a
-                                    href="/contact"
+                                <button
+                                    type="button"
+                                    onClick={openEnquiryForm}
                                     className="flex items-center gap-3 md:gap-5 bg-black rounded-full py-1.5 md:py-3 pl-4 sm:pl-8 pr-1.5 md:pr-2 hover:bg-neutral-800 shadow-sm active:scale-95 transition-all duration-300 group/btn"
                                 >
                                     <span className="text-white text-[10px] sm:text-sm md:text-2xl font-medium tracking-tight whitespace-nowrap">
@@ -130,7 +132,7 @@ const IndustryHero: React.FC<IndustryHeroProps> = ({
                                     <div className="bg-white rounded-full p-1 sm:p-1.5 md:p-4 flex items-center justify-center group-hover/btn:bg-[#00a8e8] group-hover/btn:text-white transition-all duration-300">
                                         <ArrowRight size={12} className="w-3 h-3 sm:w-3 sm:h-3 md:w-5 md:h-5 text-black group-hover/btn:text-white -rotate-45" strokeWidth={3} />
                                     </div>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import { ArrowRight, ChevronFirst, ChevronLast } from 'lucide-react';
 import { useHighlight } from '../../../context/HighlightContext';
 import FloatingHighlight from '../framer/FloatingHighlight';
 import { motion } from 'framer-motion';
+import { openEnquiryForm } from '../../contactus/ContactForm';
 
 interface ServiceData {
     id: number | string;
@@ -52,12 +53,12 @@ const ServiceCard: React.FC<ServiceData> = ({
 
                         {/* Scoop extending right along top edge */}
                         <div className="absolute top-0 left-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-10 lg:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-tl-[12px] sm:rounded-tl-[15px] md:rounded-tl-[18px] lg:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f1f8ff] sm:shadow-[-8px_-8px_0_0_#f1f8ff] md:shadow-[-10px_-10px_0_0_#f1f8ff] lg:shadow-[-16px_-16px_0_0_#f1f8ff]"></div>
+                            <div className="w-full h-full rounded-tl-xl sm:rounded-tl-[15px] md:rounded-tl-[18px] lg:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f1f8ff] sm:shadow-[-8px_-8px_0_0_#f1f8ff] md:shadow-[-10px_-10px_0_0_#f1f8ff] lg:shadow-[-16px_-16px_0_0_#f1f8ff]"></div>
                         </div>
 
                         {/* Scoop extending down along left edge */}
                         <div className="absolute top-full left-0 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-10 lg:h-10 overflow-hidden pointer-events-none">
-                            <div className="w-full h-full rounded-tl-[12px] sm:rounded-tl-[15px] md:rounded-tl-[18px] lg:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f1f8ff] sm:shadow-[-8px_-8px_0_0_#f1f8ff] md:shadow-[-10px_-10px_0_0_#f1f8ff] lg:shadow-[-16px_-16px_0_0_#f1f8ff]"></div>
+                            <div className="w-full h-full rounded-tl-xl sm:rounded-tl-[15px] md:rounded-tl-[18px] lg:rounded-tl-[30px] shadow-[-6px_-6px_0_0_#f1f8ff] sm:shadow-[-8px_-8px_0_0_#f1f8ff] md:shadow-[-10px_-10px_0_0_#f1f8ff] lg:shadow-[-16px_-16px_0_0_#f1f8ff]"></div>
                         </div>
                     </div>
                 </div>
@@ -95,7 +96,7 @@ const ServiceCard: React.FC<ServiceData> = ({
 
                     {/* Enquiry Button */}
                     <button
-                        onClick={onCtaClick}
+                        onClick={onCtaClick ?? openEnquiryForm}
                         className="bg-black text-white pl-4 sm:pl-4 md:pl-5 lg:pl-8 pr-1 sm:pr-1.5 md:pr-1.5 lg:pr-2.5 py-1 sm:py-1.5 md:py-1.5 lg:py-2 rounded-full font-medium flex items-center gap-2 sm:gap-2 md:gap-2.5 lg:gap-4 group/btn hover:bg-[#007ebb] transition-all transform hover:scale-105 active:scale-95 shadow-xl">
                         <span className="text-[10px] sm:text-xs md:text-sm lg:text-lg tracking-tight font-outfit uppercase">{ctaText}</span>
                         <div className="bg-white text-black rounded-full p-1 sm:p-1 md:p-1.5 lg:p-2.5 transition-transform group-hover/btn:-rotate-45">

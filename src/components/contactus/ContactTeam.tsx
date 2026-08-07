@@ -1,44 +1,12 @@
-import React, { useState } from 'react';
-import { Phone, MapPin, MessageCircle, Calendar, Clock, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import React from 'react';
+import { Phone, MapPin, MessageCircle, Calendar, Clock } from 'lucide-react';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
-import { motion, AnimatePresence } from 'framer-motion';
-import { apiSubmitContact } from '../../services/contact/contactService';
+import { motion } from 'framer-motion';
+import { ContactForm } from './ContactForm';
 
 const ContactTeam: React.FC = () => {
     const { setActiveId } = useHighlight();
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        message: ''
-    });
-    const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        setStatus(null);
-        
-        try {
-            await apiSubmitContact(formData);
-            setStatus({ type: 'success', message: 'Message sent successfully! Our team will contact you soon.' });
-            setFormData({ name: '', email: '', phone: '', message: '' });
-        } catch (error: any) {
-            setStatus({ type: 'error', message: error.message || 'Failed to send message. Please try again later.' });
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
         <section className="w-full bg-[#EFEFEF] py-4 md:py-6 font-outfit">
             <div className="max-w-[1500px] mx-auto px-6 md:px-12">
@@ -92,7 +60,7 @@ const ContactTeam: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-white text-xs">Call</p>
-                                                <p className="text-white font-medium text-sm">+91 0000000000</p>
+                                                <p className="text-white font-medium text-sm">+91 90477 22131</p>
                                             </div>
                                         </div>
 
@@ -103,7 +71,7 @@ const ContactTeam: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-white text-xs">Location</p>
-                                                <p className="text-white font-medium text-sm">No.22 Ave, Tirunelvali</p>
+                                                <p className="text-white font-medium text-sm">Thai Complex, 906L, Tenkasi Road, Rajapalayam, Tamil Nadu, 626117</p>
                                             </div>
                                         </div>
 
@@ -114,7 +82,7 @@ const ContactTeam: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-white text-xs">Chat to support</p>
-                                                <p className="text-white font-medium text-sm">hello@gmail.com</p>
+                                                <p className="text-white font-medium text-sm">vstmaarketing@gmail.com</p>
                                             </div>
                                         </div>
                                     </div>
@@ -150,128 +118,8 @@ const ContactTeam: React.FC = () => {
                         </div>
 
                         {/* Right Side - Contact Form with Left & Bottom Shadow */}
-                        <div className="bg-white rounded-[15px] shadow-[-10px_10px_20px_rgba(0,0,0,0.40)] p-8 md:p-10 lg:p-12 flex flex-col justify-center">
-                            <div className="max-w-[500px] mx-auto w-full">
-
-                                {/* Form Header */}
-                                <h3 className="text-3xl md:text-4xl font-serif text-center text-dark mb-3">
-                                    Contact us
-                                </h3>
-                                <p className="text-gray-500 mb-8 font-medium text-center">
-                                    Our friendly team would love to hear from you
-                                </p>
-
-                                {/* Status Message */}
-                                <AnimatePresence>
-                                    {status && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            className={`p-4 rounded-xl mb-6 flex items-center gap-3 ${
-                                                status.type === 'success' 
-                                                ? 'bg-green-50 border border-green-100 text-green-800' 
-                                                : 'bg-red-50 border border-red-100 text-red-800'
-                                            }`}
-                                        >
-                                            {status.type === 'success' ? (
-                                                <CheckCircle2 className="shrink-0 w-5 h-5 text-green-600" />
-                                            ) : (
-                                                <AlertCircle className="shrink-0 w-5 h-5 text-red-600" />
-                                            )}
-                                            <p className="text-sm font-medium">{status.message}</p>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-
-                                {/* Form */}
-                                <form onSubmit={handleSubmit} className="space-y-5">
-
-                                    {/* Name Field */}
-                                    <div>
-                                        <label className="block text-dark md:text-lg font-medium mb-2">
-                                            Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            placeholder="Enter your name"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
-                                            required
-                                            disabled={loading}
-                                        />
-                                    </div>
-
-                                    {/* Email Field */}
-                                    <div>
-                                        <label className="block text-dark md:text-lg font-medium mb-2">
-                                            Gmail
-                                        </label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            placeholder="Enter your gmail"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
-                                            required
-                                            disabled={loading}
-                                        />
-                                    </div>
-
-                                    {/* Phone Field */}
-                                    <div>
-                                        <label className="block text-dark md:text-lg font-medium mb-2">
-                                            Phone number
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            placeholder="Enter your phone no"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all"
-                                            required
-                                            disabled={loading}
-                                        />
-                                    </div>
-
-                                    {/* Message Field */}
-                                    <div>
-                                        <label className="block text-dark md:text-lg font-medium mb-2">
-                                            Message
-                                        </label>
-                                        <textarea
-                                            name="message"
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            placeholder="Leave us a message..."
-                                            rows={4}
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-[#007ebb] focus:ring-2 focus:ring-[#007ebb]/20 outline-none transition-all resize-none"
-                                            required
-                                            disabled={loading}
-                                        ></textarea>
-                                    </div>
-
-                                    {/* Submit Button */}
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="w-full bg-[#007ebb] text-white py-3 rounded-3xl font-bold text-lg hover:bg-[#006699] transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98] transform flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                                    >
-                                        {loading ? (
-                                            <>
-                                                <Loader2 className="animate-spin w-5 h-5" />
-                                                Sending...
-                                            </>
-                                        ) : (
-                                            'Send message'
-                                        )}
-                                    </button>
-                                </form>
-                            </div>
+                        <div id="contact-form" className="bg-white rounded-[15px] shadow-[-10px_10px_20px_rgba(0,0,0,0.40)] p-8 md:p-10 lg:p-12 flex flex-col justify-center scroll-mt-24">
+                            <ContactForm />
                         </div>
 
                     </div>

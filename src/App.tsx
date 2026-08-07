@@ -11,6 +11,7 @@ import CheckoutModal from './components/ui/checkout/CheckoutModal';
 import { AuthProvider } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import './App.css';
+import { EnquiryFormModal } from './components/contactus/ContactForm';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <CartModal />
               <WishlistModal />
               <CheckoutModal />
+              <EnquiryFormModal />
             </CartProvider>
           </WishlistProvider>
         </HighlightProvider>

@@ -5,6 +5,7 @@ import { productService } from '../../services/shop/productService';
 import { getImageUrl } from '../../config/apiConfig';
 import type { Product } from '../../types/product';
 import type { ProductFilters } from './FilterSidebar';
+import { openEnquiryForm } from '../contactus/ContactForm';
 
 interface ProductData {
     id: string;
@@ -116,7 +117,13 @@ const CommercialProductCard: React.FC<ProductData> = ({
                             <span className="text-[12px] md:text-[18px] text-[#646464ee] line-through decoration-[#FF0000] font-josefin font-semibold mt-1 md:mt-0 px-1">₹{originalPrice.toLocaleString()}</span>
                         )}
                     </div>
-                    <button className="bg-black text-white px-6 md:px-8 py-2 md:py-2.5 rounded-full flex items-center gap-2.5 transition-all shadow-sm hover:bg-dark transform active:scale-95 group/btn">
+                    <button
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            openEnquiryForm();
+                        }}
+                        className="bg-black text-white px-6 md:px-8 py-2 md:py-2.5 rounded-full flex items-center gap-2.5 transition-all shadow-sm hover:bg-dark transform active:scale-95 group/btn"
+                    >
                         <span className="text-xs md:text-base font-josefin font-medium whitespace-nowrap">Enquiry Now</span>
                         <div className="bg-white text-black rounded-full p-1 group-hover/btn:bg-[#00A7FF] group-hover/btn:text-white transition-colors">
                             <ArrowUpRight size={12} className="md:w-3.5 md:h-3.5 font-bold" />
