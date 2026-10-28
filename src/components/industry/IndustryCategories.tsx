@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowRight, Droplet, RefreshCw, Zap, Search } from 'lucide-react';
+import { ArrowRight, Droplet, Droplets, RefreshCw, Zap, Search } from 'lucide-react';
 import { openEnquiryForm } from '../contactus/ContactForm';
+import waterSoftenerImage from '../../assets/Industrial Water Softening System.png';
 
 // Data for the categories
 const categoriesData = [
@@ -10,7 +11,7 @@ const categoriesData = [
         icon: <Droplet size={20} />,
         image: '/assets/industrial/endtoend-1.webp',
         description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor Lorem ipsum dolor sit amet.',
+            'High-capacity reverse osmosis systems engineered to remove dissolved impurities, heavy metals, and contaminants, delivering ultra-pure water for demanding commercial and industrial processes.',
         benefits: [
             'High Efficiency Filtration',
             'Pure Water, Peak Productivity'
@@ -62,6 +63,18 @@ const categoriesData = [
         benefits: [
             'Industry-Specific Design',
             'Expert Consultation'
+        ]
+    },
+    {
+        id: 'water-softener',
+        title: 'Water Softener',
+        icon: <Droplets size={20} />,
+        image: waterSoftenerImage,
+        description:
+            'Removes hardness-causing minerals to provide soft water, helping reduce scale buildup and improve equipment performance. Suitable for industrial and commercial applications.',
+        benefits: [
+            'Prevents Scale Build-up',
+            'Improves Equipment Life'
         ]
     }
 ];

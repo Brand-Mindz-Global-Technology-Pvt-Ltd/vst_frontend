@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import founderImage from '../../assets/Founder VST.jpeg';
 import { useHighlight } from '../../context/HighlightContext';
 import FloatingHighlight from '../ui/framer/FloatingHighlight';
 import { motion } from 'framer-motion';
@@ -32,20 +33,14 @@ const MeetFounder: React.FC = () => {
                     <div className="relative group pt-4 md:pt-4 lg:pt-4">
                         {/* Background Container Box */}
                         <div className="absolute inset-x-0 bottom-0 top-20 md:top-28 lg:top-24 w-full max-w-[550px] mx-auto rounded-[40px] md:rounded-[60px] overflow-hidden bg-[#EFEFEF]">
-                            {/* Background Layer (Blurred Office) */}
-                            <img
-                                src="/public/assets/about/subtract.png"
-                                alt="Office Background"
-                                className="absolute inset-0 w-full h-full object-cover opacity-100 scale-110"
-                            />
                         </div>
 
-                        {/* Founder Image (Overflowing Top) */}
-                        <div className="relative z-10 w-full aspect-3/4 max-w-[550px] mx-auto px-4 md:px-0">
+                        {/* Founder Image */}
+                        <div className="relative z-10 w-full aspect-[3/4] max-h-[420px] md:max-h-[560px] max-w-[550px] mx-auto rounded-[40px] md:rounded-[60px] overflow-hidden">
                             <img
-                                src="/public/assets/about/founder.png"
+                                src={founderImage}
                                 alt="Founder of VST"
-                                className="w-full h-full object-contain object-bottom drop-shadow-3xl"
+                                className="w-full h-full object-cover object-top"
                             />
                         </div>
 
