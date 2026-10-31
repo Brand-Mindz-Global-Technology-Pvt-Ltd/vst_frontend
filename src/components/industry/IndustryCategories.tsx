@@ -148,7 +148,11 @@ const IndustryCategories: React.FC = () => {
                                 <img
                                     src={activeData.image}
                                     alt={activeData.title}
-                                    className="w-full h-full object-cover rounded-sm lg:rounded-none"
+                                    className={`w-full h-full rounded-sm lg:rounded-none ${
+                                        activeData.id === 'water-softener'
+                                            ? 'object-cover object-top lg:object-center'
+                                            : 'object-cover'
+                                    }`}
                                 />
                             </div>
 

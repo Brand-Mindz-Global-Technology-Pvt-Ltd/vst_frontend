@@ -42,22 +42,22 @@ const MeetFounder: React.FC = () => {
                                 alt="Founder of VST"
                                 className="w-full h-full object-cover object-top"
                             />
-                        </div>
 
-                        {/* Checkmark Badge Container (Bottom Right Cutout) */}
-                        <div className="absolute bottom-0 right-0 md:right-13 lg:right-11 z-20">
-                            <div className="bg-white p-2 md:p-4 pt-4 md:pt-8 pl-4 md:pl-8 rounded-tl-[40px] md:rounded-tl-[60px] relative shadow-[-4px_-4px_10px_rgba(0,0,0,0.02)]">
-                                {/* Responsive Inverted Curves (Scoops) - Corner design like hero banner */}
-                                <div className="absolute bottom-0 right-full w-8 h-8 md:w-14 md:h-14 overflow-hidden pointer-events-none">
-                                    <div className="w-full h-full rounded-br-[25px] md:rounded-br-[45px] shadow-[15px_15px_0_0_white]"></div>
-                                </div>
-                                <div className="absolute right-0 bottom-full w-8 h-8 md:w-14 md:h-14 overflow-hidden pointer-events-none">
-                                    <div className="w-full h-full rounded-br-[25px] md:rounded-br-[45px] shadow-[15px_15px_0_0_white]"></div>
-                                </div>
+                            {/* Checkmark Badge Container (Bottom Right Cutout) */}
+                            <div className="absolute bottom-0 right-0 z-20">
+                                <div className="bg-white p-2 md:p-4 pt-4 md:pt-8 pl-4 md:pl-8 rounded-tl-[40px] md:rounded-tl-[60px] relative shadow-[-4px_-4px_10px_rgba(0,0,0,0.02)]">
+                                    {/* Responsive Inverted Curves (Scoops) - Corner design like hero banner */}
+                                    <div className="absolute bottom-0 right-full w-8 h-8 md:w-14 md:h-14 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[25px] md:rounded-br-[45px] shadow-[15px_15px_0_0_white]"></div>
+                                    </div>
+                                    <div className="absolute right-0 bottom-full w-8 h-8 md:w-14 md:h-14 overflow-hidden pointer-events-none">
+                                        <div className="w-full h-full rounded-br-[25px] md:rounded-br-[45px] shadow-[15px_15px_0_0_white]"></div>
+                                    </div>
 
-                                {/* Checkmark Badge */}
-                                <div className="bg-[#007ebb] text-white p-4 md:p-6 rounded-full shadow-xl shadow-blue-900/20 flex items-center justify-center">
-                                    <Check size={28} strokeWidth={3} className="md:w-10 md:h-10 text-white" />
+                                    {/* Checkmark Badge */}
+                                    <div className="bg-[#007ebb] text-white p-4 md:p-6 rounded-full shadow-xl shadow-blue-900/20 flex items-center justify-center">
+                                        <Check size={28} strokeWidth={3} className="md:w-10 md:h-10 text-white" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
